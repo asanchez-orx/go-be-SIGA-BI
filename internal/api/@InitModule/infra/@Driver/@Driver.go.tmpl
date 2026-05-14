@@ -1,0 +1,27 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package {% .Driver %}
+
+import (
+	"context"
+
+	"develop.private/CLTech/{% .BinName %}/internal/api/{% .InitModule %}/domain"
+	"develop.private/CLTech/vulcano/infra/database"
+)
+
+type {% $iupper %}Repo struct {
+	db database.Database
+}
+
+func New{% $iupper %}Repo(db database.Database) *{% $iupper %}Repo {
+	return &{% $iupper %}Repo{
+		db: db,
+	}
+}
+
+func (r *{% $iupper %}Repo) Buscar{% $iupper %}(ctx context.Context, req domain.{% $iupper %}Request) (domain.{% $iupper|pluralize %}Response, error) {
+	return domain.{% $iupper|pluralize %}Response{}, nil
+}
+
+func (r *{% $iupper %}Repo) Crear{% $iupper %}(ctx context.Context, req domain.{% $iupper %}Request) error {
+	return nil
+}

@@ -1,0 +1,43 @@
+version: '3'
+
+vars:
+  BinName: {% .BinName %}
+  SrcMain: cmd/api/main.go
+
+tasks:
+  default:
+    desc: 'Muestra las tareas disponibles (task -l)'
+    cmds:
+      - task --list
+  clean:
+    desc: "Limpia archivos generados en la compilación"
+    cmds:
+    - rm -rf ./dist
+  build:
+    desc: 'Genera el binario ejecutable basandse en la configuración del sistema operativo'
+    deps: [clean, audit]
+    vars:
+      BuildTime: '{{now | date "2006-01-02T15:04:05"}}'
+      CommitHash:
+        sh: git rev-parse --short HEAD || echo '0000000'
+      Version:
+        sh: git describe --tags --abbrev=0 || echo 'v0.0.0'
+    cmds:
+      - mkdir -p ./dist
+      - |
+        go build \
+          -o ./dist/{{.GOOS}}-{{.GOARCH}}/{{.BinName}}{{.Ext}} \
+          -ldflags "-s -w -X main.Version={{.Version}} -X main.BuildTime={{.BuildTime}} -X main.CommitHash={{.CommitHash}}" \
+          {{.SrcMain}}
+  build-linux:
+    cmds:
+      - task: build
+        vars: {GOOS: linux, GOARCH: amd64, Ext: ""}
+  build-windows:
+    cmds:
+      - task: build
+        vars: {GOOS: windows, GOARCH: amd64, Ext: ".exe"}
+  run:
+    desc: "Ejecuta el programa a traves del comando `go run {{.SrcMain}}`"
+    cmds:
+      - go run {{.SrcMain}} config/config.json

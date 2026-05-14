@@ -1,0 +1,12 @@
+module develop.private/CLTech/{% .BinName %}
+
+go 1.24.8
+
+require (
+	github.com/labstack/echo/v4 v4.13.4
+	github.com/swaggo/swag v1.16.6
+	develop.private/CLTech/vulcano v0.5.1
+)
+
+
+replace develop.private/CLTech/vulcano => ../../libs/vulcano

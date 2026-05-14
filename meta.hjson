@@ -1,0 +1,30 @@
+{
+  nombre: "CLTech plantilla proyecto API REST"
+  descripcion: "Plantilla para crear un proyecto API REST con Go y la librería vulcano"
+  variables: [
+	{
+		nombre: "BinName",
+		descripcion: "Nombre del binario (sin guiones o puntos)",
+	},
+    {
+      nombre: "Driver"
+      descripcion: "Driver de base de datos"
+      opciones: [
+        "pgsql"
+        "mssql"
+      ]
+    }
+    {
+      nombre: "InitModule"
+      descripcion: "Nombre del módulo inicial (en singular)"
+    }
+  ]
+  comandos: [
+    "echo README_template.md >> .gitignore"
+    "rm -rf .git"
+    "git init"
+    "git add ."
+    "git commit -m 'Commit inicial'"
+    "go mod tidy"
+  ]
+}

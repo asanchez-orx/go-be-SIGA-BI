@@ -1,0 +1,53 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package handler
+
+import (
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+
+	"develop.private/CLTech/{% .BinName %}/internal/api/{% .InitModule %}/domain"
+)
+
+type handler struct {
+	{% .InitModule %}App domain.{% $iupper %}UseCase
+}
+
+func newHandler(app domain.{% $iupper %}UseCase) *handler {
+	return &handler{
+		{% .InitModule %}App: app,
+	}
+}
+
+// @Summary		Resumen de lo que hace  el endpoint
+// @Description	Descripción detallada del endpoint
+// @Tags			{% $iupper %}
+// @Accept			json
+// @Param			request	body	domain.{% $iupper %}Request	true	"Parámetros de la consulta de las ordenes iniciales"
+// @Produce			json
+// @Success		200	{object}	domain.{% $iupper %}Response
+// @Failure		400	{object}	middleware.ClientError
+// @Failure		404	{object}	middleware.ClientError
+// @Router			/api/v1/{% .BinName %}/{% .InitModule %} [get]
+func (h handler) Buscar{% $iupper %}(c echo.Context) error {
+	return c.JSON(http.StatusOK, nil)
+}
+
+// @Summary		Resumen de lo que hace  el endpoint
+// @Description	Descripción detallada del endpoint
+// @Tags			{% $iupper %}
+// @Accept			json
+// @Param			request	body	domain.{% $iupper %}Request	true	"Parámetros a crear en la BD"
+// @Produce			json
+// @Success		204	{object}	nil "No Content"
+// @Failure		400	{object}	middleware.ClientError
+// @Failure		404	{object}	middleware.ClientError
+// @Router			/api/v1/{% .BinName %}/{% .InitModule %} [post]
+func (h handler) Crear{% $iupper %}(c echo.Context) error {
+		req := domain.{% $iupper %}Request{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return c.NoContent(http.StatusNoContent)
+}

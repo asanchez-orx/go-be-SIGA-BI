@@ -1,0 +1,21 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package handler
+
+import (
+	"develop.private/CLTech/{% .BinName %}/internal/api/{% .InitModule %}/app"
+	"develop.private/CLTech/{% .BinName %}/internal/api/{% .InitModule %}/infra/{% .Driver %}"
+	"develop.private/CLTech/vulcano/infra/database"
+
+	"github.com/labstack/echo/v4"
+)
+
+func Routes(e *echo.Echo) {
+	db := database.GetDatabase()
+	repo := {% .Driver %}.New{% $iupper %}Repo(db)
+	happ := app.New{% $iupper %}App(repo)
+	h := newHandler(happ)
+
+	e.POST("/api/v1/{% .BinName %}/{% .InitModule %}", h.Crear{% $iupper %})
+	e.GET("/api/v1/{% .BinName %}/{% .InitModule %}", h.Buscar{% $iupper %})
+	// Otras rutas...
+}

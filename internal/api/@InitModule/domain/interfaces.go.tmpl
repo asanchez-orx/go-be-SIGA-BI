@@ -1,0 +1,14 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package domain
+
+import "context"
+
+type {% $iupper %}UseCase interface {
+	Buscar{% $iupper %}Service(context.Context, {% $iupper %}Request) ({% $iupper|pluralize %}Response, error)
+	Crear{% $iupper %}Service(context.Context, {% $iupper %}Request) error
+}
+
+type {% $iupper %}Repository interface {
+	Buscar{% $iupper %}(context.Context, {% $iupper %}Request) ({% $iupper|pluralize %}Response, error)
+	Crear{% $iupper %}(context.Context, {% $iupper %}Request) error
+}

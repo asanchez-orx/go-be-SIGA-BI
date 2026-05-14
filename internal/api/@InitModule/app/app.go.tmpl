@@ -1,0 +1,26 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package app
+
+import (
+	"context"
+
+	"develop.private/CLTech/{%.BinName%}/internal/api/{%.InitModule%}/domain"
+)
+
+type {% $iupper %}App struct {
+	repository domain.{% $iupper %}Repository
+}
+
+func New{% $iupper %}App(repository domain.{% $iupper %}Repository) *{% $iupper %}App {
+	return &{% $iupper %}App{
+		repository: repository,
+	}
+}
+
+func (a *{% $iupper %}App) Buscar{% $iupper %}Service(ctx context.Context, req domain.{% $iupper %}Request) (domain.{% $iupper|pluralize %}Response, error) {
+	return domain.{% $iupper|pluralize %}Response{}, nil
+}
+
+func (a *{% $iupper %}App) Crear{% $iupper %}Service(ctx context.Context, req domain.{% $iupper %}Request) error {
+	return nil
+}

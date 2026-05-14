@@ -1,0 +1,17 @@
+{%- $iupper := .InitModule|ucfirst -%}
+package domain
+
+// @Description Estructura que representa un request de un endpoint de la API
+type {% $iupper %}Request struct {
+	// Incluir descripción del campo
+	{% $iupper %} string `json:"{% .InitModule %}" example:"'Valor_de_ejemplo'"`
+}
+
+// @Description Estructura que representa un response de un endpoint de la API
+type {% $iupper %}Response struct {
+	// Incluir descripción del campo
+	{% $iupper %} string `json:"{% .InitModule %}" example:"'Valor_de_ejemplo'"`
+}
+
+// @Description Descripción de un conjunto de elementos {% .InitModule|ucfirst %}Response
+type {% $iupper|pluralize %}Response []{% $iupper %}Response
