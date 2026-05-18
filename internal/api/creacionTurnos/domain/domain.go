@@ -1,5 +1,7 @@
 package domain
 
+import "errors"
+
 // @Description Estructura que representa un request de un endpoint de la API
 type CreacionTurnosRequest struct {
 	// Incluir descripción del campo
@@ -109,3 +111,64 @@ type TipoTurnoResponse struct {
 
 // @Description Listado de tipos de turno
 type TipoTurnosResponse []TipoTurnoResponse
+
+type PacienteRequest struct {
+	IdPaciente       int    `json:"idPaciente"`
+	NumeroDocumento  string `json:"numeroDocumento"`
+	Apellido1        string `json:"apellido1"`
+	Apellido2        string `json:"apellido2"`
+	Nombre1          string `json:"nombre1"`
+	Nombre2          string `json:"nombre2"`
+	Sexo             int    `json:"sexo"`
+	IdTipoDocumento  int    `json:"idTipoDocumento"`
+	NomTipoDocumento string `json:"nomTipoDocumento"`
+	FechaNacimiento  string `json:"fechaNacimiento"`
+}
+
+type CrearTurnoRequest struct {
+	Accion       string         `json:"accion"`
+	IdSede       int            `json:"idSede"`
+	IdCompania   int            `json:"idCompania"`
+	IdServicio   int            `json:"idServicio"`
+	IdTipoTurno  int            `json:"idTipoTurno"`
+	Paciente     PacienteRequest `json:"paciente"`
+	CodigoModulo string         `json:"CodigoModulo"`
+	NombreModulo string         `json:"NombreModulo"`
+	Origen       int            `json:"origen"`
+}
+
+type AccionResponse struct {
+	SAccion string `json:"sAccion"`
+}
+
+type DatosTurnoResponse struct {
+	NumeroTurno int    `json:"numeroTurno"`
+	FechaTurno  string `json:"fechaTurno"`
+}
+
+type CrearTurnoResponse struct {
+	Accion    AccionResponse       `json:"Accion"`
+	Sede      SedeResponse         `json:"Sede"`
+	Compania  CompaniaResponse     `json:"Compania"`
+	TipoTurno TipoTurnoResponse    `json:"tipoTurno"`
+	Servicio  TipoServicioResponse `json:"Servicio"`
+	Paciente  PacienteRequest      `json:"paciente"`
+	Turno     DatosTurnoResponse   `json:"Turno"`
+}
+
+type CantidadModulo struct {
+	CodigoModulo     string `json:"CodigoModulo"`
+	NombreModulo     string `json:"NombreModulo"`
+	CantidadFisico   int    `json:"CantidadFisico"`
+	CantidadPagina   int    `json:"CantidadPagina"`
+	CantidadWhatsapp int    `json:"CantidadWhatsapp"`
+}
+
+var (
+	ErrSedeNotFound      = errors.New("sede no encontrada")
+	ErrCompaniaNotFound  = errors.New("compañia no encontrada")
+	ErrTipoTurnoNotFound = errors.New("tipo de turno no encontrado")
+	ErrServicioNotFound  = errors.New("servicio no encontrado")
+	ErrTurnLimitExceeded = errors.New("se ha superado el limite de turnos para el modulo hoy")
+)
+

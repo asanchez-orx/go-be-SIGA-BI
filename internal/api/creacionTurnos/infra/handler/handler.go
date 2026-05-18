@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -32,23 +33,40 @@ func (h handler) BuscarCreacionTurnos(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 }
 
-// @Summary		Resumen de lo que hace  el endpoint
-// @Description	Descripción detallada del endpoint
+// @Summary		Crea un turno
+// @Description	Crea un turno en el sistema validando cupos y límites por módulo y origen de forma atómica
 // @Tags			CreacionTurnos
 // @Accept			json
-// @Param			request	body	domain.CreacionTurnosRequest	true	"Parámetros a crear en la BD"
+// @Param			request	body	domain.CrearTurnoRequest	true	"Parámetros para la creación del turno"
 // @Produce			json
-// @Success		204	{object}	nil "No Content"
-// @Failure		400	{object}	middleware.ClientError
-// @Failure		404	{object}	middleware.ClientError
+// @Success		201	{object}	domain.CrearTurnoResponse
+// @Failure		400	{object}	echo.HTTPError
+// @Failure		404	{object}	echo.HTTPError
+// @Failure		429	{object}	echo.HTTPError
+// @Failure		500	{object}	echo.HTTPError
 // @Router			/api/v1/besigabi/creacionTurnos [post]
-func (h handler) CrearCreacionTurnos(c echo.Context) error {
-	req := domain.CreacionTurnosRequest{}
+func (h handler) CrearTurno(c echo.Context) error {
+	req := domain.CrearTurnoRequest{}
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.NoContent(http.StatusNoContent)
+	res, err := h.creacionTurnosApp.CrearTurnoService(c.Request().Context(), req)
+	if err != nil {
+		switch {
+		case errors.Is(err, domain.ErrTurnLimitExceeded):
+			return echo.NewHTTPError(http.StatusTooManyRequests, err.Error())
+		case errors.Is(err, domain.ErrSedeNotFound),
+			errors.Is(err, domain.ErrCompaniaNotFound),
+			errors.Is(err, domain.ErrTipoTurnoNotFound),
+			errors.Is(err, domain.ErrServicioNotFound):
+			return echo.NewHTTPError(http.StatusNotFound, err.Error())
+		default:
+			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	return c.JSON(http.StatusCreated, res)
 }
 
 // @Summary		Obtiene el listado de tipos de documento
@@ -225,6 +243,27 @@ func (h handler) BuscarTipoTurno(c echo.Context) error {
 
 	if len(res) == 0 {
 		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+// @Summary		Confirmar configuración de sedes
+// @Description	Verifica si se manejan sedes y si no, retorna la sede por defecto
+// @Tags			CreacionTurnos
+// @Produce			json
+// @Success		200	{object}	interface{}
+// @Success		204	{object}	nil "No se encontró sede por Default"
+// @Failure		500	{object}	echo.HTTPError
+// @Router			/api/v1/besigabi/creacionTurnos/confirmarConfigSedes [get]
+func (h handler) ConfirmarConfigSedes(c echo.Context) error {
+	res, err := h.creacionTurnosApp.ConfirmarConfigSedesService(c.Request().Context())
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Error en la consulta")
+	}
+
+	if res == nil {
+		return c.JSON(http.StatusNoContent, "No se encontro sede por Default")
 	}
 
 	return c.JSON(http.StatusOK, res)

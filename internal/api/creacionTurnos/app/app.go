@@ -51,3 +51,11 @@ func (a *CreacionTurnosApp) BuscarSedesService(ctx context.Context) (domain.Sede
 func (a *CreacionTurnosApp) BuscarTipoTurnoService(ctx context.Context, req domain.TipoTurnoRequest) (domain.TipoTurnosResponse, error) {
 	return a.repository.BuscarTipoTurno(ctx, req)
 }
+
+func (a *CreacionTurnosApp) ConfirmarConfigSedesService(ctx context.Context) (interface{}, error) {
+	return a.repository.ConfirmarConfigSedes(ctx)
+}
+
+func (a *CreacionTurnosApp) CrearTurnoService(ctx context.Context, req domain.CrearTurnoRequest) (domain.CrearTurnoResponse, error) {
+	return a.repository.CrearTurno(ctx, req)
+}

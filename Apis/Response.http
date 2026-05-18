@@ -39,3 +39,5 @@ Content-Type: application/json
 	"idServicio": 3
 }
 
+### CONFIRMAR CONFIG SEDES
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes

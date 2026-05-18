@@ -14,7 +14,7 @@ func Routes(e *echo.Echo) {
 	happ := app.NewCreacionTurnosApp(repo)
 	h := newHandler(happ)
 
-	e.POST("/api/v1/besigabi/creacionTurnos", h.CrearCreacionTurnos)
+	e.POST("/api/v1/besigabi/creacionTurnos", h.CrearTurno)
 	e.GET("/api/v1/besigabi/creacionTurnos", h.BuscarCreacionTurnos)
 	e.GET("/api/v1/besigabi/creacionTurnos/tipoDocumento", h.BuscarTipoDocumento)
 	e.POST("/api/v1/besigabi/creacionTurnos/companias", h.BuscarCompania)
@@ -23,4 +23,5 @@ func Routes(e *echo.Echo) {
 	e.POST("/api/v1/besigabi/creacionTurnos/modulos", h.BuscarModulo)
 	e.GET("/api/v1/besigabi/creacionTurnos/sedes", h.BuscarSedes)
 	e.POST("/api/v1/besigabi/creacionTurnos/tipoTurno", h.BuscarTipoTurno)
+	e.GET("/api/v1/besigabi/creacionTurnos/confirmarConfigSedes", h.ConfirmarConfigSedes)
 }
