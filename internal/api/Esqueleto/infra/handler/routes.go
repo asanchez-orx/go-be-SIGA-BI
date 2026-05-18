@@ -16,11 +16,5 @@ func Routes(e *echo.Echo) {
 
 	e.POST("/api/v1/besigabi/creacionTurnos", h.CrearCreacionTurnos)
 	e.GET("/api/v1/besigabi/creacionTurnos", h.BuscarCreacionTurnos)
-	e.GET("/api/v1/besigabi/creacionTurnos/tipoDocumento", h.BuscarTipoDocumento)
-	e.POST("/api/v1/besigabi/creacionTurnos/companias", h.BuscarCompania)
-	e.GET("/api/v1/besigabi/creacionTurnos/verificarConfigCompanias", h.VerificarConfigCompanias)
-	e.POST("/api/v1/besigabi/creacionTurnos/tipoServicio", h.BuscarTipoServicio)
-	e.POST("/api/v1/besigabi/creacionTurnos/modulos", h.BuscarModulo)
-	e.GET("/api/v1/besigabi/creacionTurnos/sedes", h.BuscarSedes)
-	e.POST("/api/v1/besigabi/creacionTurnos/tipoTurno", h.BuscarTipoTurno)
+	// Otras rutas...
 }

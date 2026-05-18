@@ -1,0 +1,41 @@
+### tipos de documentos 
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
+Content-Type: application/json
+
+{
+	"idSede": 837
+}
+
+### SEDES
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/sedes
+
+### TIPO SERVICIO
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoServicio
+Content-Type: application/json
+
+{
+	"idSede": 837,
+	"idCompania": -1,
+	"codigoModulo": 4000
+}
+
+### VERIFICAR CONFIG COMPANIAS
+GET  http://localhost:5016/api/v1/besigabi/creacionTurnos/verificarConfigCompanias
+
+### MODULOS
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/modulos
+Content-Type: application/json
+
+{
+	"idSede": 837
+}
+
+### TIPO TURNO
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoTurno
+Content-Type: application/json
+
+{
+	"idSede": 837,
+	"idServicio": 3
+}
+
