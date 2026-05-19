@@ -1,4 +1,4 @@
-### tipos de documentos 
+### COMPANIAS
 POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
 Content-Type: application/json
 
@@ -41,3 +41,9 @@ Content-Type: application/json
 
 ### CONFIRMAR CONFIG SEDES
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
+
+### CONFIRMAR CONFIG SEDES
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
+
+### TIPO DOCUMENTO
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoDocumento

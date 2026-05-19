@@ -2,11 +2,10 @@ package mssql
 
 const qryTipoDocumento = `
 	SELECT 
-		ENT0024C01 AS idTipoDoc,
-		ENT0024C02 AS codTipoDoc,
-		ENT0024C03 AS nomTipoDoc
-	FROM ENT0024
-	WHERE ENT0024C05 = 1
+		LAB54C1 AS idTipoDoc,
+		LAB54C2 AS codTipoDoc,
+		LAB54C3 AS nomTipoDoc
+	FROM LAB54
 `
 
 const qryCompanias = `
@@ -281,4 +280,3 @@ const qryInsertarTurnoConsolidado = `
 		COMMIT TRANSACTION;
 	END
 `
-
