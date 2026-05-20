@@ -56,6 +56,10 @@ func (a *CreacionTurnosApp) ConfirmarConfigSedesService(ctx context.Context) (in
 	return a.repository.ConfirmarConfigSedes(ctx)
 }
 
+func (a *CreacionTurnosApp) CargarConfigLISService(ctx context.Context) (domain.ConfigLISResponse, error) {
+	return a.repository.CargarConfigLIS(ctx)
+}
+
 func (a *CreacionTurnosApp) CrearTurnoService(ctx context.Context, req domain.CrearTurnoRequest) (domain.CrearTurnoResponse, error) {
 	return a.repository.CrearTurno(ctx, req)
 }

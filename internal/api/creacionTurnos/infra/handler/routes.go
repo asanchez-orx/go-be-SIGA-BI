@@ -24,4 +24,5 @@ func Routes(e *echo.Echo) {
 	e.GET("/api/v1/besigabi/creacionTurnos/sedes", h.BuscarSedes)
 	e.POST("/api/v1/besigabi/creacionTurnos/tipoTurno", h.BuscarTipoTurno)
 	e.GET("/api/v1/besigabi/creacionTurnos/confirmarConfigSedes", h.ConfirmarConfigSedes)
+	e.GET("/api/v1/besigabi/creacionTurnos/cargarConfigLIS", h.CargarConfigLIS)
 }

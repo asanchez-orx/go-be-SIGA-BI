@@ -43,7 +43,7 @@ func (h handler) BuscarCreacionTurnos(c echo.Context) error {
 // @Failure		404	{object}	middleware.ClientError
 // @Router			/api/v1/besigabi/creacionTurnos [post]
 func (h handler) CrearCreacionTurnos(c echo.Context) error {
-		req := domain.CreacionTurnosRequest{}
+	req := domain.CreacionTurnosRequest{}
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

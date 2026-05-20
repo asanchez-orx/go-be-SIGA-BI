@@ -47,3 +47,34 @@ GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
 
 ### TIPO DOCUMENTO
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
+
+
+### CREAR TURNO
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos
+Content-Type: application/json
+
+{
+  "accion": "Nuevo",
+  "idSede": 1,
+  "idCompania": -1,
+  "idTipoTurno": 1,
+  "idServicio": 3,
+  "CodigoModulo": "4000",
+  "NombreModulo": "Modulo Prueba",
+  "origen": 1,
+  "paciente": {
+    "idPaciente": 0,
+    "numeroDocumento": "bygy+9615m4=",
+    "apellido1": "Perez",
+    "apellido2": "",
+    "nombre1": "Juan",
+    "nombre2": "",
+    "sexo": 1,
+    "idTipoDocumento": 1,
+    "nomTipoDocumento": "DNI",
+    "fechaNacimiento": "1980-01-01"
+  }
+}
+
+### CARGAR CONFIG LIS
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS

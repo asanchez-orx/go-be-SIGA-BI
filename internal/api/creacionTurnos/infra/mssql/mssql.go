@@ -2,8 +2,9 @@ package mssql
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
-	"strings"
+	"fmt"
 	"time"
 
 	"develop.private/CLTech/besigabi/internal/api/creacionTurnos/domain"
@@ -202,119 +203,220 @@ func (r *CreacionTurnosRepo) ConfirmarConfigSedes(ctx context.Context) (interfac
 	return sede, nil
 }
 
-func (r *CreacionTurnosRepo) CrearTurno(ctx context.Context, req domain.CrearTurnoRequest) (domain.CrearTurnoResponse, error) {
-	var resp domain.CrearTurnoResponse
-	resp.Accion.SAccion = req.Accion
-
-	// 1. Single roundtrip to validate Sede, Compania, TipoTurno, Servicio and get quantities json configurations
-	var nomSede, codSede, codCompania, nomCompania, codTipoTurno, nomTipoTurno, codServicio, nomServicio, jsonCantidad *string
-
-	err := r.db.QueryRow(ctx, qryValidarYConfigurarTurno, req.IdSede, req.IdCompania, req.IdTipoTurno, req.IdServicio).Scan(
-		&nomSede, &codSede,
-		&codCompania, &nomCompania,
-		&codTipoTurno, &nomTipoTurno,
-		&codServicio, &nomServicio,
-		&jsonCantidad,
-	)
-	if err != nil {
-		return resp, err
-	}
-
-	// Validate scanned results to make sure all entities exist in the database
-	if nomSede == nil || codSede == nil {
-		return resp, domain.ErrSedeNotFound
-	}
-	resp.Sede.IdSede = req.IdSede
-	resp.Sede.NomSede = *nomSede
-	resp.Sede.CodSede = *codSede
-
-	if codCompania == nil || nomCompania == nil {
-		return resp, domain.ErrCompaniaNotFound
-	}
-	resp.Compania.IdCompania = req.IdCompania
-	resp.Compania.CodigoCompania = *codCompania
-	resp.Compania.NombreCompania = *nomCompania
-
-	if codTipoTurno == nil || nomTipoTurno == nil {
-		return resp, domain.ErrTipoTurnoNotFound
-	}
-	resp.TipoTurno.IdTipoTurno = req.IdTipoTurno
-	resp.TipoTurno.CodTipoTurno = *codTipoTurno
-	resp.TipoTurno.NomTipoTurno = *nomTipoTurno
-
-	if codServicio == nil || nomServicio == nil {
-		return resp, domain.ErrServicioNotFound
-	}
-	resp.Servicio.IdServicio = req.IdServicio
-	resp.Servicio.CodigoServicio = *codServicio
-	resp.Servicio.NombreServicio = *nomServicio
-
-	// 2. Fetch/Validate Paciente
-	err = r.db.QueryRow(ctx, qryValidarPacienteTurno, req.Paciente.NumeroDocumento).Scan(
-		&resp.Paciente.IdPaciente, &resp.Paciente.NumeroDocumento, &resp.Paciente.Apellido1, &resp.Paciente.Apellido2,
-		&resp.Paciente.Nombre1, &resp.Paciente.Nombre2, &resp.Paciente.Sexo, &resp.Paciente.FechaNacimiento,
-		&resp.Paciente.IdTipoDocumento, &resp.Paciente.NomTipoDocumento)
-	
-	if err != nil {
+func (r *CreacionTurnosRepo) CargarConfigLIS(ctx context.Context) (domain.ConfigLISResponse, error) {
+	var res domain.ConfigLISResponse
+	if err := r.db.QueryRow(ctx, qryCargarConfigLIS).Scan(&res.SeparadorMuestra); err != nil {
 		if database.NoRows(err) {
-			// If not found, use the one from request
-			resp.Paciente = req.Paciente
-		} else {
-			return resp, err
+			return domain.ConfigLISResponse{}, fmt.Errorf("configuración LIS no encontrada")
+		}
+		return domain.ConfigLISResponse{}, err
+	}
+
+	return res, nil
+}
+
+// /////====================//
+// /////   Creacion Turnos   //
+// ///////////////////////////
+// Inicio del servicio que crea turnos: flujo handler -> app -> repo
+// Aquí comienza la implementación de la lógica para generar e insertar
+// un nuevo turno en la tabla LAB5843.
+func (r *CreacionTurnosRepo) CrearTurno(ctx context.Context, req domain.CrearTurnoRequest) (domain.CrearTurnoResponse, error) {
+	if req.Accion != "Nuevo" {
+		return domain.CrearTurnoResponse{}, fmt.Errorf("acción no soportada: %s", req.Accion)
+	}
+
+	// Buscar sede por ID
+	var sede domain.SedeResponse
+	if err := r.db.QueryRow(ctx, qrySedeById, req.IdSede).Scan(&sede.IdSede, &sede.CodSede, &sede.NomSede); err != nil {
+		return domain.CrearTurnoResponse{}, domain.ErrSedeNotFound
+	}
+
+	// Buscar compañía por ID sólo si fue especificada
+	var compania domain.CompaniaResponse
+	if req.IdCompania != -1 {
+		if err := r.db.QueryRow(ctx, qryCompaniaById, req.IdCompania).Scan(&compania.IdCompania, &compania.CodigoCompania, &compania.NombreCompania); err != nil {
+			return domain.CrearTurnoResponse{}, domain.ErrCompaniaNotFound
 		}
 	}
 
-	// 3. Parse limits from Sede config
-	var cantidades []domain.CantidadModulo
-	if jsonCantidad != nil && *jsonCantidad != "" {
-		_ = json.Unmarshal([]byte(*jsonCantidad), &cantidades)
+	// Buscar tipo de turno por ID
+	var tipoTurno domain.TipoTurnoResponse
+	if err := r.db.QueryRow(ctx, qryTipoTurnoById, req.IdTipoTurno).Scan(&tipoTurno.IdTipoTurno, &tipoTurno.CodTipoTurno, &tipoTurno.NomTipoTurno); err != nil {
+		return domain.CrearTurnoResponse{}, domain.ErrTipoTurnoNotFound
 	}
 
-	var cantFisico, cantPagina, cantWhatsapp int
-	for _, c := range cantidades {
-		if c.CodigoModulo == req.CodigoModulo {
-			cantFisico = c.CantidadFisico
-			cantPagina = c.CantidadPagina
-			cantWhatsapp = c.CantidadWhatsapp
+	// Buscar servicio por ID
+	var servicio domain.TipoServicioResponse
+	if err := r.db.QueryRow(ctx, qryServicioById, req.IdServicio).Scan(&servicio.IdServicio, &servicio.CodigoServicio, &servicio.NombreServicio); err != nil {
+		return domain.CrearTurnoResponse{}, domain.ErrServicioNotFound
+	}
+
+	paciente := req.Paciente
+	var pacienteDB domain.PacienteRequest
+
+	var (
+		idPaciente      int
+		numeroDocumento string
+		apellido1       sql.NullString
+		apellido2       sql.NullString
+		nombre1         sql.NullString
+		nombre2         sql.NullString
+		sexo            int
+		fechaNacimiento sql.NullString
+		idTipoDocumento int
+	)
+
+	if err := r.db.QueryRow(ctx, qryPacienteByDocumento, req.Paciente.NumeroDocumento).Scan(
+		&idPaciente,
+		&numeroDocumento,
+		&apellido1,
+		&apellido2,
+		&nombre1,
+		&nombre2,
+		&sexo,
+		&fechaNacimiento,
+		&idTipoDocumento,
+	); err != nil {
+		if !database.NoRows(err) {
+			return domain.CrearTurnoResponse{}, err
+		}
+	} else {
+		pacienteDB.IdPaciente = idPaciente
+		pacienteDB.NumeroDocumento = numeroDocumento
+		pacienteDB.Apellido1 = apellido1.String
+		pacienteDB.Apellido2 = apellido2.String
+		pacienteDB.Nombre1 = nombre1.String
+		pacienteDB.Nombre2 = nombre2.String
+		pacienteDB.Sexo = sexo
+		pacienteDB.IdTipoDocumento = idTipoDocumento
+		pacienteDB.NomTipoDocumento = ""
+		pacienteDB.FechaNacimiento = fechaNacimiento.String
+		paciente = pacienteDB
+	}
+
+	pacienteJSON, err := json.Marshal(paciente)
+	if err != nil {
+		return domain.CrearTurnoResponse{}, err
+	}
+
+	var configJSON string
+	if err := r.db.QueryRow(ctx, qryConfigCantidadPorSede, req.IdSede).Scan(&configJSON); err != nil {
+		if database.NoRows(err) {
+			return domain.CrearTurnoResponse{}, fmt.Errorf("no hay configuración de cantidad para la sede %d", req.IdSede)
+		}
+		return domain.CrearTurnoResponse{}, err
+	}
+
+	if configJSON == "" {
+		return domain.CrearTurnoResponse{}, fmt.Errorf("configuración de cantidad vacía para la sede %d", req.IdSede)
+	}
+
+	type cantidadConfig struct {
+		CodigoModulo     json.RawMessage `json:"CodigoModulo"`
+		NombreModulo     string          `json:"NombreModulo"`
+		CantidadFisico   int             `json:"CantidadFisico"`
+		CantidadPagina   int             `json:"CantidadPagina"`
+		CantidadWhatsapp int             `json:"CantidadWhatsapp"`
+	}
+
+	var cantidadPorSede []cantidadConfig
+	if err := json.Unmarshal([]byte(configJSON), &cantidadPorSede); err != nil {
+		return domain.CrearTurnoResponse{}, err
+	}
+
+	var config *cantidadConfig
+	for i := range cantidadPorSede {
+		codigoModulo := ""
+		if err := json.Unmarshal(cantidadPorSede[i].CodigoModulo, &codigoModulo); err != nil {
+			var codigoNumero json.Number
+			if err2 := json.Unmarshal(cantidadPorSede[i].CodigoModulo, &codigoNumero); err2 == nil {
+				codigoModulo = codigoNumero.String()
+			}
+		}
+		if codigoModulo == req.CodigoModulo {
+			config = &cantidadPorSede[i]
 			break
 		}
 	}
+	if config == nil {
+		return domain.CrearTurnoResponse{}, fmt.Errorf("no hay configuración de cantidad para el módulo %s", req.CodigoModulo)
+	}
 
-	// Determine the limit depending on the Origin
+	var ultimoTurno int
+	err = r.db.QueryRow(ctx, qryUltimoTurnoPorModuloFecha, time.Now().Format("20060102"), req.CodigoModulo).Scan(&ultimoTurno)
+	if err != nil {
+		if database.NoRows(err) {
+			ultimoTurno = 0
+		} else {
+			return domain.CrearTurnoResponse{}, err
+		}
+	}
+
+	var turnosHoy int
+	if err := r.db.QueryRow(ctx, qryTurnosHoyPorModuloFecha, req.CodigoModulo, time.Now().Format("20060102")).Scan(&turnosHoy); err != nil {
+		if database.NoRows(err) {
+			turnosHoy = 0
+		} else {
+			return domain.CrearTurnoResponse{}, err
+		}
+	}
+
 	var limite int
 	switch req.Origen {
 	case 1:
-		limite = cantFisico
+		limite = config.CantidadFisico
 	case 2:
-		limite = cantPagina
+		limite = config.CantidadPagina
 	case 3:
-		limite = cantWhatsapp
+		limite = config.CantidadWhatsapp
 	default:
-		limite = 0
+		return domain.CrearTurnoResponse{}, fmt.Errorf("origen no válido: %d", req.Origen)
 	}
 
-	// Convert paciente to JSON to save it
-	jsonPacienteBytes, _ := json.Marshal(resp.Paciente)
-	jsonPaciente := string(jsonPacienteBytes)
-
-	// Format current local time in WinDev format: YYYYMMDDHHmmss
-	horaActual := time.Now().Format("20060102150405")
-
-	// 4. Concurrency-safe atomic insert and fetch generated fields (all in exactly one DB call!)
-	err = r.db.QueryRow(ctx, qryInsertarTurnoConsolidado,
-		resp.Sede.IdSede, resp.Sede.NomSede, resp.Sede.CodSede,
-		resp.Servicio.IdServicio, resp.Servicio.CodigoServicio, resp.Servicio.NombreServicio,
-		resp.TipoTurno.IdTipoTurno, resp.TipoTurno.CodTipoTurno, resp.TipoTurno.NomTipoTurno,
-		resp.Compania.IdCompania, resp.Compania.CodigoCompania, resp.Compania.NombreCompania,
-		horaActual, jsonPaciente, resp.Paciente.IdTipoDocumento,
-		req.Origen, req.CodigoModulo, req.NombreModulo, limite).Scan(&resp.Turno.NumeroTurno, &resp.Turno.FechaTurno)
-
-	if err != nil {
-		if strings.Contains(err.Error(), "LIMIT_EXCEEDED") {
-			return resp, domain.ErrTurnLimitExceeded
-		}
-		return resp, err
+	if turnosHoy >= limite {
+		return domain.CrearTurnoResponse{}, domain.ErrTurnLimitExceeded
 	}
 
-	return resp, nil
+	nuevoTurno := ultimoTurno + 1
+	fechaTurno := time.Now().Format("20060102150405")
+
+	if _, err := r.db.Exec(ctx, qryInsertTurno,
+		sede.IdSede,
+		sede.NomSede,
+		sede.CodSede,
+		compania.IdCompania,
+		compania.CodigoCompania,
+		compania.NombreCompania,
+		tipoTurno.IdTipoTurno,
+		tipoTurno.CodTipoTurno,
+		tipoTurno.NomTipoTurno,
+		servicio.IdServicio,
+		servicio.CodigoServicio,
+		servicio.NombreServicio,
+		nuevoTurno,
+		fechaTurno,
+		0,
+		0,
+		string(pacienteJSON),
+		paciente.IdTipoDocumento,
+		req.Origen,
+		req.CodigoModulo,
+		req.NombreModulo,
+	); err != nil {
+		return domain.CrearTurnoResponse{}, err
+	}
+
+	return domain.CrearTurnoResponse{
+		Accion:    domain.AccionResponse{SAccion: req.Accion},
+		Sede:      sede,
+		Compania:  compania,
+		TipoTurno: tipoTurno,
+		Servicio:  servicio,
+		Paciente:  paciente,
+		Turno: domain.DatosTurnoResponse{
+			NumeroTurno: nuevoTurno,
+			FechaTurno:  fechaTurno,
+		},
+	}, nil
 }

@@ -14,6 +14,7 @@ type CreacionTurnosUseCase interface {
 	BuscarTipoTurnoService(context.Context, TipoTurnoRequest) (TipoTurnosResponse, error)
 	ConfirmarConfigSedesService(context.Context) (interface{}, error)
 	CrearTurnoService(context.Context, CrearTurnoRequest) (CrearTurnoResponse, error)
+	CargarConfigLISService(context.Context) (ConfigLISResponse, error)
 }
 
 type CreacionTurnosRepository interface {
@@ -28,4 +29,5 @@ type CreacionTurnosRepository interface {
 	BuscarTipoTurno(context.Context, TipoTurnoRequest) (TipoTurnosResponse, error)
 	ConfirmarConfigSedes(context.Context) (interface{}, error)
 	CrearTurno(context.Context, CrearTurnoRequest) (CrearTurnoResponse, error)
+	CargarConfigLIS(context.Context) (ConfigLISResponse, error)
 }

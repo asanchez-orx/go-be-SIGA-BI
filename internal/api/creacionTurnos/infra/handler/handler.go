@@ -33,6 +33,13 @@ func (h handler) BuscarCreacionTurnos(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 }
 
+// /////====================//
+// /////   Creacion Turnos   //
+// ///////////////////////////
+// Handler: endpoint HTTP para crear turnos.
+// Flujo: request -> Bind -> CreacionTurnosApp -> repo.CrearTurno
+// Ver estructuras en: internal/api/creacionTurnos/domain/domain.go
+// Ver consultas en: internal/api/creacionTurnos/infra/mssql/raw.go
 // @Summary		Crea un turno
 // @Description	Crea un turno en el sistema validando cupos y límites por módulo y origen de forma atómica
 // @Tags			CreacionTurnos
@@ -67,6 +74,22 @@ func (h handler) CrearTurno(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, res)
+}
+
+// @Summary		Obtiene la configuración de LIS
+// @Description	Recupera el separador de muestras desde la tabla ENT4028
+// @Tags		CreacionTurnos
+// @Produce	json
+// @Success	200	{object} domain.ConfigLISResponse
+// @Failure	500	{object} echo.HTTPError
+// @Router		/api/v1/besigabi/creacionTurnos/cargarConfigLIS [get]
+func (h handler) CargarConfigLIS(c echo.Context) error {
+	res, err := h.creacionTurnosApp.CargarConfigLISService(c.Request().Context())
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
 
 // @Summary		Obtiene el listado de tipos de documento

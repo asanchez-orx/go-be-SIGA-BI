@@ -1,5 +1,18 @@
 package mssql
 
+// /////====================//
+// /////   Creacion Turnos   //
+// ///////////////////////////
+// Consultas SQL usadas por el servicio CrearTurno:
+// - qrySedeById
+// - qryCompaniaById
+// - qryPacienteByDocumento
+// - qryConfigCantidadPorSede
+// - qryUltimoTurnoPorModuloFecha
+// - qryTurnosHoyPorModuloFecha
+// - qryInsertTurno
+// Mantener el orden y los alias de columnas para que los `Scan` coincidan.
+
 const qryTipoDocumento = `
 	SELECT 
 		LAB54C1 AS idTipoDoc,
@@ -90,10 +103,10 @@ INNER JOIN lab5800 S
 
 const qryTipoTurnoTodos = `
 	SELECT 
-		ENT5810C01 AS idTipoTurno,
-		ENT5810C02 AS codTipoTurno,
-		ENT5810C03 AS nomTipoTurno
-	FROM ENT5810
+		lab5810C1 AS idTipoTurno,
+		lab5810C2 AS codTipoTurno,
+		lab5810C3 AS nomTipoTurno
+	FROM LAB5810
 `
 
 const qryConfirmarConfigSedes = `
@@ -101,6 +114,13 @@ const qryConfirmarConfigSedes = `
 		LAB5803C2 AS datConfig
 	FROM LAB5803  
 	WHERE LAB5803C1 = 'gen_ManejaSedes'
+`
+
+const qryCargarConfigLIS = `
+	SELECT
+		ENT4028C02 AS separadorMuestra
+	FROM ENT4028
+	WHERE ENT4028C01 = 'ord_separadorMuestras'
 `
 
 const qrySedeDefault = `
@@ -112,171 +132,95 @@ const qrySedeDefault = `
 --	WHERE LAB05C22 = 1
 `
 
-const qryValidarSedeTurno = `
+const qrySedeById = `
 	SELECT 
-		LAB05C4 AS nomSede,
-		LAB05C2 AS codSede 
+		LAB05C1 AS idSede,
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C2)), ''), 'N/A') AS codSede,
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS nomSede
 	FROM LAB05
 	WHERE LAB05C1 = @p1
 `
 
-const qryValidarCompaniaTurno = `
-	SELECT 
+const qryCompaniaById = `
+	SELECT
 		LAB5802C1 AS idCompania,
-		LAB5802C2 AS codCompania,
-		LAB5802C3 AS nomCompania 
+		LAB5802C2 AS codigoCompania,
+		LAB5802C3 AS nombreCompania
 	FROM LAB5802
 	WHERE LAB5802C1 = @p1
 `
 
-const qryValidarTipoTurnoTurno = `
-	SELECT 
-		LAB5810C1 AS id,
-		LAB5810C2 AS cod,
-		LAB5810C3 AS nom 
+const qryTipoTurnoById = `
+	SELECT
+		LAB5810C1 AS idTipoTurno,
+		LAB5810C2 AS codTipoTurno,
+		LAB5810C3 AS nomTipoTurno
 	FROM LAB5810
 	WHERE LAB5810C1 = @p1
 `
 
-const qryValidarServicioTurno = `
-	SELECT 
+const qryServicioById = `
+	SELECT
 		LAB5800C1 AS idServicio,
-		LAB5800C2 AS codServicio,
-		LAB5800C3 AS nomServiciom 
+		LAB5800C2 AS codigoServicio,
+		LAB5800C3 AS nombreServicio
 	FROM LAB5800
 	WHERE LAB5800C1 = @p1
 `
 
-const qryValidarPacienteTurno = `
-	SELECT 
-		LAB0090C1 AS idPaciente,
-		LAB0090C3 AS numeroDocumento,
-		LAB0090C10 AS apellido1,
-		LAB0090C11 AS apellido2,
-		LAB0090C12 AS nombre1,
-		LAB0090C13 AS nombre2,
-		LAB0090C15 AS sexo,
-		LAB0090C14 AS fechaNacimiento,
-		LAB0090C2 AS idTipoDocumento,
-		JSON_VALUE(LAB0090C81, '$.LAB0090C09') AS nomTipoDocumento
-	FROM LAB0090
-	WHERE LAB0090C3 = @p1
+const qryPacienteByDocumento = `
+	SELECT
+		LAB21C1 AS idPaciente,
+		LAB21C2 AS numeroDocumento,
+		LAB21C5 AS apellido1,
+		LAB21C6 AS apellido2,
+		LAB21C3 AS nombre1,
+		LAB21C4 AS nombre2,
+		LAB80c1 AS sexo,
+		LAB21C7 AS fechaNacimiento,
+		LAB54C1 AS idTipoDocumento
+	FROM LAB21
+	WHERE LAB21C2 = @p1
 `
 
-const qryConfigCantidadesTurno = `
-	SELECT LAB5818C2 AS jsonCantidad
+const qryConfigCantidadPorSede = `
+	SELECT
+		LAB5818C2 AS jsonCantidad
 	FROM LAB5818
 	WHERE LAB05C1 = @p1
 `
 
-const qryUltimoTurnoModulo = `
+const qryUltimoTurnoPorModuloFecha = `
 	SELECT TOP 1
-		LAB5843C2 AS UltimoTurno
+		LAB5843C2 AS ultimoTurno
 	FROM LAB5843
-	WHERE LEFT(LAB5843C3, 8) = FORMAT(GETDATE(), 'yyyyMMdd')
-	AND LAB5843C14 = @p1
+	WHERE LEFT(LAB5843C3, 8) = @p1
+		AND LAB5843C14 = @p2
 	ORDER BY LAB5843C2 DESC
 `
 
-const qryTurnosHoyModulo = `
-	SELECT COUNT(DISTINCT LAB5843C2) AS TurnosHoy
+const qryTurnosHoyPorModuloFecha = `
+	SELECT
+		COUNT(DISTINCT LAB5843C2) AS turnosHoy
 	FROM LAB5843
 	WHERE LAB5843C14 = @p1
-	AND LEFT(LAB5843C3, 8) = FORMAT(GETDATE(), 'yyyyMMdd')
+		AND LEFT(LAB5843C3, 8) = @p2
 `
 
-const qryInsertarTurno = `
+const qryInsertTurno = `
 	INSERT INTO LAB5843 (
-		LAB05C1, LAB05C4, LAB05C2, 
-		LAB5800C1, LAB5800C2, LAB5800C3,
-		LAB5810C1, LAB5810C2, LAB5810C3,
+		LAB05C1, LAB05C2, LAB05C4,
 		LAB5802C1, LAB5802C2, LAB5802C3,
-		LAB5843C2, LAB5843C3, LAB5843C5, LAB5843C6, LAB5843C20,
-		LAB0090C2, LAB5843C16, LAB5843C14, LAB5843C15
+		LAB5810C1, LAB5810C2, LAB5810C3,
+		LAB5800C1, LAB5800C2, LAB5800C3,
+		LAB5843C2, LAB5843C3, LAB5843C4, LAB5843C5, LAB5843C20,
+		LAB54C1, LAB5843C16, LAB5843C14, LAB5843C15
 	) VALUES (
 		@p1, @p2, @p3,
 		@p4, @p5, @p6,
 		@p7, @p8, @p9,
 		@p10, @p11, @p12,
-		@p13, @p14, 0, 0, @p15,
-		@p16, @p17, @p18, @p19
+		@p13, @p14, @p15, @p16, @p17,
+		@p18, @p19, @p20, @p21
 	)
-`
-
-const qryObtenerTurnoInsertado = `
-	SELECT TOP 1
-		LAB5843C2 AS numeroTurno,
-		LAB5843C3 AS fechaTurno
-	FROM LAB5843 WITH (NOLOCK)
-	WHERE LAB5843C14 = @p1
-	AND LEFT(LAB5843C3, 8) = FORMAT(GETDATE(), 'yyyyMMdd')
-	ORDER BY LAB5843C3 DESC
-`
-
-const qryValidarYConfigurarTurno = `
-	SELECT 
-		(SELECT LAB05C4 FROM LAB05 WHERE LAB05C1 = @p1) AS nomSede,
-		(SELECT LAB05C2 FROM LAB05 WHERE LAB05C1 = @p1) AS codSede,
-		(SELECT LAB5802C2 FROM LAB5802 WHERE LAB5802C1 = @p2) AS codCompania,
-		(SELECT LAB5802C3 FROM LAB5802 WHERE LAB5802C1 = @p2) AS nomCompania,
-		(SELECT LAB5810C2 FROM LAB5810 WHERE LAB5810C1 = @p3) AS codTipoTurno,
-		(SELECT LAB5810C3 FROM LAB5810 WHERE LAB5810C1 = @p3) AS nomTipoTurno,
-		(SELECT LAB5800C2 FROM LAB5800 WHERE LAB5800C1 = @p4) AS codServicio,
-		(SELECT LAB5800C3 FROM LAB5800 WHERE LAB5800C1 = @p4) AS nomServicio,
-		(SELECT LAB5818C2 FROM LAB5818 WHERE LAB05C1 = @p1) AS jsonCantidad
-`
-
-const qryInsertarTurnoConsolidado = `
-	BEGIN TRANSACTION;
-
-	DECLARE @ultimoTurno INT;
-	DECLARE @turnosHoy INT;
-	DECLARE @nuevoTurno INT;
-
-	-- 1. Obtener el ultimo numero de turno de hoy con bloqueo de actualizacion para concurrencia segura
-	SELECT TOP 1 @ultimoTurno = LAB5843C2
-	FROM LAB5843 WITH (UPDLOCK, HOLDLOCK)
-	WHERE LEFT(LAB5843C3, 8) = FORMAT(GETDATE(), 'yyyyMMdd')
-	AND LAB5843C14 = @p18
-	ORDER BY LAB5843C2 DESC;
-
-	SET @ultimoTurno = ISNULL(@ultimoTurno, 0);
-	SET @nuevoTurno = @ultimoTurno + 1;
-
-	-- 2. Contar los turnos de hoy para este modulo
-	SELECT @turnosHoy = COUNT(DISTINCT LAB5843C2)
-	FROM LAB5843
-	WHERE LAB5843C14 = @p18
-	AND LEFT(LAB5843C3, 8) = FORMAT(GETDATE(), 'yyyyMMdd');
-
-	SET @turnosHoy = ISNULL(@turnosHoy, 0);
-
-	-- 3. Verificar el limite
-	IF @p20 > 0 AND @turnosHoy >= @p20
-	BEGIN
-		ROLLBACK TRANSACTION;
-		THROW 51000, 'LIMIT_EXCEEDED', 1;
-	END
-	ELSE
-	BEGIN
-		INSERT INTO LAB5843 (
-			LAB05C1, LAB05C4, LAB05C2, 
-			LAB5800C1, LAB5800C2, LAB5800C3,
-			LAB5810C1, LAB5810C2, LAB5810C3,
-			LAB5802C1, LAB5802C2, LAB5802C3,
-			LAB5843C2, LAB5843C3, LAB5843C5, LAB5843C6, LAB5843C20,
-			LAB0090C2, LAB5843C16, LAB5843C14, LAB5843C15
-		) 
-		OUTPUT inserted.LAB5843C2 AS numeroTurno, inserted.LAB5843C3 AS fechaTurno
-		VALUES (
-			@p1, @p2, @p3,
-			@p4, @p5, @p6,
-			@p7, @p8, @p9,
-			@p10, @p11, @p12,
-			@nuevoTurno, @p14, 0, 0, @p15,
-			@p16, @p17, @p18, @p19
-		);
-
-		COMMIT TRANSACTION;
-	END
 `

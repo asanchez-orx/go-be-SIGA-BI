@@ -2,6 +2,14 @@ package domain
 
 import "errors"
 
+// /////====================//
+// /////   Creacion Turnos   //
+// ///////////////////////////
+// Estructuras usadas por el servicio CrearTurno:
+// - Request: `CrearTurnoRequest`, `PacienteRequest`
+// - Response: `CrearTurnoResponse`, `DatosTurnoResponse`
+// Coloca aquí tus tipos y revisa el orden para marshalling/unmarshalling.
+
 // @Description Estructura que representa un request de un endpoint de la API
 type CreacionTurnosRequest struct {
 	// Incluir descripción del campo
@@ -69,6 +77,11 @@ type ConfigCompaniasResponse struct {
 	ManejaEmpresas int `json:"manejaEmpresas" example:"1"`
 }
 
+// @Description Estructura que representa la configuración de LIS
+type ConfigLISResponse struct {
+	SeparadorMuestra string `json:"separadorMuestra" example:"|"`
+}
+
 // @Description Estructura que representa un request para obtener tipos de servicio
 type TipoServicioRequest struct {
 	CodigoModulo int `json:"codigoModulo" example:"4000"`
@@ -126,15 +139,15 @@ type PacienteRequest struct {
 }
 
 type CrearTurnoRequest struct {
-	Accion       string         `json:"accion"`
-	IdSede       int            `json:"idSede"`
-	IdCompania   int            `json:"idCompania"`
-	IdServicio   int            `json:"idServicio"`
-	IdTipoTurno  int            `json:"idTipoTurno"`
+	Accion       string          `json:"accion"`
+	IdSede       int             `json:"idSede"`
+	IdCompania   int             `json:"idCompania"`
+	IdServicio   int             `json:"idServicio"`
+	IdTipoTurno  int             `json:"idTipoTurno"`
 	Paciente     PacienteRequest `json:"paciente"`
-	CodigoModulo string         `json:"CodigoModulo"`
-	NombreModulo string         `json:"NombreModulo"`
-	Origen       int            `json:"origen"`
+	CodigoModulo string          `json:"CodigoModulo"`
+	NombreModulo string          `json:"NombreModulo"`
+	Origen       int             `json:"origen"`
 }
 
 type AccionResponse struct {
@@ -171,4 +184,3 @@ var (
 	ErrServicioNotFound  = errors.New("servicio no encontrado")
 	ErrTurnLimitExceeded = errors.New("se ha superado el limite de turnos para el modulo hoy")
 )
-
