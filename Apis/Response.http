@@ -3,7 +3,7 @@ POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
 Content-Type: application/json
 
 {
-	"idSede": 837
+	"idSede": -1
 }
 
 ### SEDES
@@ -14,7 +14,7 @@ POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoServicio
 Content-Type: application/json
 
 {
-	"idSede": 837,
+	"idSede": 1,
 	"idCompania": -1,
 	"codigoModulo": 4000
 }
@@ -27,7 +27,7 @@ POST http://localhost:5016/api/v1/besigabi/creacionTurnos/modulos
 Content-Type: application/json
 
 {
-	"idSede": 837
+	"idSede": 1
 }
 
 ### TIPO TURNO
@@ -35,12 +35,9 @@ POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoTurno
 Content-Type: application/json
 
 {
-	"idSede": 837,
-	"idServicio": 3
+	"idSede": 1,
+	"idServicio": 2
 }
-
-### CONFIRMAR CONFIG SEDES
-GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
 
 ### CONFIRMAR CONFIG SEDES
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
@@ -78,3 +75,5 @@ Content-Type: application/json
 
 ### CARGAR CONFIG LIS
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
+
+###

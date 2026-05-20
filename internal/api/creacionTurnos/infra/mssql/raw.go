@@ -42,9 +42,9 @@ WHERE E.lab05c1 = @p1;
 
 const qryVerificarConfigCompanias = `
 	SELECT
-		LAB5803C2 AS datConfig
-	FROM LAB5803  
-	WHERE LAB5803C1 = 'gen_ManejaEmpresas'
+		ENT5803C02 AS datConfig
+	FROM ENT5803  
+	WHERE ENT5803C01 = 'gen_ManejaEmpresas'
 `
 
 const qryTipoServicio = `
@@ -59,14 +59,14 @@ const qryTipoServicio = `
 
 const qryTipoServicioPorCompania = `
 	SELECT 
-		C.ENT5800C01 AS idServicio,
-		C.ENT5800C02 AS codigoServicio,
-		C.ENT5800C03 AS nombreServicio
-	FROM ENT5815 E
-	INNER JOIN ENT5800 C ON E.ENT5800C01 = C.ENT5800C01
-	WHERE E.ENT5802C01 = @p1
-	AND C.ENT0008C01 = @p2
-	AND C.ENT0021C01 = @p3
+		C.LAB5800C1 AS idServicio,
+		C.LAB5800C2 AS codigoServicio,
+		C.LAB5800C3 AS nombreServicio
+	FROM LAB5815 E
+	INNER JOIN LAB5800 C ON E.LAB5800C1 = C.LAB5800C1
+	WHERE E.LAB5810C1 = @p1
+	AND C.LAB85C1 = @p2
+	AND C.LAB05C1 = @p3
 `
 
 const qryModulos = `
@@ -111,16 +111,16 @@ const qryTipoTurnoTodos = `
 
 const qryConfirmarConfigSedes = `
 	SELECT
-		LAB5803C2 AS datConfig
-	FROM LAB5803  
-	WHERE LAB5803C1 = 'gen_ManejaSedes'
+		LAB98C2 AS datConfig
+	FROM LAB98  
+	WHERE LAB98c1 = 'ManejoMultiSedes'
 `
 
 const qryCargarConfigLIS = `
 	SELECT
-		ENT4028C02 AS separadorMuestra
-	FROM ENT4028
-	WHERE ENT4028C01 = 'ord_separadorMuestras'
+		LAB98C2 AS separadorMuestra
+	FROM LAB98
+	WHERE LAB98C1 = 'SeparadorMuestra'
 `
 
 const qrySedeDefault = `
