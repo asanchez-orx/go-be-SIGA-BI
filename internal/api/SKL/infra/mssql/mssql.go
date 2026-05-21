@@ -35,3 +35,22 @@ func (r *SKLRepo) GetTaquillas(ctx context.Context, req domain.TaquillasRequest)
 
 	return res, nil
 }
+
+func (r *SKLRepo) GetServiciosSiga(ctx context.Context, req domain.ServiciosSigaRequest) (domain.ServiciosSigaResponse, error) {
+	rows, err := r.db.Query(ctx, qryServiciosSiga, req.IdSede, req.CodModulo)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	res := domain.ServiciosSigaResponse{}
+	for rows.Next() {
+		item := domain.ServicioSigaResponse{}
+		if err := rows.Scan(&item.IdServicio, &item.CodServicio, &item.NomServicio); err != nil {
+			return nil, err
+		}
+		res = append(res, item)
+	}
+
+	return res, nil
+}

@@ -19,3 +19,7 @@ func NewSKLApp(repository domain.SKLRepository) *SKLApp {
 func (a *SKLApp) GetTaquillas(ctx context.Context, req domain.TaquillasRequest) (domain.TaquillasResponse, error) {
 	return a.repository.GetTaquillas(ctx, req)
 }
+
+func (a *SKLApp) GetServiciosSiga(ctx context.Context, req domain.ServiciosSigaRequest) (domain.ServiciosSigaResponse, error) {
+	return a.repository.GetServiciosSiga(ctx, req)
+}

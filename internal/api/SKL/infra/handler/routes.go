@@ -15,4 +15,5 @@ func Routes(e *echo.Echo) {
 	h := newHandler(appSvc)
 
 	e.POST("/api/v1/besigabi/skl/taquillas", h.GetTaquillas)
+	e.POST("/api/v1/besigabi/skl/serviciosSiga", h.GetServiciosSiga)
 }

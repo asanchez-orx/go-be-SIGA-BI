@@ -15,7 +15,7 @@ tasks:
     - rm -rf ./dist
   build:
     desc: 'Genera el binario ejecutable basandse en la configuración del sistema operativo'
-    deps: [clean, audit]
+    deps: [clean]
     vars:
       BuildTime: '{{now | date "2006-01-02T15:04:05"}}'
       CommitHash:

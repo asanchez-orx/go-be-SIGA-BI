@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### SEDES
-GET http://localhost:5016/api/v1/besigabi/creacionTurnos/sedes
+GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/sedes
 
 ### TIPO SERVICIO
 POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoServicio
@@ -76,4 +76,28 @@ Content-Type: application/json
 ### CARGAR CONFIG LIS
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
 
-###
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                         SKL										/////
+/////////////////////////////////////////////////////////////////////////
+
+### TAQUILLAS
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/taquillas
+Content-Type: application/json
+
+{
+	"idSede": 1,
+  "codModulo": 4000
+}
+
+### SERVICIOS SIGA
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/serviciosSiga
+Content-Type: application/json
+
+{
+  "idSede": 1,
+  "codModulo": 4000
+}
+

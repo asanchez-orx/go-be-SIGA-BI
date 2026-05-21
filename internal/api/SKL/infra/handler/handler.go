@@ -47,4 +47,20 @@ func (h handler) GetTaquillas(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h handler) GetServiciosSiga(c echo.Context) error {
+	req := domain.ServiciosSigaRequest{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
+	res, err := h.sklApp.GetServiciosSiga(c.Request().Context(), req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if len(res) == 0 {
+		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

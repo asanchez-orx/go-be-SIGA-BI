@@ -7,10 +7,11 @@ import (
 
 	"develop.private/CLTech/vulcano/config"
 	"develop.private/CLTech/vulcano/infra/database"
+	vecho "develop.private/CLTech/vulcano/infra/echo"
 	"develop.private/CLTech/vulcano/logger"
 	"develop.private/CLTech/vulcano/service"
-	vecho "develop.private/CLTech/vulcano/infra/echo"
 
+	sklHandler "develop.private/CLTech/besigabi/internal/api/SKL/infra/handler"
 	creacionTurnosHandler "develop.private/CLTech/besigabi/internal/api/creacionTurnos/infra/handler"
 )
 
@@ -58,6 +59,7 @@ func main() {
 	)
 
 	creacionTurnosHandler.Routes(e)
+	sklHandler.Routes(e)
 
 	srv := vecho.EchoServer{
 		App:  e,
