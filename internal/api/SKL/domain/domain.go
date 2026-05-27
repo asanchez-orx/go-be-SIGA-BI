@@ -27,3 +27,65 @@ type ServicioSigaResponse struct {
 }
 
 type ServiciosSigaResponse []ServicioSigaResponse
+
+type PacienteTurno struct {
+	NomTipoDocumento string `json:"nomTipoDocumento"`
+	NumeroDocumento  string `json:"numeroDocumento"`
+	Nombre1          string `json:"nombre1"`
+	Nombre2          string `json:"nombre2"`
+	Apellido1        string `json:"apellido1"`
+	Apellido2        string `json:"apellido2"`
+	Sexo             int    `json:"sexo"`
+	FechaCumple      string `json:"fechaCumple"`
+}
+
+type TurnosDisponiblesRequest struct {
+	IdTaquilla int `json:"idTaquilla"`
+	IdServicio int `json:"idServicio"`
+	IdSede     int `json:"idSede"`
+}
+
+type TurnoDisponibleResponse struct {
+	IdSede          int           `json:"idSede"`
+	NombreSede      string        `json:"nombreSede"`
+	IdServicio      int           `json:"idServicio"`
+	CodServicio     string        `json:"codServicio"`
+	NomServicio     string        `json:"nomServicio"`
+	IdTipoTurno     int           `json:"idTipoTurno"`
+	CodTipoTurno    string        `json:"codTipoTurno"`
+	NomTipoTurno    string        `json:"nomTipoTurno"`
+	NumeroTurno     string        `json:"numeroTurno"`
+	FechaHoraTurno  string        `json:"fechaHoraTurno"`
+	IdTipoDocumento int           `json:"idTipoDocumento"`
+	IdEmpresa       int           `json:"idEmpresa"`
+	CodEmpresa      string        `json:"codEmpresa"`
+	NomEmpresa      string        `json:"nomEmpresa"`
+	NumeroOrden     string        `json:"numeroOrden"`
+	MinutosEspera   int           `json:"minutosEspera"`
+	Prioridad       int           `json:"nPrioridad"`
+	Tiempo          int           `json:"tiempo"`
+	Paciente        PacienteTurno `json:"paciente"`
+}
+
+type TurnosDisponiblesResponse []TurnoDisponibleResponse
+
+type SedesUsuarioRequest struct {
+	Usuario string `json:"usuario"`
+}
+
+type SedeUsuarioResponse struct {
+	IdSede  int    `json:"idSede"`
+	CodSede string `json:"codSede"`
+	NomSede string `json:"nomSede"`
+}
+
+type SedesUsuarioResponse []SedeUsuarioResponse
+
+type ConsumirCredencialesRequest struct {
+	Usuario    string `json:"usuario"`
+	Contrasena string `json:"contrasena"`
+}
+
+type ConsumirCredencialesResponse struct {
+	IdUsuario int `json:"idUsuario"`
+}

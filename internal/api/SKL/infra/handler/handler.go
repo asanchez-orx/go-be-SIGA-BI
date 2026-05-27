@@ -64,3 +64,74 @@ func (h handler) GetServiciosSiga(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, res)
 }
+
+func (h handler) GetTurnosDisponibles(c echo.Context) error {
+	req := domain.TurnosDisponiblesRequest{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	res, err := h.sklApp.GetTurnosDisponibles(c.Request().Context(), req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if len(res) == 0 {
+		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h handler) GetSedesUsuario(c echo.Context) error {
+	req := domain.SedesUsuarioRequest{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	res, err := h.sklApp.GetSedesUsuario(c.Request().Context(), req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if len(res) == 0 {
+		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h handler) ConsumirCredenciales(c echo.Context) error {
+	req := domain.ConsumirCredencialesRequest{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	res, err := h.sklApp.ConsumirCredenciales(c.Request().Context(), req)
+	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Credenciales incorrectas o usuario no encontrado")
+		}
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h handler) GetTurnosDisponiblesConOrden(c echo.Context) error {
+	req := domain.TurnosDisponiblesRequest{}
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	res, err := h.sklApp.GetTurnosDisponiblesConOrden(c.Request().Context(), req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if len(res) == 0 {
+		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, res)
+}

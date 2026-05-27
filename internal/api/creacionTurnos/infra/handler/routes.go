@@ -14,15 +14,15 @@ func Routes(e *echo.Echo) {
 	happ := app.NewCreacionTurnosApp(repo)
 	h := newHandler(happ)
 
-	e.POST("/api/v1/besigabi/creacionTurnos", h.CrearTurno)//OK
-	e.GET("/api/v1/besigabi/creacionTurnos/tipoDocumento", h.BuscarTipoDocumento)//OK
-	e.POST("/api/v1/besigabi/creacionTurnos/companias", h.BuscarCompania)  ///OK
-	e.GET("/api/v1/besigabi/creacionTurnos/verificarConfigCompanias", h.VerificarConfigCompanias)//OK
-	e.POST("/api/v1/besigabi/creacionTurnos/tipoServicio", h.BuscarTipoServicio)//OK
-	e.POST("/api/v1/besigabi/creacionTurnos/modulos", h.BuscarModulo)//OK
-	e.GET("/api/v1/besigabi/creacionTurnos/sedes", h.BuscarSedes)//OK
-	e.POST("/api/v1/besigabi/creacionTurnos/tipoTurno", h.BuscarTipoTurno)//OK
-	e.GET("/api/v1/besigabi/creacionTurnos/confirmarConfigSedes", h.ConfirmarConfigSedes)//ok
-	e.GET("/api/v1/besigabi/creacionTurnos/cargarConfigLIS", h.CargarConfigLIS)//ok
-   
+	e.POST("/api/v1/besigabi/creacionTurnos", h.CrearTurno)                                       //OK
+	e.GET("/api/v1/besigabi/creacionTurnos/tipoDocumento", h.BuscarTipoDocumento)                 //OK
+	e.POST("/api/v1/besigabi/creacionTurnos/companias", h.BuscarCompania)                         ///OK
+	e.GET("/api/v1/besigabi/creacionTurnos/verificarConfigCompanias", h.VerificarConfigCompanias) //OK
+	e.POST("/api/v1/besigabi/creacionTurnos/tipoServicio", h.BuscarTipoServicio)                  //OK
+	e.POST("/api/v1/besigabi/creacionTurnos/modulos", h.BuscarModulo)                             //OK
+	e.GET("/api/v1/besigabi/creacionTurnos/sedes", h.BuscarSedes)                                 //OK
+	e.POST("/api/v1/besigabi/creacionTurnos/tipoTurno", h.BuscarTipoTurno)                        //OK
+	e.GET("/api/v1/besigabi/creacionTurnos/confirmarConfigSedes", h.ConfirmarConfigSedes)         //ok
+	e.GET("/api/v1/besigabi/creacionTurnos/cargarConfigLIS", h.CargarConfigLIS)                   //ok
+
 }

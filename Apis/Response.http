@@ -101,3 +101,30 @@ Content-Type: application/json
   "codModulo": 4000
 }
 
+
+### SEDES USUARIO
+POST http://localhost:5016/api/v1/besigabi/skl/sedesUsuario
+Content-Type: application/json
+
+{
+  "usuario": "CATALINA"
+}
+
+### CONSUMIR CREDENCIALES
+POST http://localhost:5016/api/v1/besigabi/skl/consumirCredenciales
+Content-Type: application/json
+
+{
+  "usuario": "CATALINA",
+  "contrasena": "deLN3a9Z7Xs="
+}
+
+### TURNO DISPONIBLES (CON ORDEN)
+POST http://localhost:5016/api/v1/besigabi/skl/turnosDisponibles
+Content-Type: application/json
+
+{
+  "idServicio": 3,
+  "idSede": 1
+}
+

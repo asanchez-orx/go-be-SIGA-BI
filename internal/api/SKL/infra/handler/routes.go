@@ -16,4 +16,8 @@ func Routes(e *echo.Echo) {
 
 	e.POST("/api/v1/besigabi/skl/taquillas", h.GetTaquillas)
 	e.POST("/api/v1/besigabi/skl/serviciosSiga", h.GetServiciosSiga)
+	e.POST("/api/v1/besigabi/skl/turnosDisponiblesLis", h.GetTurnosDisponibles)
+	e.POST("/api/v1/besigabi/skl/turnosDisponibles", h.GetTurnosDisponiblesConOrden)
+	e.POST("/api/v1/besigabi/skl/sedesUsuario", h.GetSedesUsuario)
+	e.POST("/api/v1/besigabi/skl/consumirCredenciales", h.ConsumirCredenciales)
 }

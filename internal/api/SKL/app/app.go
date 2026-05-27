@@ -23,3 +23,19 @@ func (a *SKLApp) GetTaquillas(ctx context.Context, req domain.TaquillasRequest) 
 func (a *SKLApp) GetServiciosSiga(ctx context.Context, req domain.ServiciosSigaRequest) (domain.ServiciosSigaResponse, error) {
 	return a.repository.GetServiciosSiga(ctx, req)
 }
+
+func (a *SKLApp) GetTurnosDisponibles(ctx context.Context, req domain.TurnosDisponiblesRequest) (domain.TurnosDisponiblesResponse, error) {
+	return a.repository.GetTurnosDisponibles(ctx, req)
+}
+
+func (a *SKLApp) GetSedesUsuario(ctx context.Context, req domain.SedesUsuarioRequest) (domain.SedesUsuarioResponse, error) {
+	return a.repository.GetSedesUsuario(ctx, req)
+}
+
+func (a *SKLApp) GetTurnosDisponiblesConOrden(ctx context.Context, req domain.TurnosDisponiblesRequest) (domain.TurnosDisponiblesResponse, error) {
+	return a.repository.GetTurnosDisponiblesConOrden(ctx, req)
+}
+
+func (a *SKLApp) ConsumirCredenciales(ctx context.Context, req domain.ConsumirCredencialesRequest) (domain.ConsumirCredencialesResponse, error) {
+	return a.repository.ConsumirCredenciales(ctx, req)
+}
