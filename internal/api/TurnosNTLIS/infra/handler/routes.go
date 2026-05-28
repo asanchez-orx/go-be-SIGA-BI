@@ -15,4 +15,6 @@ func Routes(e *echo.Echo) {
 	h := newHandler(happ)
 
 	e.GET("/api/branch/getAll", h.BuscarSedesNTService)
+	e.GET("/api/service/getByBranch/:idSede", h.BuscarServiciosNTXSedeService)
+	e.GET("/api/pointsOfCare", h.BuscarTaquillasNTService)
 }

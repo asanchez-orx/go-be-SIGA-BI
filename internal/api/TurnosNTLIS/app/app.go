@@ -19,9 +19,7 @@ func NewTurnosNTLISApp(
 	}
 }
 
-func (a *turnosNTLISApp) BuscarSedesNTService(
-	ctx context.Context,
-) (domain.SedesNTResponse, error) {
+func (a *turnosNTLISApp) BuscarSedesNTService(ctx context.Context) (domain.SedesNTResponse, error) {
 
 	sedes, err := a.repository.GetSedes(ctx)
 	if err != nil {
@@ -31,6 +29,39 @@ func (a *turnosNTLISApp) BuscarSedesNTService(
 	response := domain.SedesNTResponse{
 		Status: 200,
 		Data:   sedes,
+	}
+
+	return response, nil
+}
+
+func (a *turnosNTLISApp) BuscarServiciosNTXSedeService(
+	ctx context.Context,
+	sedeID int,
+) (domain.ServiciosNTXSedeResponse, error) {
+
+	servicios, err := a.repository.GetServiciosNTXSede(ctx, sedeID)
+	if err != nil {
+		return domain.ServiciosNTXSedeResponse{}, err
+	}
+
+	response := domain.ServiciosNTXSedeResponse{
+		Status: 200,
+		Data:   servicios,
+	}
+
+	return response, nil
+}
+
+func (a *turnosNTLISApp) BuscarTaquillasNTService(ctx context.Context) (domain.TaquillaNTResponse, error) {
+
+	taquillas, err := a.repository.GetTaquillasNT(ctx)
+	if err != nil {
+		return domain.TaquillaNTResponse{}, err
+	}
+
+	response := domain.TaquillaNTResponse{
+		Status: 200,
+		Data:   taquillas,
 	}
 
 	return response, nil

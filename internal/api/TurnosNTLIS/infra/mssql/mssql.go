@@ -49,3 +49,66 @@ func (r *TurnosNTLISRepo) GetSedes(ctx context.Context) ([]domain.SedeNT, error)
 
 	return sedes, nil
 }
+
+func (r *TurnosNTLISRepo) GetServiciosNTXSede(ctx context.Context, sedeID int) ([]domain.ServicioNT, error) {
+
+	rows, err := r.db.Query(ctx, qryServiciosNTXSede, sedeID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var servicios []domain.ServicioNT
+
+	for rows.Next() {
+
+		var servicio domain.ServicioNT
+
+		err := rows.Scan(
+			&servicio.ID,
+			&servicio.Code,
+			&servicio.Name,
+			&servicio.Description,
+			&servicio.RegisterDate,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		servicios = append(servicios, servicio)
+	}
+
+	return servicios, nil
+}
+
+func (r *TurnosNTLISRepo) GetTaquillasNT(ctx context.Context) ([]domain.TaquillaNT, error) {
+
+	rows, err := r.db.Query(ctx, queryTaquillas)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var taquillas []domain.TaquillaNT
+
+	for rows.Next() {
+
+		var taquilla domain.TaquillaNT
+
+		err := rows.Scan(
+			&taquilla.ID,
+			&taquilla.Code,
+			&taquilla.Name,
+			&taquilla.State,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		taquillas = append(taquillas, taquilla)
+	}
+
+	return taquillas, nil
+}

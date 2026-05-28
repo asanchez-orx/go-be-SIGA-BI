@@ -130,8 +130,14 @@ Content-Type: application/json
 
 
 
-
+////////////////////servicios siga lis nt////////////////////
 
 ### SEDES ESTRUCTURA NT
 GET http://localhost:5016/api/branch/getAll
+
+### SERVICIOS ESTRUCTURA NT
+GET http://localhost:5016/api/service/getByBranch/1
+
+### PUNTOS DE ATENCION NT
+GET http://localhost:5016/api/pointsOfCare  
 

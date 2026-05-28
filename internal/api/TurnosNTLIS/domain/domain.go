@@ -26,18 +26,32 @@ type SiteNT struct {
 }
 
 type ServicioNT struct {
-	ID             int       `json:"id" example:"1"`
-	Code           string    `json:"code" example:"S01"`
-	Name           string    `json:"name" example:"Sede 1"`
-	Description    string    `json:"description" example:"Descripción de la sede 1"`
-	RegisterDate   time.Time `json:"registerDate" example:"1678886400"`
-	QualifyService bool      `json:"qualifyService" example:"true"`
-	MultiCalled    bool      `json:"multiCalled" example:"true"`
-	State          int       `json:"state" example:"1"`
-	Site           []SiteNT  `json:"site"`
+	ID             int      `json:"id" example:"1"`
+	Code           string   `json:"code" example:"S01"`
+	Name           string   `json:"name" example:"Sede 1"`
+	Description    string   `json:"description" example:"Descripción de la sede 1"`
+	RegisterDate   string   `json:"registerDate" example:"1678886400"`
+	QualifyService bool     `json:"qualifyService" example:"true"`
+	MultiCalled    bool     `json:"multiCalled" example:"true"`
+	State          int      `json:"state" example:"1"`
+	Site           []SiteNT `json:"site"`
 }
 
-type ServiciosNTXSede struct {
+type ServiciosNTXSedeResponse struct {
 	Status int          `json:"status" example:"200"`
 	Data   []ServicioNT `json:"data"`
+}
+
+type TaquillaNT struct {
+	ID            int    `json:"id" example:"1"`
+	Code          string `json:"code" example:"T01"`
+	Name          string `json:"name" example:"Taquilla 1"`
+	ManagePrority bool   `json:"managePriority" example:"true"`
+	Service       string `json:"service" example:"Servicio 1"`
+	State         int    `json:"state" example:"1"`
+}
+
+type TaquillaNTResponse struct {
+	Status int          `json:"status" example:"200"`
+	Data   []TaquillaNT `json:"data"`
 }
