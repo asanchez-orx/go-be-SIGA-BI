@@ -128,3 +128,10 @@ Content-Type: application/json
   "idSede": 1
 }
 
+
+
+
+
+### SEDES ESTRUCTURA NT
+GET http://localhost:5016/api/branch/getAll
+

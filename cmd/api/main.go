@@ -12,6 +12,7 @@ import (
 	"develop.private/CLTech/vulcano/service"
 
 	sklHandler "develop.private/CLTech/besigabi/internal/api/SKL/infra/handler"
+	TurnosNTLISHandler "develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/infra/handler"
 	creacionTurnosHandler "develop.private/CLTech/besigabi/internal/api/creacionTurnos/infra/handler"
 )
 
@@ -60,6 +61,7 @@ func main() {
 
 	creacionTurnosHandler.Routes(e)
 	sklHandler.Routes(e)
+	TurnosNTLISHandler.Routes(e)
 
 	srv := vecho.EchoServer{
 		App:  e,
