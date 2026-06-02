@@ -14,6 +14,9 @@ import (
 	sklHandler "develop.private/CLTech/besigabi/internal/api/SKL/infra/handler"
 	TurnosNTLISHandler "develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/infra/handler"
 	creacionTurnosHandler "develop.private/CLTech/besigabi/internal/api/creacionTurnos/infra/handler"
+
+	_ "develop.private/CLTech/besigabi/docs"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 var Version = "Devel"
@@ -62,6 +65,8 @@ func main() {
 	creacionTurnosHandler.Routes(e)
 	sklHandler.Routes(e)
 	TurnosNTLISHandler.Routes(e)
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	srv := vecho.EchoServer{
 		App:  e,

@@ -25,8 +25,8 @@ func newHandler(app domain.CreacionTurnosUseCase) *handler {
 // @Param			request	body	domain.CreacionTurnosRequest	true	"Parámetros de la consulta de las ordenes iniciales"
 // @Produce			json
 // @Success		200	{object}	domain.CreacionTurnosResponse
-// @Failure		400	{object}	middleware.ClientError
-// @Failure		404	{object}	middleware.ClientError
+// @Failure		400	{object}	map[string]interface{}
+// @Failure		404	{object}	map[string]interface{}
 // @Router			/api/v1/besigabi/creacionTurnos [get]
 func (h handler) BuscarCreacionTurnos(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
@@ -39,8 +39,8 @@ func (h handler) BuscarCreacionTurnos(c echo.Context) error {
 // @Param			request	body	domain.CreacionTurnosRequest	true	"Parámetros a crear en la BD"
 // @Produce			json
 // @Success		204	{object}	nil "No Content"
-// @Failure		400	{object}	middleware.ClientError
-// @Failure		404	{object}	middleware.ClientError
+// @Failure		400	{object}	map[string]interface{}
+// @Failure		404	{object}	map[string]interface{}
 // @Router			/api/v1/besigabi/creacionTurnos [post]
 func (h handler) CrearCreacionTurnos(c echo.Context) error {
 	req := domain.CreacionTurnosRequest{}

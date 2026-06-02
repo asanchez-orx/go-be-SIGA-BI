@@ -47,6 +47,17 @@ func (h handler) GetTaquillas(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// @Summary	Obtener servicios SIGA
+// @Description	Consulta los servicios SIGA disponibles
+// @Tags	SKL
+// @Accept	json
+// @Param	request	body	domain.ServiciosSigaRequest	true	"Parámetros de la consulta de servicios"
+// @Produce	json
+// @Success	200	{object}	domain.ServiciosSigaResponse
+// @Success	204	{object}	nil "Sin servicios"
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/serviciosSiga [post]
 func (h handler) GetServiciosSiga(c echo.Context) error {
 	req := domain.ServiciosSigaRequest{}
 	if err := c.Bind(&req); err != nil {
@@ -65,6 +76,17 @@ func (h handler) GetServiciosSiga(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// @Summary	Obtener turnos disponibles
+// @Description	Consulta los turnos disponibles en LIS
+// @Tags	SKL
+// @Accept	json
+// @Param	request	body	domain.TurnosDisponiblesRequest	true	"Parámetros de la consulta"
+// @Produce	json
+// @Success	200	{object}	domain.TurnosDisponiblesResponse
+// @Success	204	{object}	nil "Sin turnos"
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/turnosDisponiblesLis [post]
 func (h handler) GetTurnosDisponibles(c echo.Context) error {
 	req := domain.TurnosDisponiblesRequest{}
 	if err := c.Bind(&req); err != nil {
@@ -83,6 +105,17 @@ func (h handler) GetTurnosDisponibles(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// @Summary	Obtener sedes por usuario
+// @Description	Consulta las sedes disponibles para un usuario
+// @Tags	SKL
+// @Accept	json
+// @Param	request	body	domain.SedesUsuarioRequest	true	"Parámetros de usuario"
+// @Produce	json
+// @Success	200	{object}	domain.SedesUsuarioResponse
+// @Success	204	{object}	nil "Sin sedes"
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/sedesUsuario [post]
 func (h handler) GetSedesUsuario(c echo.Context) error {
 	req := domain.SedesUsuarioRequest{}
 	if err := c.Bind(&req); err != nil {
@@ -101,6 +134,17 @@ func (h handler) GetSedesUsuario(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// @Summary	Consumir credenciales
+// @Description	Valida las credenciales de un usuario
+// @Tags	SKL
+// @Accept	json
+// @Param	request	body	domain.ConsumirCredencialesRequest	true	"Credenciales"
+// @Produce	json
+// @Success	200	{object}	domain.ConsumirCredencialesResponse
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	401	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/consumirCredenciales [post]
 func (h handler) ConsumirCredenciales(c echo.Context) error {
 	req := domain.ConsumirCredencialesRequest{}
 	if err := c.Bind(&req); err != nil {
@@ -118,6 +162,17 @@ func (h handler) ConsumirCredenciales(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// @Summary	Obtener turnos disponibles con orden
+// @Description	Consulta turnos disponibles asociados a una orden
+// @Tags	SKL
+// @Accept	json
+// @Param	request	body	domain.TurnosDisponiblesRequest	true	"Parámetros de la consulta"
+// @Produce	json
+// @Success	200	{object}	domain.TurnosDisponiblesResponse
+// @Success	204	{object}	nil "Sin turnos"
+// @Failure	400	{object}	echo.HTTPError
+// @Failure	500	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/turnosDisponibles [post]
 func (h handler) GetTurnosDisponiblesConOrden(c echo.Context) error {
 	req := domain.TurnosDisponiblesRequest{}
 	if err := c.Bind(&req); err != nil {

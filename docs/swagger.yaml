@@ -1,0 +1,1835 @@
+basePath: /api/v1/
+definitions:
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.ConsumirCredencialesRequest:
+    properties:
+      contrasena:
+        type: string
+      usuario:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.ConsumirCredencialesResponse:
+    properties:
+      idUsuario:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.PacienteTurno:
+    properties:
+      apellido1:
+        type: string
+      apellido2:
+        type: string
+      fechaCumple:
+        type: string
+      nomTipoDocumento:
+        type: string
+      nombre1:
+        type: string
+      nombre2:
+        type: string
+      numeroDocumento:
+        type: string
+      sexo:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.SedeUsuarioResponse:
+    properties:
+      codSede:
+        type: string
+      idSede:
+        type: integer
+      nomSede:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.SedesUsuarioRequest:
+    properties:
+      usuario:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.ServicioSigaResponse:
+    properties:
+      codServicio:
+        example: SV01
+        type: string
+      idServicio:
+        example: 1
+        type: integer
+      nomServicio:
+        example: Servicio 1
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.ServiciosSigaRequest:
+    properties:
+      codModulo:
+        example: 4000
+        type: integer
+      idSede:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.TaquillaResponse:
+    properties:
+      codTaquilla:
+        example: TQ01
+        type: string
+      estadoTaquilla:
+        example: 0
+        type: integer
+      idTaquilla:
+        example: 1
+        type: integer
+      nIdModulo:
+        example: 4000
+        type: integer
+      nomTaquilla:
+        example: Taquilla 1
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.TaquillasRequest:
+    properties:
+      codModulo:
+        example: 4000
+        type: integer
+      idSede:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnoDisponibleResponse:
+    properties:
+      codEmpresa:
+        type: string
+      codServicio:
+        type: string
+      codTipoTurno:
+        type: string
+      fechaHoraTurno:
+        type: string
+      idEmpresa:
+        type: integer
+      idSede:
+        type: integer
+      idServicio:
+        type: integer
+      idTipoDocumento:
+        type: integer
+      idTipoTurno:
+        type: integer
+      minutosEspera:
+        type: integer
+      nPrioridad:
+        type: integer
+      nomEmpresa:
+        type: string
+      nomServicio:
+        type: string
+      nomTipoTurno:
+        type: string
+      nombreSede:
+        type: string
+      numeroOrden:
+        type: string
+      numeroTurno:
+        type: string
+      paciente:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.PacienteTurno'
+      tiempo:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnosDisponiblesRequest:
+    properties:
+      idSede:
+        type: integer
+      idServicio:
+        type: integer
+      idTaquilla:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.AtencionEstadoRequest:
+    properties:
+      id:
+        example: 0
+        type: integer
+      pointOfCare:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.PointOfCare'
+      service:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Service'
+      state:
+        example: 3
+        type: integer
+      turn:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Turn'
+      user:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.AtencionEstadoResponse:
+    properties:
+      data:
+        example: 1
+        type: integer
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Branch:
+    properties:
+      id:
+        example: 1
+        type: integer
+      state:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.IDReference:
+    properties:
+      id:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostData:
+    properties:
+      attended:
+        type: boolean
+      finalizable:
+        type: boolean
+      id:
+        type: integer
+      number:
+        type: string
+      patient:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Patient'
+      priority:
+        type: integer
+      service:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiceInfo'
+      state:
+        type: integer
+      transferible:
+        type: boolean
+      turnType:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnType'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostRequest:
+    properties:
+      idTurn:
+        type: integer
+      point:
+        properties:
+          branch:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Branch'
+          point:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Point'
+          service:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Service'
+          user:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+        type: object
+      user:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostResponse:
+    properties:
+      data:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostData'
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoResponse:
+    properties:
+      data:
+        type: boolean
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.MotivoDescanso:
+    properties:
+      description:
+        example: Descripción del motivo de descanso 1
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Motivo de descanso 1
+        type: string
+      registerDate:
+        example: "2022-01-01"
+        type: string
+      state:
+        example: 1
+        type: integer
+      type:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Patient:
+    properties:
+      id:
+        type: integer
+      patientId:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Point:
+    properties:
+      id:
+        example: 1
+        type: integer
+      managePriority:
+        type: boolean
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.PointOfCare:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Reason:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      state:
+        type: integer
+      type:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Response:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Reason'
+        type: array
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ResponseTransfer:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferReason'
+        type: array
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SedeNT:
+    properties:
+      code:
+        example: S01
+        type: string
+      description:
+        example: Descripción de la sede 1
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Sede 1
+        type: string
+      registerDate:
+        example: "1678886400"
+        type: string
+      state:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SedesNTResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SedeNT'
+        type: array
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Service:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiceDes:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiceInfo:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServicioNT:
+    properties:
+      code:
+        example: S01
+        type: string
+      description:
+        example: Descripción de la sede 1
+        type: string
+      id:
+        example: 1
+        type: integer
+      multiCalled:
+        example: true
+        type: boolean
+      name:
+        example: Sede 1
+        type: string
+      qualifyService:
+        example: true
+        type: boolean
+      registerDate:
+        example: "1678886400"
+        type: string
+      site:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SiteNT'
+        type: array
+      state:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiciosNTXSedeResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServicioNT'
+        type: array
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SiteNT:
+    properties:
+      code:
+        example: S01
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: Sede 1
+        type: string
+      state:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaMotivoDescansoResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.MotivoDescanso'
+        type: array
+      status:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaNT:
+    properties:
+      code:
+        example: T01
+        type: string
+      id:
+        example: 1
+        type: integer
+      managePriority:
+        example: true
+        type: boolean
+      name:
+        example: Taquilla 1
+        type: string
+      service:
+        example: Servicio 1
+        type: string
+      state:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaNTResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaNT'
+        type: array
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillasEstadoRequest:
+    properties:
+      action:
+        example: 1
+        type: integer
+      branch:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Branch'
+      point:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Point'
+      user:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillasEstadoResponse:
+    properties:
+      data:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillasEstadoRequest'
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaxSedexServicioData:
+    properties:
+      id:
+        example: 1
+        type: integer
+      managePriority:
+        example: true
+        type: boolean
+      name:
+        example: Taquilla 1
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaxSedexServicioResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaxSedexServicioData'
+        type: array
+      status:
+        example: 200
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferReason:
+    properties:
+      branch:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.IDReference'
+      enabled:
+        type: boolean
+      id:
+        type: integer
+      pendingTurns:
+        type: integer
+      serviceDes:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiceDes'
+      serviceOri:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.IDReference'
+      waitTime:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferRequest:
+    properties:
+      idTurn:
+        type: integer
+      turnsMovement:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnMovement'
+        type: array
+      user:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferResponse:
+    properties:
+      data: {}
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Turn:
+    properties:
+      id:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnMovement:
+    properties:
+      active:
+        type: integer
+      branch:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Branch'
+      pointOfCare:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.PointOfCare'
+      service:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Service'
+      state:
+        type: integer
+      transfer:
+        type: boolean
+      turn:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Turn'
+      user:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnType:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaData:
+    properties:
+      attended:
+        type: boolean
+      branch:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaSede'
+      date:
+        type: integer
+      finalizable:
+        type: boolean
+      id:
+        type: integer
+      number:
+        type: string
+      patient:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaPaciente'
+      priority:
+        type: integer
+      service:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaServicio'
+      standbyTime:
+        type: integer
+      state:
+        type: integer
+      transferible:
+        type: boolean
+      turnType:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaTipo'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaPaciente:
+    properties:
+      id:
+        type: integer
+      lastName:
+        type: string
+      name:
+        type: string
+      patientId:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaData'
+        type: array
+      status:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaSede:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaServicio:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      qualifyService:
+        type: boolean
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaTipo:
+    properties:
+      code:
+        type: string
+      color:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.User:
+    properties:
+      id:
+        example: 123
+        type: integer
+      lastName:
+        example: Lopez
+        type: string
+      name:
+        example: Juan
+        type: string
+      user:
+        example: jlopez
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.AccionResponse:
+    properties:
+      sAccion:
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CompaniaRequest:
+    description: Estructura que representa un request para obtener compañías
+    properties:
+      idSede:
+        example: -1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CompaniaResponse:
+    description: Estructura que representa una compañía
+    properties:
+      codigoCompania:
+        example: C01
+        type: string
+      idCompania:
+        example: 1
+        type: integer
+      nombreCompania:
+        example: Compañía de Prueba
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ConfigCompaniasResponse:
+    description: Estructura que representa la configuración de compañías
+    properties:
+      manejaEmpresas:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ConfigLISResponse:
+    description: Estructura que representa la configuración de LIS
+    properties:
+      separadorMuestra:
+        example: '|'
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CreacionTurnosRequest:
+    description: Estructura que representa un request de un endpoint de la API
+    properties:
+      creacionTurnos:
+        description: Incluir descripción del campo
+        example: '''Valor_de_ejemplo'''
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CreacionTurnosResponse:
+    description: Estructura que representa un response de un endpoint de la API
+    properties:
+      creacionTurnos:
+        description: Incluir descripción del campo
+        example: '''Valor_de_ejemplo'''
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CrearTurnoRequest:
+    properties:
+      CodigoModulo:
+        type: string
+      NombreModulo:
+        type: string
+      accion:
+        type: string
+      idCompania:
+        type: integer
+      idSede:
+        type: integer
+      idServicio:
+        type: integer
+      idTipoTurno:
+        type: integer
+      origen:
+        type: integer
+      paciente:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.PacienteRequest'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CrearTurnoResponse:
+    properties:
+      Accion:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.AccionResponse'
+      Compania:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CompaniaResponse'
+      Sede:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.SedeResponse'
+      Servicio:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoServicioResponse'
+      Turno:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.DatosTurnoResponse'
+      paciente:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.PacienteRequest'
+      tipoTurno:
+        $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoTurnoResponse'
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.DatosTurnoResponse:
+    properties:
+      fechaTurno:
+        type: string
+      numeroTurno:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ModuloRequest:
+    description: Estructura que representa un request para obtener módulos
+    properties:
+      idSede:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ModuloResponse:
+    description: Estructura que representa un módulo
+    properties:
+      CodigoModulo:
+        example: "200"
+        type: string
+      IdSede:
+        example: 1
+        type: integer
+      NombreModulo:
+        example: Modulo de Prueba
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.PacienteRequest:
+    properties:
+      apellido1:
+        type: string
+      apellido2:
+        type: string
+      fechaNacimiento:
+        type: string
+      idPaciente:
+        type: integer
+      idTipoDocumento:
+        type: integer
+      nomTipoDocumento:
+        type: string
+      nombre1:
+        type: string
+      nombre2:
+        type: string
+      numeroDocumento:
+        type: string
+      sexo:
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.SedeResponse:
+    description: Estructura que representa una sede
+    properties:
+      codSede:
+        example: S01
+        type: string
+      idSede:
+        example: 1
+        type: integer
+      nomSede:
+        example: Sede Central
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoDocumentoResponse:
+    description: Estructura que representa un tipo de documento
+    properties:
+      codTipoDoc:
+        example: CC
+        type: string
+      idTipoDoc:
+        example: 1
+        type: integer
+      nomTipoDoc:
+        example: Cédula de Ciudadanía
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoServicioRequest:
+    description: Estructura que representa un request para obtener tipos de servicio
+    properties:
+      codigoModulo:
+        example: "4000"
+        type: string
+      idCompania:
+        example: -1
+        type: integer
+      idSede:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoServicioResponse:
+    description: Estructura que representa un tipo de servicio
+    properties:
+      codigoServicio:
+        example: S01
+        type: string
+      idServicio:
+        example: 1
+        type: integer
+      nombreServicio:
+        example: Servicio de Prueba
+        type: string
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoTurnoRequest:
+    description: Estructura que representa un request para obtener tipos de turno
+    properties:
+      idSede:
+        example: 1
+        type: integer
+      idServicio:
+        example: 1
+        type: integer
+    type: object
+  develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoTurnoResponse:
+    description: Estructura que representa un tipo de turno
+    properties:
+      codTipoTurno:
+        example: T01
+        type: string
+      idTipoTurno:
+        example: 1
+        type: integer
+      nomTipoTurno:
+        example: Turno Normal
+        type: string
+    type: object
+  echo.HTTPError:
+    properties:
+      message: {}
+    type: object
+  libs_vulcano_infra_echo.HealthResponse:
+    description: Define la respuesta de la API de healthcheck
+    properties:
+      build_time:
+        description: Hora de compilación de la aplicación
+        example: "2021-01-01 00:00:00"
+        type: string
+      commit_hash:
+        description: Hash del último commit de la aplicación
+        example: 56abc123
+        type: string
+      status:
+        description: Estado del servidor
+        example: ok
+        type: string
+      time:
+        description: Tiempo actual del servidor
+        example: "2006-01-02 15:04:05"
+        type: string
+      uptime:
+        description: Tiempo desde el inicio del servidor
+        example: 1h2m3s
+        type: string
+      version:
+        description: Versión de la aplicación servidor
+        example: 0.1.0
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Descripción de este servidor backend
+  title: API Backend de la aplicación besigabi
+  version: 0.1.0
+paths:
+  /api/branch/getAll:
+    get:
+      description: Obtiene la lista de todas las sedes estructuradas
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.SedesNTResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener todas las sedes
+      tags:
+      - TurnosNTLIS
+  /api/log:
+    post:
+      consumes:
+      - application/json
+      description: Actualiza el estado log de una taquilla
+      parameters:
+      - description: Datos del estado de taquilla
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillasEstadoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillasEstadoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Actualizar estado de la taquilla
+      tags:
+      - TurnosNTLIS
+  /api/logAtencion:
+    post:
+      consumes:
+      - application/json
+      description: Actualiza el estado de la atención de un turno
+      parameters:
+      - description: Datos del estado de atención
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.AtencionEstadoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.AtencionEstadoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Actualizar estado de atención
+      tags:
+      - TurnosNTLIS
+  /api/pointsOfCare:
+    get:
+      description: Obtiene todos los puntos de atención disponibles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaNTResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener puntos de atención
+      tags:
+      - TurnosNTLIS
+  /api/reasons/break:
+    get:
+      description: Obtiene la lista de motivos de descanso (break) para las taquillas
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaMotivoDescansoResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener motivos de descanso
+      tags:
+      - TurnosNTLIS
+  /api/reasons/cancel:
+    get:
+      description: Obtiene la lista de motivos de cancelación
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener motivos de cancelación
+      tags:
+      - TurnosNTLIS
+  /api/reasons/transfer/{idSede}/{idServicio}/{idTurno}:
+    get:
+      description: Obtiene servicios disponibles para la transferencia de un turno
+      parameters:
+      - description: ID de la Sede
+        in: path
+        name: idSede
+        required: true
+        type: integer
+      - description: ID del Servicio
+        in: path
+        name: idServicio
+        required: true
+        type: integer
+      - description: ID del Turno
+        in: path
+        name: idTurno
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ResponseTransfer'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener servicios para transferencia
+      tags:
+      - TurnosNTLIS
+  /api/service/getByBranch/{idSede}:
+    get:
+      description: Obtiene los servicios disponibles para una sede específica
+      parameters:
+      - description: ID de la Sede
+        in: path
+        name: idSede
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.ServiciosNTXSedeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener servicios por sede
+      tags:
+      - TurnosNTLIS
+  /api/taquillasxSedeServicio/{sede}/{servicio}:
+    get:
+      description: Obtiene las taquillas filtradas por sede y servicio
+      parameters:
+      - description: ID de la Sede
+        in: path
+        name: sede
+        required: true
+        type: integer
+      - description: ID del Servicio
+        in: path
+        name: servicio
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TaquillaxSedexServicioResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener taquillas por sede y servicio
+      tags:
+      - TurnosNTLIS
+  /api/transfers:
+    post:
+      consumes:
+      - application/json
+      description: Transfiere un turno creando uno nuevo asociado al servicio destino
+        y actualizando el viejo
+      parameters:
+      - description: Datos de la transferencia
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TransferResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Transferir turno a otro servicio
+      tags:
+      - TurnosNTLIS
+  /api/turns/call:
+    post:
+      consumes:
+      - application/json
+      description: Actualiza el estado de un turno a llamado
+      parameters:
+      - description: Datos para llamar turno
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoPostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Llamar un turno
+      tags:
+      - TurnosNTLIS
+  /api/turns/call/{turno}/{servicio}:
+    get:
+      description: Verifica si un turno ha sido llamado
+      parameters:
+      - description: Número de Turno
+        in: path
+        name: turno
+        required: true
+        type: integer
+      - description: ID de Servicio
+        in: path
+        name: servicio
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.LlamadoTurnoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Verificar llamado de turno
+      tags:
+      - TurnosNTLIS
+  /api/turns/daily/{sede}/{servicio}/{apellido}/{nombre}/{userName}/{taquilla}:
+    get:
+      description: Obtiene todos los turnos diarios disponibles para un servicio de
+        una sede
+      parameters:
+      - description: ID de Sede
+        in: path
+        name: sede
+        required: true
+        type: integer
+      - description: ID de Servicio
+        in: path
+        name: servicio
+        required: true
+        type: integer
+      - description: Apellido del paciente
+        in: path
+        name: apellido
+        type: string
+      - description: Nombre del paciente
+        in: path
+        name: nombre
+        type: string
+      - description: Nombre de usuario
+        in: path
+        name: userName
+        type: string
+      - description: ID de la taquilla
+        in: path
+        name: taquilla
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_TurnosNTLIS_domain.TurnoConsultaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Obtener turnos diarios disponibles
+      tags:
+      - TurnosNTLIS
+  /api/v1/besigabi/creacionTurnos:
+    get:
+      consumes:
+      - application/json
+      description: Descripción detallada del endpoint
+      parameters:
+      - description: Parámetros de la consulta de las ordenes iniciales
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CreacionTurnosRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CreacionTurnosResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Resumen de lo que hace  el endpoint
+      tags:
+      - CreacionTurnos
+    post:
+      consumes:
+      - application/json
+      description: Crea un turno en el sistema validando cupos y límites por módulo
+        y origen de forma atómica
+      parameters:
+      - description: Parámetros para la creación del turno
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CrearTurnoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CrearTurnoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "429":
+          description: Too Many Requests
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Crea un turno
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/cargarConfigLIS:
+    get:
+      description: Recupera el separador de muestras desde la tabla ENT4028
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ConfigLISResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene la configuración de LIS
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/companias:
+    post:
+      consumes:
+      - application/json
+      description: Consulta las tablas ENT5802 y ENT5814 para obtener las compañías
+        asociadas a una sede
+      parameters:
+      - description: Parámetros de la consulta de compañías
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CompaniaRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de compañías
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.CompaniaResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene el listado de compañías
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/confirmarConfigSedes:
+    get:
+      description: Verifica si se manejan sedes y si no, retorna la sede por defecto
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema: {}
+        "204":
+          description: No se encontró sede por Default
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Confirmar configuración de sedes
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/modulos:
+    post:
+      consumes:
+      - application/json
+      description: Consulta la tabla ENT5818 para obtener los módulos por sede
+      parameters:
+      - description: Parámetros de la consulta de módulos
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ModuloRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de módulos
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ModuloResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene el listado de módulos
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/sedes:
+    get:
+      description: Consulta la tabla ENT0021 para obtener las sedes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de sedes
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.SedeResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene el listado de sedes
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/tipoDocumento:
+    get:
+      description: Consulta la tabla ENT0024 para obtener los tipos de documento activos
+        (C05 = 1)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de tipos de documento
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoDocumentoResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Obtiene el listado de tipos de documento
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/tipoServicio:
+    post:
+      consumes:
+      - application/json
+      description: Consulta las tablas ENT5800 y ENT5815 para obtener los tipos de
+        servicio
+      parameters:
+      - description: Parámetros de la consulta de tipos de servicio
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoServicioRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de tipos de servicio
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoServicioResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene el listado de tipos de servicio
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/tipoTurno:
+    post:
+      consumes:
+      - application/json
+      description: Consulta las tablas ENT5816 y ENT5810 para obtener los tipos de
+        turno por servicio
+      parameters:
+      - description: Parámetros de la consulta de tipos de turno
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoTurnoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            description: Listado de tipos de turno
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.TipoTurnoResponse'
+            type: array
+        "204":
+          description: Sin Data
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtiene el listado de tipos de turno
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/creacionTurnos/verificarConfigCompanias:
+    get:
+      description: Consulta la tabla ENT5803 para verificar si se manejan empresas
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_creacionTurnos_domain.ConfigCompaniasResponse'
+        "204":
+          description: Sin Configuración
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Verifica la configuración de compañías
+      tags:
+      - CreacionTurnos
+  /api/v1/besigabi/skl/consumirCredenciales:
+    post:
+      consumes:
+      - application/json
+      description: Valida las credenciales de un usuario
+      parameters:
+      - description: Credenciales
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.ConsumirCredencialesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.ConsumirCredencialesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Consumir credenciales
+      tags:
+      - SKL
+  /api/v1/besigabi/skl/sedesUsuario:
+    post:
+      consumes:
+      - application/json
+      description: Consulta las sedes disponibles para un usuario
+      parameters:
+      - description: Parámetros de usuario
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.SedesUsuarioRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.SedeUsuarioResponse'
+            type: array
+        "204":
+          description: Sin sedes
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtener sedes por usuario
+      tags:
+      - SKL
+  /api/v1/besigabi/skl/serviciosSiga:
+    post:
+      consumes:
+      - application/json
+      description: Consulta los servicios SIGA disponibles
+      parameters:
+      - description: Parámetros de la consulta de servicios
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.ServiciosSigaRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.ServicioSigaResponse'
+            type: array
+        "204":
+          description: Sin servicios
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtener servicios SIGA
+      tags:
+      - SKL
+  /api/v1/besigabi/skl/taquillas:
+    post:
+      consumes:
+      - application/json
+      description: Consulta las taquillas activas para una sede y módulo específico
+      parameters:
+      - description: Parámetros de la consulta de taquillas
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TaquillasRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TaquillaResponse'
+            type: array
+        "204":
+          description: Sin taquillas
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtener taquillas por sede y módulo
+      tags:
+      - Taquillas
+  /api/v1/besigabi/skl/turnosDisponibles:
+    post:
+      consumes:
+      - application/json
+      description: Consulta turnos disponibles asociados a una orden
+      parameters:
+      - description: Parámetros de la consulta
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnosDisponiblesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnoDisponibleResponse'
+            type: array
+        "204":
+          description: Sin turnos
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtener turnos disponibles con orden
+      tags:
+      - SKL
+  /api/v1/besigabi/skl/turnosDisponiblesLis:
+    post:
+      consumes:
+      - application/json
+      description: Consulta los turnos disponibles en LIS
+      parameters:
+      - description: Parámetros de la consulta
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnosDisponiblesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/develop_private_CLTech_besigabi_internal_api_SKL_domain.TurnoDisponibleResponse'
+            type: array
+        "204":
+          description: Sin turnos
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Obtener turnos disponibles
+      tags:
+      - SKL
+  /health:
+    get:
+      description: Endpoint de validación de la API, indica si el servidor está en
+        funcionamiento
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/libs_vulcano_infra_echo.HealthResponse'
+      summary: Validación de funcionamiento
+      tags:
+      - Monitoring
+swagger: "2.0"
