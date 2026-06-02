@@ -26,7 +26,7 @@ var CommitHash = "00000001"
 // @title		API Backend de la aplicación besigabi
 // @version		0.1.0
 // @description	Descripción de este servidor backend
-// @BasePath		/api/v1/
+// @BasePath		/
 func main() {
 	var cfgFile string
 	if len(os.Args) > 1 {

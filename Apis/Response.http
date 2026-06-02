@@ -84,7 +84,7 @@ GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
 /////////////////////////////////////////////////////////////////////////
 
 ### TAQUILLAS
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/taquillas
+POST http://localhost:5016/api/v1/besigabi/skl/taquillas
 Content-Type: application/json
 
 {
@@ -93,7 +93,7 @@ Content-Type: application/json
 }
 
 ### SERVICIOS SIGA
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/serviciosSiga
+POST http://localhost:5016/api/v1/besigabi/skl/serviciosSiga
 Content-Type: application/json
 
 {
@@ -120,7 +120,7 @@ Content-Type: application/json
 }
 
 ### TURNO DISPONIBLES (CON ORDEN)
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/turnosDisponibles
+POST http://localhost:5016/api/v1/besigabi/skl/turnosDisponibles
 Content-Type: application/json
 
 {
@@ -236,3 +236,63 @@ Content-Type: application/json
 
 ### TURNO DISPONIBLE MANUAL
 GET http://192.168.1.241:5016/api/turns/daily/1/3/sanchez/andres/andres/1	
+
+### TRANSFERIR TURNO
+POST http://192.168.1.241:5016/api/transfers
+Content-Type: application/json
+
+{
+	"idTurn": 1,
+	"turnsMovement": [
+		{
+			"turn": {
+				"id": 2
+			},
+			"user": {
+				"id": 1
+			},
+			"service": {
+				"id": 3
+			},
+			"pointOfCare": {
+				"id": 1
+			},
+			"branch": {
+				"id": 1
+			},
+			"state": 1,
+			"active": 1,
+			"transfer": true
+		},
+		{
+			"turn": {
+				"id": 1
+			},
+			"user": {
+				"id": 1,
+				"user": "andres",
+				"lastName": "sanchez",
+				"name": "andres"
+			},
+			"service": {
+				"id": 1
+			},
+			"pointOfCare": {
+				"id": 1
+			},
+			"branch": {
+				"id": 1
+			},
+			"state": 1,
+			"active": 1,
+			"transfer": false
+		}
+	],
+	"user": {
+		"id": 1,
+		"user": "andres",
+		"lastName": "sanchez",
+		"name": "andres"
+	}
+}	
+

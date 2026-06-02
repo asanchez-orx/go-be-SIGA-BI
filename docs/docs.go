@@ -2731,7 +2731,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "0.1.0",
 	Host:             "",
-	BasePath:         "/api/v1/",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "API Backend de la aplicación besigabi",
 	Description:      "Descripción de este servidor backend",
