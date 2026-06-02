@@ -42,9 +42,9 @@ WHERE E.lab05c1 = @p1;
 
 const qryVerificarConfigCompanias = `
 	SELECT
-		ENT5803C02 AS datConfig
-	FROM ENT5803  
-	WHERE ENT5803C01 = 'gen_ManejaEmpresas'
+		LAB5803C2 AS datConfig
+	FROM LAB5803  
+	WHERE LAB5803C1 = 'gen_ManejaEmpresas'
 `
 
 const qryTipoServicio = `
@@ -81,8 +81,8 @@ const qryModulos = `
 const qrySedes = `
 	SELECT 
 		LAB05C1 AS idSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS codSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS nomSede
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS nomSede,
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS codSede
 	FROM LAB05
 	WHERE LAB07C1 = 1
 `
@@ -126,8 +126,8 @@ const qryCargarConfigLIS = `
 const qrySedeDefault = `
 	SELECT 
 		LAB05C1 AS idSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS codSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS nomSede 
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS nomSede,
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS codSede 
 	FROM LAB05
 	WHERE LAB07C1 = 1
 `
@@ -135,8 +135,8 @@ const qrySedeDefault = `
 const qrySedeById = `
 	SELECT 
 		LAB05C1 AS idSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS codSede,
-		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS nomSede
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C4)), ''), 'N/A') AS nomSede,
+		ISNULL(NULLIF(LTRIM(RTRIM(LAB05C10)), ''), 'N/A') AS codSede
 	FROM LAB05
 	WHERE LAB05C1 = @p1
 `
@@ -185,8 +185,8 @@ const qryPacienteByDocumento = `
 
 const qryConfigCantidadPorSede = `
 	SELECT
-		LAB5818C2 AS jsonCantidad
-	FROM LAB5818
+		LAB5817C2 AS jsonCantidad
+	FROM LAB5817
 	WHERE LAB05C1 = @p1
 `
 

@@ -3,7 +3,7 @@ POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
 Content-Type: application/json
 
 {
-	"idSede": -1
+	"idSede": 1
 }
 
 ### SEDES
@@ -15,8 +15,8 @@ Content-Type: application/json
 
 {
 	"idSede": 1,
-	"idCompania": -1,
-	"codigoModulo": 4000
+	"idCompania": 1,
+	"codigoModulo": "200"
 }
 
 ### VERIFICAR CONFIG COMPANIAS
@@ -56,7 +56,7 @@ Content-Type: application/json
   "idCompania": -1,
   "idTipoTurno": 1,
   "idServicio": 3,
-  "CodigoModulo": "4000",
+  "CodigoModulo": "200",
   "NombreModulo": "Modulo Prueba",
   "origen": 1,
   "paciente": {
@@ -141,3 +141,60 @@ GET http://localhost:5016/api/service/getByBranch/1
 ### PUNTOS DE ATENCION NT
 GET http://localhost:5016/api/pointsOfCare  
 
+### TAQUILLAS POR SEDE SERVICIO
+GET http://localhost:5016/api/taquillasxSedeServicio/1/5
+
+### MOTIVOS DE DESCANSO
+GET http://localhost:5016/api/reasons/break
+
+### ESTADO DE LA TAQUILLA
+POST http://localhost:5016/api/log
+Content-Type: application/json
+
+{
+	"action": 4,
+	"branch": {
+		"id": 1,
+		"state": 1
+	},
+	"point": {
+		"id": 1,
+		"managePriority": true
+	},
+	"user": {
+		"id": 1,
+		"user": "andres",
+		"lastName": "sanchez",
+		"name": "andres"
+	}
+}
+
+### ESTADO DE LA ATENCION
+POST http://localhost:5016/api/logAtencion
+Content-Type: application/json
+
+{
+	"id": 0,
+	"state": 6,
+	"user": {
+		"id": 0,
+		"user": "andres",
+		"lastName": "sanchez",
+		"name": "andres"
+	},
+	"turn": {
+		"id": 1
+	},
+	"service": {
+		"id": 3
+	},
+	"pointOfCare": {
+		"id": 1
+	}
+}
+
+### MOTIVOS DE CANCELACION
+GET http://localhost:5016/api/reasons/cancel
+
+### SERVICIOS DISPONIBLES PARA TRANSFERENCIA
+GET http://localhost:5016/api/reasons/transfer/1/3/1  

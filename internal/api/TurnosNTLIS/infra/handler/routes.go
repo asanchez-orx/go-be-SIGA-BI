@@ -17,4 +17,12 @@ func Routes(e *echo.Echo) {
 	e.GET("/api/branch/getAll", h.BuscarSedesNTService)
 	e.GET("/api/service/getByBranch/:idSede", h.BuscarServiciosNTXSedeService)
 	e.GET("/api/pointsOfCare", h.BuscarTaquillasNTService)
+	e.GET("/api/taquillasxSedeServicio/:sede/:servicio", h.BuscarTaquillasXServicio)
+	e.GET("/api/reasons/break", h.BuscarMotivosTaquilla)
+	e.POST("/api/log", h.ActualizarEstadoTaquilla)
+	e.POST("/api/logAtencion", h.ActualizarEstadoAtencion)
+	e.GET("/api/reasons/cancel", h.BuscarMotivosCancelacion)
+	e.GET("/api/reasons/transfer/:idSede/:idServicio/:idTurno", h.BuscarServiciosDisponiblesParaTransferenciaService)
+	e.GET("/api/turns/call/:turno/:servicio", h.LlamadoTurno)
+	e.POST("/api/turns/call", h.LlamadoTurnoPost)
 }

@@ -94,9 +94,9 @@ func (r *CreacionTurnosRepo) BuscarTipoServicio(ctx context.Context, req domain.
 	var err error
 
 	if req.IdCompania == -1 {
-		rows, err = r.db.Query(ctx, qryTipoServicio, req.CodigoModulo, req.IdSede)
+		rows, err = r.db.Query(ctx, qryTipoServicio, string(req.CodigoModulo), req.IdSede)
 	} else {
-		rows, err = r.db.Query(ctx, qryTipoServicioPorCompania, req.IdCompania, req.CodigoModulo, req.IdSede)
+		rows, err = r.db.Query(ctx, qryTipoServicioPorCompania, req.IdCompania, string(req.CodigoModulo), req.IdSede)
 	}
 
 	if err != nil {
@@ -150,7 +150,7 @@ func (r *CreacionTurnosRepo) BuscarSedes(ctx context.Context) (domain.SedesRespo
 	res := domain.SedesResponse{}
 	for rows.Next() {
 		item := domain.SedeResponse{}
-		if err := rows.Scan(&item.IdSede, &item.CodSede, &item.NomSede); err != nil {
+		if err := rows.Scan(&item.IdSede, &item.NomSede, &item.CodSede); err != nil {
 			return nil, err
 		}
 		res = append(res, item)

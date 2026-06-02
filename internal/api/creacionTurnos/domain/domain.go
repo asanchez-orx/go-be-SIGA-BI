@@ -1,6 +1,9 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 // /////====================//
 // /////   Creacion Turnos   //
@@ -42,9 +45,9 @@ type ModuloRequest struct {
 
 // @Description Estructura que representa un módulo
 type ModuloResponse struct {
-	IdSede       int    `json:"idSede" example:"1"`
-	CodigoModulo int    `json:"codigoModulo" example:"4000"`
-	NombreModulo string `json:"nombreModulo" example:"Modulo de Prueba"`
+	IdSede       int    `json:"IdSede" example:"1"`
+	CodigoModulo string `json:"CodigoModulo" example:"200"`
+	NombreModulo string `json:"NombreModulo" example:"Modulo de Prueba"`
 }
 
 // @Description Listado de módulos
@@ -82,11 +85,22 @@ type ConfigLISResponse struct {
 	SeparadorMuestra string `json:"separadorMuestra" example:"|"`
 }
 
+type FlexString string
+
+func (fs *FlexString) UnmarshalJSON(data []byte) error {
+	s := string(data)
+	if strings.HasPrefix(s, "\"") && strings.HasSuffix(s, "\"") {
+		s = s[1 : len(s)-1]
+	}
+	*fs = FlexString(s)
+	return nil
+}
+
 // @Description Estructura que representa un request para obtener tipos de servicio
 type TipoServicioRequest struct {
-	CodigoModulo int `json:"codigoModulo" example:"4000"`
-	IdSede       int `json:"idSede" example:"1"`
-	IdCompania   int `json:"idCompania" example:"-1"`
+	CodigoModulo FlexString `json:"codigoModulo" example:"4000"`
+	IdSede       int        `json:"idSede" example:"1"`
+	IdCompania   int        `json:"idCompania" example:"-1"`
 }
 
 // @Description Estructura que representa un tipo de servicio
