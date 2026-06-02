@@ -240,3 +240,74 @@ type LlamadoTurnoPostResponse struct {
 	Status int                  `json:"status"`
 	Data   LlamadoTurnoPostData `json:"data"`
 }
+
+// TURNOS DISPONIBLES MANUAL
+
+type TurnoConsultaResponse struct {
+	Status int                 `json:"status"`
+	Data   []TurnoConsultaData `json:"data"`
+}
+
+type TurnoConsultaData struct {
+	ID           int                   `json:"id"`
+	Number       string                `json:"number"`
+	Priority     int                   `json:"priority"`
+	Date         int64                 `json:"date"`
+	StandbyTime  int                   `json:"standbyTime"`
+	TurnType     TurnoConsultaTipo     `json:"turnType"`
+	Patient      TurnoConsultaPaciente `json:"patient"`
+	Service      TurnoConsultaServicio `json:"service"`
+	Branch       TurnoConsultaSede     `json:"branch"`
+	State        int                   `json:"state"`
+	Attended     bool                  `json:"attended"`
+	Transferible bool                  `json:"transferible"`
+	Finalizable  bool                  `json:"finalizable"`
+}
+
+type TurnoConsultaTipo struct {
+	ID    int    `json:"id"`
+	Code  string `json:"code"`
+	Name  string `json:"name"`
+	Color string `json:"color"`
+}
+
+type TurnoConsultaPaciente struct {
+	ID        int    `json:"id"`
+	PatientID string `json:"patientId"`
+	LastName  string `json:"lastName"`
+	Name      string `json:"name"`
+}
+
+type TurnoConsultaServicio struct {
+	ID             int    `json:"id"`
+	Name           string `json:"name"`
+	QualifyService bool   `json:"qualifyService"`
+}
+
+type TurnoConsultaSede struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+// TRANSFER
+type TransferRequest struct {
+	IdTurn        int            `json:"idTurn"`
+	TurnsMovement []TurnMovement `json:"turnsMovement"`
+	User          User           `json:"user"`
+}
+
+type TurnMovement struct {
+	Turn        Turn         `json:"turn"`
+	User        *User        `json:"user"`
+	Service     Service      `json:"service"`
+	PointOfCare *PointOfCare `json:"pointOfCare"`
+	Branch      Branch       `json:"branch"`
+	State       int          `json:"state"`
+	Active      int          `json:"active"`
+	Transfer    bool         `json:"transfer"`
+}
+
+type TransferResponse struct {
+	Status int         `json:"status"`
+	Data   interface{} `json:"data"`
+}

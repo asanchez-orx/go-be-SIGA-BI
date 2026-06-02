@@ -247,3 +247,42 @@ func (h *handler) LlamadoTurnoPost(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (h *handler) BuscarTurnosDisponibles(c echo.Context) error {
+	sedeID, err := strconv.Atoi(c.Param("sede"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{"status": 400, "error": "sede inválida"})
+	}
+
+	servicioID, err := strconv.Atoi(c.Param("servicio"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{"status": 400, "error": "servicio inválido"})
+	}
+
+	response, err := h.turnosNTLISApp.BuscarTurnosDisponiblesService(c.Request().Context(), sedeID, servicioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{"status": 500, "error": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
+func (h *handler) TransferirTurno(c echo.Context) error {
+	var req domain.TransferRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "invalid request body",
+		})
+	}
+
+	response, err := h.turnosNTLISApp.TransferirTurnoService(c.Request().Context(), req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status": 500,
+			"error":  err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response)
+}

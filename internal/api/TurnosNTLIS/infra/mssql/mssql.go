@@ -346,3 +346,76 @@ func (r *TurnosNTLISRepo) CallTurnPost(ctx context.Context, req domain.LlamadoTu
 	return domain.LlamadoTurnoPostData{}, fmt.Errorf("turn not found")
 }
 
+func (r *TurnosNTLISRepo) GetTurnosDisponibles(ctx context.Context, idSede int, idServicio int) ([]domain.TurnoConsultaData, error) {
+	rows, err := r.db.Query(ctx, qryTurnosDisponibles, idSede, idServicio)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var turnos []domain.TurnoConsultaData
+
+	for rows.Next() {
+		var turno domain.TurnoConsultaData
+		var pid string
+		var ppid string
+
+		err := rows.Scan(
+			&turno.ID,
+			&turno.Number,
+			&turno.TurnType.ID,
+			&turno.TurnType.Code,
+			&turno.TurnType.Name,
+			&turno.TurnType.Color,
+			&pid,
+			&ppid,
+			&turno.Patient.LastName,
+			&turno.Patient.Name,
+			&turno.Service.ID,
+			&turno.Service.Name,
+			&turno.Branch.ID,
+			&turno.Branch.Name,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		if pid != "" {
+			var errConv error
+			if turno.Patient.ID, errConv = strconv.Atoi(pid); errConv != nil {
+				turno.Patient.ID = 0
+			}
+		}
+		turno.Patient.PatientID = ppid
+
+		// Hardcoded values as requested
+		turno.Priority = 1
+		turno.Date = 1779920897240
+		turno.StandbyTime = 194
+		turno.Service.QualifyService = false
+		turno.State = 1
+		turno.Attended = false
+		turno.Transferible = false
+		turno.Finalizable = true
+
+		turnos = append(turnos, turno)
+	}
+
+	return turnos, nil
+}
+
+func (r *TurnosNTLISRepo) TransferirTurno(ctx context.Context, idTurn int, branchID int, pointOfCareID int, newServiceID int) error {
+	// Actualizar el estado del turno anterior a 3
+	_, err := r.db.Exec(ctx, qryUpdateOldTurn, idTurn, branchID, pointOfCareID)
+	if err != nil {
+		return fmt.Errorf("error al actualizar el turno anterior: %v", err)
+	}
+
+	// Insertar el nuevo turno para el nuevo servicio
+	_, err = r.db.Exec(ctx, qryInsertNewTurn, idTurn, newServiceID)
+	if err != nil {
+		return fmt.Errorf("error al insertar el nuevo turno: %v", err)
+	}
+
+	return nil
+}

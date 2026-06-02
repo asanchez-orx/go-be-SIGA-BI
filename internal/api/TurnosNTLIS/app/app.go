@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 
 	"develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/domain"
 )
@@ -210,5 +211,52 @@ func (a *turnosNTLISApp) LlamadoTurnoPostService(ctx context.Context, req domain
 	return domain.LlamadoTurnoPostResponse{
 		Status: 200,
 		Data:   data,
+	}, nil
+}
+
+func (a *turnosNTLISApp) BuscarTurnosDisponiblesService(ctx context.Context, idSede int, idServicio int) (domain.TurnoConsultaResponse, error) {
+	turnos, err := a.repository.GetTurnosDisponibles(ctx, idSede, idServicio)
+	if err != nil {
+		return domain.TurnoConsultaResponse{}, err
+	}
+
+	if turnos == nil {
+		turnos = []domain.TurnoConsultaData{}
+	}
+
+	return domain.TurnoConsultaResponse{
+		Status: 200,
+		Data:   turnos,
+	}, nil
+}
+
+func (a *turnosNTLISApp) TransferirTurnoService(ctx context.Context, req domain.TransferRequest) (domain.TransferResponse, error) {
+	var oldBranch int
+	var oldPointOfCare int
+	var newService int
+
+	for _, mov := range req.TurnsMovement {
+		if mov.Transfer {
+			oldBranch = mov.Branch.ID
+			if mov.PointOfCare != nil {
+				oldPointOfCare = mov.PointOfCare.ID
+			}
+		} else {
+			newService = mov.Service.ID
+		}
+	}
+
+	if newService == 0 {
+		return domain.TransferResponse{}, fmt.Errorf("no target service provided in the request")
+	}
+
+	err := a.repository.TransferirTurno(ctx, req.IdTurn, oldBranch, oldPointOfCare, newService)
+	if err != nil {
+		return domain.TransferResponse{}, err
+	}
+
+	return domain.TransferResponse{
+		Status: 200,
+		Data:   "Turno transferido exitosamente",
 	}, nil
 }

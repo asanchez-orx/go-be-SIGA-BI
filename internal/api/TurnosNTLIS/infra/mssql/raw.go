@@ -139,3 +139,54 @@ WHERE t.lab5824c1 = @p1
   AND t.lab05c1 = @p2
   AND t.lab5800c1 = @p3
 `
+
+const qryTurnosDisponibles = `
+SELECT 
+    t.lab5824c1 AS id,
+    t.lab5824c2 AS number,
+    t.lab5810c1 AS turnType_id,
+    t.lab5810c2 AS turnType_code,
+    t.lab5810c3 AS turnType_name,
+    tt.lab5810c9 AS turnType_color,
+    JSON_VALUE(t.lab5824c20, '$.idPaciente') AS patient_id,
+    JSON_VALUE(t.lab5824c20, '$.idPaciente') AS patient_patientId,
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.apellido1'), '') + ' ' + ISNULL(JSON_VALUE(t.lab5824c20, '$.apellido2'), '') AS patient_lastName,
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.nombre1'), '') + ' ' + ISNULL(JSON_VALUE(t.lab5824c20, '$.nombre2'), '') AS patient_name,
+    t.lab5800c1 AS service_id,
+    ISNULL(t.lab5800c3, '') AS service_name,
+    t.lab05c1 AS branch_id,
+    pa.lab05c4 AS branch_name
+FROM lab5824 t
+INNER JOIN lab5810 tt ON t.lab5810c1 = tt.lab5810c1
+INNER JOIN lab05 pa ON pa.lab05c1 = t.lab05c1
+WHERE t.lab05c1 = @p1
+  AND t.lab5800c1 = @p2
+  AND LEFT(lab5824c3, 8) = CONVERT(VARCHAR(8), GETDATE(), 112)
+`
+
+const qryUpdateOldTurn = `
+UPDATE lab5824 SET lab5824c5 = 3 WHERE lab5824c1 = @p1 AND lab05c1 = @p2 AND lab5801c1 = @p3
+`
+
+const qryInsertNewTurn = `
+INSERT INTO lab5824 (
+    lab05c1, lab05c4, 
+    lab5802c1, lab5802c2, lab5802c3, 
+    lab5800c1, lab5800c2, lab5800c3, 
+    lab5810c1, lab5810c2, lab5810c3, 
+    lab5824c2, lab22c1, lab5824c20, 
+    lab5824c14, lab5824c15, lab5824c16, 
+    lab5824c3, lab5824c5
+)
+SELECT 
+    t.lab05c1, t.lab05c4, 
+    t.lab5802c1, t.lab5802c2, t.lab5802c3, 
+    s.lab5800c1, s.lab5800c2, s.lab5800c3, 
+    t.lab5810c1, t.lab5810c2, t.lab5810c3, 
+    t.lab5824c2, t.lab22c1, t.lab5824c20, 
+    t.lab5824c14, t.lab5824c15, t.lab5824c16, 
+    FORMAT(GETDATE(), 'yyyyMMddHHmmss'), 0
+FROM lab5824 t
+INNER JOIN lab5800 s ON s.lab5800c1 = @p2
+WHERE t.lab5824c1 = @p1
+`

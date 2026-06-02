@@ -1,5 +1,5 @@
 ### COMPANIAS
-POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
+POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/companias
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/sedes
 
 ### TIPO SERVICIO
-POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoServicio
+POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoServicio
 Content-Type: application/json
 
 {
@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### VERIFICAR CONFIG COMPANIAS
-GET  http://localhost:5016/api/v1/besigabi/creacionTurnos/verificarConfigCompanias
+GET  http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/verificarConfigCompanias
 
 ### MODULOS
-POST http://localhost:5016/api/v1/besigabi/creacionTurnos/modulos
+POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/modulos
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ### TIPO TURNO
-POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoTurno
+POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoTurno
 Content-Type: application/json
 
 {
@@ -40,14 +40,14 @@ Content-Type: application/json
 }
 
 ### CONFIRMAR CONFIG SEDES
-GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
+GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
 
 ### TIPO DOCUMENTO
-GET http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
+GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
 
 
 ### CREAR TURNO
-POST http://localhost:5016/api/v1/besigabi/creacionTurnos
+POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos
 Content-Type: application/json
 
 {
@@ -74,7 +74,7 @@ Content-Type: application/json
 }
 
 ### CARGAR CONFIG LIS
-GET http://localhost:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
+GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
 
 
 
@@ -103,7 +103,7 @@ Content-Type: application/json
 
 
 ### SEDES USUARIO
-POST http://localhost:5016/api/v1/besigabi/skl/sedesUsuario
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/sedesUsuario
 Content-Type: application/json
 
 {
@@ -111,7 +111,7 @@ Content-Type: application/json
 }
 
 ### CONSUMIR CREDENCIALES
-POST http://localhost:5016/api/v1/besigabi/skl/consumirCredenciales
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/consumirCredenciales
 Content-Type: application/json
 
 {
@@ -120,7 +120,7 @@ Content-Type: application/json
 }
 
 ### TURNO DISPONIBLES (CON ORDEN)
-POST http://localhost:5016/api/v1/besigabi/skl/turnosDisponibles
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/turnosDisponibles
 Content-Type: application/json
 
 {
@@ -133,22 +133,22 @@ Content-Type: application/json
 ////////////////////servicios siga lis nt////////////////////
 
 ### SEDES ESTRUCTURA NT
-GET http://localhost:5016/api/branch/getAll
+GET http://192.168.1.241:5016/api/branch/getAll
 
 ### SERVICIOS ESTRUCTURA NT
-GET http://localhost:5016/api/service/getByBranch/1
+GET http://192.168.1.241:5016/api/service/getByBranch/1
 
 ### PUNTOS DE ATENCION NT
-GET http://localhost:5016/api/pointsOfCare  
+GET http://192.168.1.241:5016/api/pointsOfCare  
 
 ### TAQUILLAS POR SEDE SERVICIO
-GET http://localhost:5016/api/taquillasxSedeServicio/1/5
+GET http://192.168.1.241:5016/api/taquillasxSedeServicio/1/5
 
 ### MOTIVOS DE DESCANSO
-GET http://localhost:5016/api/reasons/break
+GET http://192.168.1.241:5016/api/reasons/break
 
 ### ESTADO DE LA TAQUILLA
-POST http://localhost:5016/api/log
+POST http://192.168.1.241:5016/api/log
 Content-Type: application/json
 
 {
@@ -170,7 +170,7 @@ Content-Type: application/json
 }
 
 ### ESTADO DE LA ATENCION
-POST http://localhost:5016/api/logAtencion
+POST http://192.168.1.241:5016/api/logAtencion
 Content-Type: application/json
 
 {
@@ -194,7 +194,45 @@ Content-Type: application/json
 }
 
 ### MOTIVOS DE CANCELACION
-GET http://localhost:5016/api/reasons/cancel
+GET http://192.168.1.241:5016/api/reasons/cancel
 
 ### SERVICIOS DISPONIBLES PARA TRANSFERENCIA
-GET http://localhost:5016/api/reasons/transfer/1/3/1  
+GET http://192.168.1.241:5016/api/reasons/transfer/1/1/1  
+
+### LLAMAR TURNOS GET
+GET http://192.168.1.241:5016/api/turns/call/1/3
+
+### LLAMAR TURNOS POST
+POST http://192.168.1.241:5016/api/turns/call
+Content-Type: application/json
+
+{
+	"idTurn": 1,
+	"point": {
+		"branch": {
+			"id": 1
+		},
+		"service": {
+			"id": 3
+		},
+		"point": {
+			"id": 1
+		},
+		"user": {
+			"id": 1,
+			"user": "andres",
+			"lastName": "sanchez",
+			"name": "andres"
+		}
+	},
+	"user": {
+		"id": 1,
+		"user": "andres",
+		"lastName": "sanchez",
+		"name": "andres"
+	}
+}
+
+
+### TURNO DISPONIBLE MANUAL
+GET http://192.168.1.241:5016/api/turns/daily/1/3/sanchez/andres/andres/1	
