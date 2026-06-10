@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"develop.private/CLTech/besigabi/internal/api/SKL/domain"
+	"develop.private/CLTech/besigabi/libs/crypto"
 )
 
 type handler struct {
@@ -189,4 +190,49 @@ func (h handler) GetTurnosDisponiblesConOrden(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, res)
+}
+
+// @Summary	Desencriptar payload dinámico
+// @Description	Recibe un JSON dinámico, desencripta sus valores string y lo devuelve
+// @Tags	SKL
+// @Accept	json
+// @Produce	json
+// @Success	200	{object}	map[string]interface{}
+// @Failure	400	{object}	echo.HTTPError
+// @Router	/api/v1/besigabi/skl/desencriptNT [post]
+func (h handler) DesencriptNT(c echo.Context) error {
+	var payload map[string]interface{}
+	if err := c.Bind(&payload); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	encrypter := crypto.NewEncrypter("104F")
+	response := make(map[string]interface{})
+
+	for k, v := range payload {
+		if strVal, ok := v.(string); ok {
+			response[k] = encrypter.Decrypt(strVal)
+		} else {
+			response[k] = v // Keep original if not a string
+		}
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
+func (h handler) EncriptNT(c echo.Context) error {
+    var payload map[string]interface{}
+    if err := c.Bind(&payload); err != nil {
+        return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+    }
+    encrypter := crypto.NewEncrypter("104F")
+    response := make(map[string]interface{})
+    for k, v := range payload {
+        if strVal, ok := v.(string); ok {
+            response[k] = encrypter.Encrypt(strVal)
+        } else {
+            response[k] = v // Keep original if not a string
+        }
+    }
+    return c.JSON(http.StatusOK, response)
 }

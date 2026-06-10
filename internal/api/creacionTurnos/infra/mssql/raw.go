@@ -19,6 +19,7 @@ const qryTipoDocumento = `
 		LAB54C2 AS codTipoDoc,
 		LAB54C3 AS nomTipoDoc
 	FROM LAB54
+	WHERE LAB07C1 = 1	
 `
 
 const qryCompanias = `

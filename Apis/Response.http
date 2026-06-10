@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### SEDES
-GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/sedes
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/sedes
 
 ### TIPO SERVICIO
 POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoServicio
@@ -40,14 +40,14 @@ Content-Type: application/json
 }
 
 ### CONFIRMAR CONFIG SEDES
-GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/confirmarConfigSedes
 
 ### TIPO DOCUMENTO
-GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
 
 
 ### CREAR TURNO
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos
 Content-Type: application/json
 
 {
@@ -89,7 +89,7 @@ Content-Type: application/json
 
 {
 	"idSede": 1,
-  "codModulo": 4000
+  "codModulo": 200
 }
 
 ### SERVICIOS SIGA
@@ -111,14 +111,14 @@ Content-Type: application/json
 }
 
 ### CONSUMIR CREDENCIALES
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/consumirCredenciales
+POST http://localhost:5016/api/v1/besigabi/skl/consumirCredenciales
 Content-Type: application/json
 
 {
   "usuario": "CATALINA",
-  "contrasena": "deLN3a9Z7Xs="
+  "contrasena": "123456"  
 }
-
+	//deLN3a9Z7Xs=
 ### TURNO DISPONIBLES (CON ORDEN)
 POST http://localhost:5016/api/v1/besigabi/skl/turnosDisponibles
 Content-Type: application/json
@@ -128,9 +128,36 @@ Content-Type: application/json
   "idSede": 1
 }
 
+### DESENCRIPTAR NT
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/desencriptNT
+Content-Type: application/json
+
+{
+    "nombre1":"uJD1XgkSCy4=",
+    "nombre2":"deLN3a9Z7Xs=",
+    "Apellido1":"JKOQWn0cPzInCnYu3Fl5kA==",
+    "Apellido2":"",
+    "numeroIdentificacion":"4+KreJB+Kd0=",
+	"contrasena": "deLN3a9Z7Xs="
+}
+
+### ENCRIPTAR NT
+POST http://192.168.1.241:5016/api/v1/besigabi/skl/encriptNT
+Content-Type: application/json
+
+{
+    "nombre1":"PRUEBA",
+    "nombre2":"123456",
+    "Apellido1":"PACIENTE",
+    "Apellido2":"",
+    "numeroIdentificacion":"123",
+	"contrasena": "123456"
+}
 
 
-////////////////////servicios siga lis nt////////////////////
+////////////////////////////////////////
+//             servicios siga lis nt  //
+////////////////////////////////////////
 
 ### SEDES ESTRUCTURA NT
 GET http://192.168.1.241:5016/api/branch/getAll
@@ -295,4 +322,5 @@ Content-Type: application/json
 		"name": "andres"
 	}
 }	
+
 
