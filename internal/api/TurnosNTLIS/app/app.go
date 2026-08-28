@@ -293,8 +293,6 @@ func (a *turnosNTLISApp) GetLogUserInPointService(
 
 	return domain.EstadoPuntoAtencionResponse{
 		Status: 200,
-		Data: domain.EstadoPuntoAtencionData{
-			TurnInPoint: turnInPoint,
-		},
+		Data:   turnInPoint,
 	}, nil
 }

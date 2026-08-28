@@ -36,5 +36,5 @@ type TurnosNTLISRepository interface {
 	TransferirTurno(ctx context.Context, idTurn int, branchID int, pointOfCareID int, newServiceID int) error
 	GetLogUserInPoint(ctx context.Context, idBranch int, idPoint int, idUser int) (LogUserInPoint, error)
 	GetTurnInPoint(ctx context.Context, idPoint int) (TurnInPoint, error)
-	GetValidateTurnInPoint(ctx context.Context) (TurnInPoint, error)
+	GetValidateTurnInPoint(ctx context.Context) (EstadoPuntoAtencionData, error)
 }

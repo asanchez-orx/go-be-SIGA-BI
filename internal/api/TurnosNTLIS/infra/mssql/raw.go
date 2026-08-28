@@ -252,7 +252,14 @@ ORDER BY t.lab5824c3 DESC
 
 const qryValidateTurnInPoint = `
 SELECT 
-    -- turn
+    --logUserInPoint
+    COALESCE(t.lab5824c7,0) as id,
+	COALESCE(t.lab5824c9,0) as registerDate,
+	COALESCE(t.lab05c1, 0) AS id,
+	COALESCE(t.lab5801c1, 0) AS id,
+	COALESCE(t.lab5824c7,0) as id,
+
+    -- turnInPoint
     COALESCE(t.LAB5824C1, 0) AS id,
 
     -- turnType
@@ -264,25 +271,12 @@ SELECT
     -- patient
     COALESCE(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS id,
     COALESCE(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS patientId,
-    COALESCE(
-        CONCAT(
-            JSON_VALUE(t.lab5824c20, '$.apellido1'),
-            ' ',
-            JSON_VALUE(t.lab5824c20, '$.apellido2')
-        ),
-        ''
-    ) AS lastname,
-    COALESCE(
-        CONCAT(
-            JSON_VALUE(t.lab5824c20, '$.nombre1'),
-            ' ',
-            JSON_VALUE(t.lab5824c20, '$.nombre2')
-        ),
-        ''
-    ) AS name,
+    JSON_VALUE(t.lab5824c20, '$.apellido1') AS apellido1,
+    JSON_VALUE(t.lab5824c20, '$.apellido2') AS apellido2,
+    JSON_VALUE(t.lab5824c20, '$.nombre1') AS nombre1,
+    JSON_VALUE(t.lab5824c20, '$.nombre2') AS nombre2,
     COALESCE(t.lab21c2, '') AS documentType,
 
-    -- turn
     COALESCE(t.lab5824c2, 0) AS number,
     COALESCE(t.lab5824c5, 0) AS state,
 

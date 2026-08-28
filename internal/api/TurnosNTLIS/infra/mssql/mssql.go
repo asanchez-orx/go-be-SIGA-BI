@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/domain"
+	"develop.private/CLTech/besigabi/libs/crypto"
 	"develop.private/CLTech/vulcano/infra/database"
 )
 
@@ -507,61 +509,101 @@ func (r *TurnosNTLISRepo) GetTurnInPoint(ctx context.Context, idPoint int) (doma
 
 func (r *TurnosNTLISRepo) GetValidateTurnInPoint(
 	ctx context.Context,
-) (domain.TurnInPoint, error) {
+) (domain.EstadoPuntoAtencionData, error) {
 
 	rows, err := r.db.Query(ctx, qryValidateTurnInPoint)
 	if err != nil {
-		return domain.TurnInPoint{}, err
+		return domain.EstadoPuntoAtencionData{}, err
 	}
 	defer rows.Close()
 
 	if rows.Next() {
 
-		var turn domain.TurnInPoint
+		var data domain.EstadoPuntoAtencionData
+
+		var (
+			apellido1 string
+			apellido2 string
+			nombre1   string
+			nombre2   string
+		)
 
 		err := rows.Scan(
-			// Turn
-			&turn.ID,
+
+			// =========================
+			// LOG USER IN POINT
+			// =========================
+
+			&data.LogUserInPoint.ID,           // 1
+			&data.LogUserInPoint.RegisterDate, // 2
+			&data.LogUserInPoint.Branch.ID,    // 3
+			&data.LogUserInPoint.Point.ID,     // 4
+			&data.LogUserInPoint.User.ID,      // 5
+
+			// =========================
+			// TURN IN POINT
+			// =========================
+
+			&data.TurnInPoint.ID, // 6
 
 			// TurnType
-			&turn.TurnType.ID,
-			&turn.TurnType.Code,
-			&turn.TurnType.Name,
-			&turn.TurnType.State,
+			&data.TurnInPoint.TurnType.ID,    // 7
+			&data.TurnInPoint.TurnType.Code,  // 8
+			&data.TurnInPoint.TurnType.Name,  // 9
+			&data.TurnInPoint.TurnType.State, // 10
 
 			// Patient
-			&turn.Patient.ID,
-			&turn.Patient.PatientId,
-			&turn.Patient.LastName,
-			&turn.Patient.Name,
-			&turn.Patient.DocumentType,
+			&data.TurnInPoint.Patient.ID,           // 11
+			&data.TurnInPoint.Patient.PatientId,    // 12
+			&apellido1,                             // 13
+			&apellido2,                             // 14
+			&nombre1,                               // 15
+			&nombre2,                               // 16
+			&data.TurnInPoint.Patient.DocumentType, // 17
 
 			// Turn
-			&turn.Number,
-			&turn.State,
+			&data.TurnInPoint.Number, // 18
+			&data.TurnInPoint.State,  // 19
 
 			// Point
-			&turn.Point.ID,
-			&turn.Point.Code,
-			&turn.Point.Name,
+			&data.TurnInPoint.Point.ID,   // 20
+			&data.TurnInPoint.Point.Code, // 21
+			&data.TurnInPoint.Point.Name, // 22
 
 			// Service
-			&turn.Point.Service.ID,
-			&turn.Point.Service.Code,
-			&turn.Point.Service.Name,
+			&data.TurnInPoint.Point.Service.ID,   // 23
+			&data.TurnInPoint.Point.Service.Code, // 24
+			&data.TurnInPoint.Point.Service.Name, // 25
 
 			// Branch
-			&turn.Point.Branch.ID,
-			&turn.Point.Branch.Code,
-			&turn.Point.Branch.Name,
+			&data.TurnInPoint.Point.Branch.ID,   // 26
+			&data.TurnInPoint.Point.Branch.Code, // 27
+			&data.TurnInPoint.Point.Branch.Name, // 28
 		)
 
 		if err != nil {
-			return domain.TurnInPoint{}, err
+			return domain.EstadoPuntoAtencionData{}, err
 		}
 
-		return turn, nil
+		// =========================
+		// PACIENTE
+		// =========================
+
+		encrypter := crypto.NewEncrypter("104F")
+
+		apellido1 = encrypter.Decrypt(apellido1)
+		apellido2 = encrypter.Decrypt(apellido2)
+		nombre1 = encrypter.Decrypt(nombre1)
+		nombre2 = encrypter.Decrypt(nombre2)
+
+		data.TurnInPoint.Patient.LastName =
+			strings.TrimSpace(apellido1 + " " + apellido2)
+
+		data.TurnInPoint.Patient.Name =
+			strings.TrimSpace(nombre1 + " " + nombre2)
+
+		return data, nil
 	}
 
-	return domain.TurnInPoint{}, nil
+	return domain.EstadoPuntoAtencionData{}, nil
 }
