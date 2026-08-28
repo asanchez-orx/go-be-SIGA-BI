@@ -230,6 +230,27 @@ func (a *turnosNTLISApp) BuscarTurnosDisponiblesService(ctx context.Context, idS
 	}, nil
 }
 
+func (a *turnosNTLISApp) GetEstadoPuntoAtencionService(ctx context.Context, idBranch int, idPoint int, idUser int) (domain.EstadoPuntoAtencionResponse, error) {
+
+	logUser, err := a.repository.GetLogUserInPoint(ctx, idBranch, idPoint, idUser)
+	if err != nil {
+		return domain.EstadoPuntoAtencionResponse{}, err
+	}
+
+	turnInPoint, err := a.repository.GetTurnInPoint(ctx, idPoint)
+	if err != nil {
+		return domain.EstadoPuntoAtencionResponse{}, err
+	}
+
+	return domain.EstadoPuntoAtencionResponse{
+		Status: 200,
+		Data: domain.EstadoPuntoAtencionData{
+			LogUserInPoint: logUser,
+			TurnInPoint:    turnInPoint,
+		},
+	}, nil
+}
+
 func (a *turnosNTLISApp) TransferirTurnoService(ctx context.Context, req domain.TransferRequest) (domain.TransferResponse, error) {
 	var oldBranch int
 	var oldPointOfCare int
@@ -258,5 +279,22 @@ func (a *turnosNTLISApp) TransferirTurnoService(ctx context.Context, req domain.
 	return domain.TransferResponse{
 		Status: 200,
 		Data:   "Turno transferido exitosamente",
+	}, nil
+}
+
+func (a *turnosNTLISApp) GetLogUserInPointService(
+	ctx context.Context,
+) (domain.EstadoPuntoAtencionResponse, error) {
+
+	turnInPoint, err := a.repository.GetValidateTurnInPoint(ctx)
+	if err != nil {
+		return domain.EstadoPuntoAtencionResponse{}, err
+	}
+
+	return domain.EstadoPuntoAtencionResponse{
+		Status: 200,
+		Data: domain.EstadoPuntoAtencionData{
+			TurnInPoint: turnInPoint,
+		},
 	}, nil
 }

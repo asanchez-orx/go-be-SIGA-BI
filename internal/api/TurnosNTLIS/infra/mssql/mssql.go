@@ -323,7 +323,7 @@ func (r *TurnosNTLISRepo) CallTurnPost(ctx context.Context, req domain.LlamadoTu
 		if err != nil {
 			return domain.LlamadoTurnoPostData{}, err
 		}
-		
+
 		importStrconv := false // Just for reference if we need to convert
 		if pid != "" {
 			var errConv error
@@ -333,7 +333,7 @@ func (r *TurnosNTLISRepo) CallTurnPost(ctx context.Context, req domain.LlamadoTu
 			_ = importStrconv
 		}
 		data.Patient.PatientID = ppid
-		
+
 		data.Priority = 1
 		data.State = 1
 		data.Attended = false
@@ -418,4 +418,150 @@ func (r *TurnosNTLISRepo) TransferirTurno(ctx context.Context, idTurn int, branc
 	}
 
 	return nil
+}
+
+func (r *TurnosNTLISRepo) GetLogUserInPoint(ctx context.Context, idBranch int, idPoint int, idUser int) (domain.LogUserInPoint, error) {
+	rows, err := r.db.Query(ctx, qryGetLogUserInPoint, idBranch, idPoint, idUser)
+	if err != nil {
+		return domain.LogUserInPoint{}, err
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var log domain.LogUserInPoint
+		var managePriority int
+
+		err := rows.Scan(
+			&log.ID,
+			&log.RegisterDate,
+			&log.Action,
+			&log.Branch.ID,
+			&log.Branch.State,
+			&log.Point.ID,
+			&managePriority,
+			&log.User.ID,
+			&log.Reason.ID,
+			&log.Reason.Type,
+			&log.Reason.State,
+			&log.Difference,
+		)
+		if err != nil {
+			return domain.LogUserInPoint{}, err
+		}
+		log.Point.ManagePriority = managePriority != 0
+		return log, nil
+	}
+
+	return domain.LogUserInPoint{}, nil
+}
+
+func (r *TurnosNTLISRepo) GetTurnInPoint(ctx context.Context, idPoint int) (domain.TurnInPoint, error) {
+	rows, err := r.db.Query(ctx, qryGetTurnInPoint, idPoint)
+	if err != nil {
+		return domain.TurnInPoint{}, err
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var t domain.TurnInPoint
+		var pointManagePriority int
+
+		err := rows.Scan(
+			&t.ID,
+			&t.TurnType.ID,
+			&t.TurnType.Code,
+			&t.TurnType.Name,
+			&t.TurnType.State,
+			&t.Patient.ID,
+			&t.Patient.PatientId,
+			&t.Patient.LastName,
+			&t.Patient.Name,
+			&t.Patient.DocumentType,
+			&t.Number,
+			&t.State,
+			&t.Point.ID,
+			&t.Point.Code,
+			&t.Point.Name,
+			&pointManagePriority,
+			&t.Point.Service.ID,
+			&t.Point.Service.Code,
+			&t.Point.Service.Name,
+			&t.Point.Branch.ID,
+			&t.Point.Branch.Code,
+			&t.Point.Branch.Name,
+			&t.Point.Branch.State,
+			&t.Point.State,
+		)
+		if err != nil {
+			return domain.TurnInPoint{}, err
+		}
+		t.Point.ManagePriority = pointManagePriority != 0
+		t.Attended = false
+		t.Transferible = true
+		t.Finalizable = true
+		return t, nil
+	}
+
+	return domain.TurnInPoint{}, nil
+}
+
+func (r *TurnosNTLISRepo) GetValidateTurnInPoint(
+	ctx context.Context,
+) (domain.TurnInPoint, error) {
+
+	rows, err := r.db.Query(ctx, qryValidateTurnInPoint)
+	if err != nil {
+		return domain.TurnInPoint{}, err
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+
+		var turn domain.TurnInPoint
+
+		err := rows.Scan(
+			// Turn
+			&turn.ID,
+
+			// TurnType
+			&turn.TurnType.ID,
+			&turn.TurnType.Code,
+			&turn.TurnType.Name,
+			&turn.TurnType.State,
+
+			// Patient
+			&turn.Patient.ID,
+			&turn.Patient.PatientId,
+			&turn.Patient.LastName,
+			&turn.Patient.Name,
+			&turn.Patient.DocumentType,
+
+			// Turn
+			&turn.Number,
+			&turn.State,
+
+			// Point
+			&turn.Point.ID,
+			&turn.Point.Code,
+			&turn.Point.Name,
+
+			// Service
+			&turn.Point.Service.ID,
+			&turn.Point.Service.Code,
+			&turn.Point.Service.Name,
+
+			// Branch
+			&turn.Point.Branch.ID,
+			&turn.Point.Branch.Code,
+			&turn.Point.Branch.Name,
+		)
+
+		if err != nil {
+			return domain.TurnInPoint{}, err
+		}
+
+		return turn, nil
+	}
+
+	return domain.TurnInPoint{}, nil
 }

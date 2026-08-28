@@ -311,3 +311,83 @@ type TransferResponse struct {
 	Status int         `json:"status"`
 	Data   interface{} `json:"data"`
 }
+
+// ESTADO DEL PUNTO DE ATENCIÓN (logUserInPoint + turnInPoint)
+///api/log/validateTurnInPoint?username={userName}
+
+type LogUserInPointReason struct {
+	ID    int `json:"id"`
+	Type  int `json:"type"`
+	State int `json:"state"`
+}
+
+type LogUserInPoint struct {
+	ID           int                  `json:"id"`
+	RegisterDate int64                `json:"registerDate"`
+	Action       int                  `json:"action"`
+	Branch       Branch               `json:"branch"`
+	Point        Point                `json:"point"`
+	User         IDReference          `json:"user"`
+	Reason       LogUserInPointReason `json:"reason"`
+	Difference   int                  `json:"difference"`
+}
+
+type TurnInPointTurnType struct {
+	ID    int    `json:"id"`
+	Code  string `json:"code"`
+	Name  string `json:"name"`
+	State int    `json:"state"`
+}
+
+type TurnInPointPatient struct {
+	ID           int    `json:"id"`
+	PatientId    string `json:"patientId"`
+	LastName     string `json:"lastName"`
+	Name         string `json:"name"`
+	DocumentType string `json:"documentType"`
+}
+
+type TurnInPointService struct {
+	ID   int    `json:"id"`
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+type TurnInPointBranch struct {
+	ID    int    `json:"id"`
+	Code  string `json:"code"`
+	Name  string `json:"name"`
+	State int    `json:"state"`
+}
+
+type TurnInPointPoint struct {
+	ID             int                `json:"id"`
+	Code           string             `json:"code"`
+	Name           string             `json:"name"`
+	ManagePriority bool               `json:"managePriority"`
+	Service        TurnInPointService `json:"service"`
+	Branch         TurnInPointBranch  `json:"branch"`
+	State          int                `json:"state"`
+}
+
+type TurnInPoint struct {
+	ID           int                 `json:"id"`
+	TurnType     TurnInPointTurnType `json:"turnType"`
+	Patient      TurnInPointPatient  `json:"patient"`
+	Number       int                 `json:"number"`
+	State        int                 `json:"state"`
+	Attended     bool                `json:"attended"`
+	Transferible bool                `json:"transferible"`
+	Finalizable  bool                `json:"finalizable"`
+	Point        TurnInPointPoint    `json:"point"`
+}
+
+type EstadoPuntoAtencionData struct {
+	LogUserInPoint LogUserInPoint `json:"logUserInPoint"`
+	TurnInPoint    TurnInPoint    `json:"turnInPoint"`
+}
+
+type EstadoPuntoAtencionResponse struct {
+	Status int                     `json:"status"`
+	Data   EstadoPuntoAtencionData `json:"data"`
+}

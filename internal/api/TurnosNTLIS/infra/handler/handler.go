@@ -408,3 +408,68 @@ func (h *handler) TransferirTurno(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+// @Summary		Obtener estado del punto de atención
+// @Description	Devuelve el log del usuario en el punto y el turno activo en ese punto
+// @Tags		TurnosNTLIS
+// @Produce		json
+// @Param		idBranch path int true "ID de la Sede"
+// @Param		idPoint path int true "ID del Punto de Atención"
+// @Param		idUser path int true "ID del Usuario"
+// @Success		200	{object}	domain.EstadoPuntoAtencionResponse
+// @Failure		400	{object}	map[string]interface{}
+// @Failure		500	{object}	map[string]interface{}
+// @Router		/api/pointOfCare/status/{idBranch}/{idPoint}/{idUser} [get]
+func (h *handler) GetEstadoPuntoAtencion(c echo.Context) error {
+	idBranch, err := strconv.Atoi(c.Param("idBranch"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{"status": 400, "error": "idBranch inválido"})
+	}
+
+	idPoint, err := strconv.Atoi(c.Param("idPoint"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{"status": 400, "error": "idPoint inválido"})
+	}
+
+	idUser, err := strconv.Atoi(c.Param("idUser"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{"status": 400, "error": "idUser inválido"})
+	}
+
+	response, err := h.turnosNTLISApp.GetEstadoPuntoAtencionService(c.Request().Context(), idBranch, idPoint, idUser)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{"status": 500, "error": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
+
+// @Summary	Obtener turno en punto de atención
+// @Description	Obtiene el turno activo en un punto de atención
+// @Tags	TurnosNTLIS
+// @Produce	json
+// @Param	idBranch path int true "ID de la Sede"
+// @Param	idPoint path int true "ID del Punto de Atención"
+// @Param	idUser path int true "ID del Usuario"
+// @Success	200	{object}	domain.EstadoPuntoAtencionResponse
+// @Failure	400	{object}	map[string]interface{}
+// @Failure	500	{object}	map[string]interface{}
+// @Router	/api/pointOfCare/status/{idBranch}/{idPoint}/{idUser} [get]
+func (h *handler) GetLogUserInPointService(c echo.Context) error {
+
+	response, err := h.turnosNTLISApp.GetLogUserInPointService(
+		c.Request().Context(),
+	)
+
+	if err != nil {
+		return c.JSON(
+			http.StatusInternalServerError,
+			map[string]interface{}{
+				"status": 500,
+				"error":  err.Error(),
+			},
+		)
+	}
+
+	return c.JSON(http.StatusOK, response)
+}

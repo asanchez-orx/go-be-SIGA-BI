@@ -17,7 +17,7 @@ func Routes(e *echo.Echo) {
 	e.GET("/api/branch/getAll", h.BuscarSedesNTService)
 	e.GET("/api/service/getByBranch/:idSede", h.BuscarServiciosNTXSedeService)
 	e.GET("/api/pointsOfCare", h.BuscarTaquillasNTService)
-	e.GET("/api/taquillasxSedeServicio/:sede/:servicio", h.BuscarTaquillasXServicio)
+	e.GET("/api/pointOfCare/getByBranchService/:sede/:servicio", h.BuscarTaquillasXServicio)
 	e.GET("/api/reasons/break", h.BuscarMotivosTaquilla)
 	e.POST("/api/log", h.ActualizarEstadoTaquilla)
 	e.POST("/api/logAtencion", h.ActualizarEstadoAtencion)
@@ -27,4 +27,6 @@ func Routes(e *echo.Echo) {
 	e.POST("/api/turns/call", h.LlamadoTurnoPost)
 	e.GET("/api/turns/daily/:sede/:servicio/:apellido/:nombre/:userName/:taquilla", h.BuscarTurnosDisponibles)
 	e.POST("/api/transfers", h.TransferirTurno)
+	e.GET("/api/pointOfCare/status/:idBranch/:idPoint/:idUser", h.GetEstadoPuntoAtencion)
+	e.GET("/api/log/validateTurnInPoint", h.GetLogUserInPointService)
 }

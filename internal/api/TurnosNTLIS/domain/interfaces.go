@@ -16,6 +16,8 @@ type TurnosNTLISUseCase interface {
 	LlamadoTurnoPostService(context.Context, LlamadoTurnoPostRequest) (LlamadoTurnoPostResponse, error)
 	BuscarTurnosDisponiblesService(context.Context, int, int) (TurnoConsultaResponse, error)
 	TransferirTurnoService(context.Context, TransferRequest) (TransferResponse, error)
+	GetEstadoPuntoAtencionService(context.Context, int, int, int) (EstadoPuntoAtencionResponse, error)
+	GetLogUserInPointService(context.Context) (EstadoPuntoAtencionResponse, error)
 }
 
 type TurnosNTLISRepository interface {
@@ -32,4 +34,7 @@ type TurnosNTLISRepository interface {
 	CallTurnPost(ctx context.Context, req LlamadoTurnoPostRequest) (LlamadoTurnoPostData, error)
 	GetTurnosDisponibles(ctx context.Context, idSede int, idServicio int) ([]TurnoConsultaData, error)
 	TransferirTurno(ctx context.Context, idTurn int, branchID int, pointOfCareID int, newServiceID int) error
+	GetLogUserInPoint(ctx context.Context, idBranch int, idPoint int, idUser int) (LogUserInPoint, error)
+	GetTurnInPoint(ctx context.Context, idPoint int) (TurnInPoint, error)
+	GetValidateTurnInPoint(ctx context.Context) (TurnInPoint, error)
 }
