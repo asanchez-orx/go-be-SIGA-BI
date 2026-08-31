@@ -311,3 +311,56 @@ INNER JOIN lab5810 tip
 WHERE t.lab5824C5 = 1
   AND t.lab5824C8 = @p1
 `
+
+const qryPrioridadesPorTaquilla = `
+SELECT  
+    J.IdTipoTurno,
+    J.nPrioridad
+FROM lab5821 AS P
+CROSS APPLY OPENJSON(P.lab5821c2)
+WITH (
+    IdTipoTurno INT '$.IdTipoTurno',
+    nPrioridad INT '$.nPrioridad'
+) AS J
+WHERE P.lab5801c1 = @p1
+`
+
+const qryTurnosDisponiblesAutomatico = `
+SELECT  
+    t.lab5824c1 AS id, 
+    t.lab5824c2 AS number, 
+    t.lab5810c1 AS turnType_id, 
+    t.lab5810c2 AS turnType_code, 
+    t.lab5810c3 AS turnType_name, 
+    ISNULL(tt.lab5810c9, '') AS turnType_color, 
+
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS patient_id, 
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS patient_patientId, 
+
+    ISNULL(t.lab5800c1, 0) AS service_id, 
+    ISNULL(t.lab5800c3, '') AS service_name, 
+    ISNULL(t.lab05c1, 0) AS branch_id, 
+    ISNULL(pa.lab05c4, '') AS branch_name, 
+
+    t.lab5824c5 AS state, 
+    t.lab5824c3 AS date 
+
+FROM lab5824 t 
+INNER JOIN lab5810 tt 
+    ON t.lab5810c1 = tt.lab5810c1 
+INNER JOIN lab05 pa 
+    ON pa.lab05c1 = t.lab05c1 
+
+WHERE t.lab5800c1 = @p1 
+  AND (
+      t.lab5824c5 = 0 
+      OR (
+          t.lab5824c5 = 6 
+          AND t.lab5824c18 <= CONVERT(VARCHAR(8), GETDATE(), 112) 
+              + REPLACE(CONVERT(VARCHAR(8), GETDATE(), 108), ':', '') 
+      ) 
+  ) 
+  AND t.lab05c1 = @p2 
+  AND CONVERT(INT, LEFT(t.lab5824C3, 8)) =
+      CONVERT(INT, CONVERT(CHAR(8), GETDATE(), 112))
+`

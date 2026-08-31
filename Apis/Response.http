@@ -274,6 +274,9 @@ Content-Type: application/json
 ### TURNO DISPONIBLE MANUAL
 GET http://localhost:5016/api/turns/daily/1/3/sanchez/andres/andres/1	
 
+### TURNO AUTOMATICO
+GET http://localhost:5016/api/turns/automatic/1/3/1/sanchez/andres/andres
+
 ### TRANSFERIR TURNO
 POST http://localhost:5016/api/transfers
 Content-Type: application/json

@@ -301,3 +301,40 @@ func (a *turnosNTLISApp) GetLogUserInPointService(
 		Data:   data,
 	}, nil
 }
+
+func (a *turnosNTLISApp) TurnoAutomaticoService(
+	ctx context.Context,
+	sede int,
+	servicio int,
+	taquilla int,
+	apellido string,
+	nombre string,
+	userName string,
+) (domain.TurnoAutomaticoResponse, error) {
+
+	data, err := a.repository.GetTurnoAutomatico(
+		ctx,
+		sede,
+		servicio,
+		taquilla,
+		apellido,
+		nombre,
+		userName,
+	)
+
+	if err != nil {
+		return domain.TurnoAutomaticoResponse{}, err
+	}
+
+	if data.Number == "" {
+		return domain.TurnoAutomaticoResponse{
+			Status: 204,
+		}, nil
+	}
+
+	return domain.TurnoAutomaticoResponse{
+		Status: 200,
+		Data:   data,
+	}, nil
+}
+

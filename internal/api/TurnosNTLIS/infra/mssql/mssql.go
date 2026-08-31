@@ -3,8 +3,10 @@ package mssql
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/domain"
 	"develop.private/CLTech/besigabi/libs/crypto"
@@ -604,4 +606,155 @@ func (r *TurnosNTLISRepo) GetValidateTurnInPoint(ctx context.Context, userName s
 	}
 
 	return domain.EstadoPuntoAtencionData{}, nil
+}
+
+func (r *TurnosNTLISRepo) GetTurnoAutomatico(
+	ctx context.Context,
+	sede int,
+	servicio int,
+	taquilla int,
+	apellido string,
+	nombre string,
+	userName string,
+) (domain.TurnoAutomaticoData, error) {
+
+	// 1. PRIORIDADES POR TAQUILLA
+	prioridadesMap := make(map[int]int)
+	rowsPrioridades, err := r.db.Query(ctx, qryPrioridadesPorTaquilla, taquilla)
+	if err != nil {
+		return domain.TurnoAutomaticoData{}, err
+	}
+	defer rowsPrioridades.Close()
+
+	for rowsPrioridades.Next() {
+		var idTipoTurno int
+		var nPrioridad int
+		if err := rowsPrioridades.Scan(&idTipoTurno, &nPrioridad); err != nil {
+			return domain.TurnoAutomaticoData{}, err
+		}
+		prioridadesMap[idTipoTurno] = nPrioridad
+	}
+
+	// 3. CONSULTAR TURNOS DISPONIBLES
+	rows, err := r.db.Query(ctx, qryTurnosDisponiblesAutomatico, servicio, sede)
+	if err != nil {
+		return domain.TurnoAutomaticoData{}, err
+	}
+	defer rows.Close()
+
+	var turnos []domain.TurnoAutomaticoData
+
+	for rows.Next() {
+		var t domain.TurnoAutomaticoData
+		var pid string
+		var ppid string
+		var state int
+		var dateStr string
+
+		err := rows.Scan(
+			&t.ID,
+			&t.Number,
+			&t.TurnType.ID,
+			&t.TurnType.Code,
+			&t.TurnType.Name,
+			&t.TurnType.Color,
+			&pid,
+			&ppid,
+			&t.Service.ID,
+			&t.Service.Name,
+			&t.Branch.ID,
+			&t.Branch.Name,
+			&state,
+			&dateStr,
+		)
+		if err != nil {
+			return domain.TurnoAutomaticoData{}, err
+		}
+
+		if pid != "" {
+			if val, errConv := strconv.Atoi(pid); errConv == nil {
+				t.Patient.ID = val
+			}
+		}
+		t.Patient.PatientID = ppid
+		t.State = state
+
+		// Parse dateStr to Unix milli timestamp
+		if dateStr != "" && len(dateStr) == 14 {
+			if tTime, errParse := time.Parse("20060102150405", dateStr); errParse == nil {
+				t.Date = tTime.UnixNano() / int64(time.Millisecond)
+			}
+		}
+
+		// Calcular minutos de espera
+		minutosEspera := 0
+		if dateStr != "" && len(dateStr) == 14 {
+			sHoraTurno := dateStr[8:14]
+			if tHoraTurno, errParse := time.Parse("150405", sHoraTurno); errParse == nil {
+				now := time.Now()
+				minutosTurno := tHoraTurno.Hour()*60 + tHoraTurno.Minute()
+				minutosAhora := now.Hour()*60 + now.Minute()
+				minutosEspera = minutosAhora - minutosTurno
+				if minutosEspera < 0 {
+					minutosEspera = 0
+				}
+			}
+		}
+		t.StandbyTime = minutosEspera
+
+		// Obtener prioridad
+		if priority, found := prioridadesMap[t.TurnType.ID]; found {
+			t.Priority = priority
+		}
+
+		// Hardcoded/constant fields
+		t.Service.QualifyService = false
+		t.Attended = false
+		t.Transferible = false
+		t.Finalizable = true
+
+		turnos = append(turnos, t)
+	}
+
+	// 4. VERIFICAR Y ORDENAR
+	if len(turnos) == 0 {
+		return domain.TurnoAutomaticoData{}, nil
+	}
+
+	sort.Slice(turnos, func(i, j int) bool {
+		// 1. Prioridad (nPrioridad)
+		pI := turnos[i].Priority
+		if pI <= 0 {
+			pI = 999999
+		}
+		pJ := turnos[j].Priority
+		if pJ <= 0 {
+			pJ = 999999
+		}
+		if pI != pJ {
+			return pI < pJ
+		}
+
+		// 2. Estado (6 first, then 0/others)
+		stateI := turnos[i].State
+		statej := turnos[j].State
+		if stateI != statej {
+			if stateI == 6 {
+				return true
+			}
+			if statej == 6 {
+				return false
+			}
+		}
+
+		// 3. Consecutivo en numero (ascending)
+		numI, errI := strconv.Atoi(turnos[i].Number)
+		numJ, errJ := strconv.Atoi(turnos[j].Number)
+		if errI == nil && errJ == nil {
+			return numI < numJ
+		}
+		return turnos[i].Number < turnos[j].Number
+	})
+
+	return turnos[0], nil
 }

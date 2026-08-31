@@ -391,3 +391,49 @@ type EstadoPuntoAtencionResponse struct {
 	Status int                     `json:"status"`
 	Data   EstadoPuntoAtencionData `json:"data"`
 }
+
+// TURNOS AUTOMÁTICOS
+
+type TurnoAutomaticoData struct {
+	ID           int                     `json:"id"`
+	Number       string                  `json:"number"`
+	Priority     int                     `json:"priority"`
+	Date         int64                   `json:"date"`
+	StandbyTime  int                     `json:"standbyTime"`
+	TurnType     TurnoAutomaticoTipo     `json:"turnType"`
+	Patient      TurnoAutomaticoPaciente `json:"patient"`
+	Service      TurnoAutomaticoServicio `json:"service"`
+	Branch       TurnoAutomaticoSede     `json:"branch"`
+	State        int                     `json:"state"`
+	Attended     bool                    `json:"attended"`
+	Transferible bool                    `json:"transferible"`
+	Finalizable  bool                    `json:"finalizable"`
+}
+
+type TurnoAutomaticoTipo struct {
+	ID    int    `json:"id"`
+	Code  string `json:"code"`
+	Name  string `json:"name"`
+	Color string `json:"color"`
+}
+
+type TurnoAutomaticoPaciente struct {
+	ID        int    `json:"id"`
+	PatientID string `json:"patientId"`
+}
+
+type TurnoAutomaticoServicio struct {
+	ID             int    `json:"id"`
+	Name           string `json:"name"`
+	QualifyService bool   `json:"qualifyService"`
+}
+
+type TurnoAutomaticoSede struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+type TurnoAutomaticoResponse struct {
+	Status int                 `json:"status"`
+	Data   TurnoAutomaticoData `json:"data"`
+}

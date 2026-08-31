@@ -493,3 +493,81 @@ func (h *handler) GetLogUserInPointService(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+// @Summary	Obtener turno automático
+// @Description	Obtiene el siguiente turno automático
+// @Tags	TurnosNTLIS
+// @Produce	json
+// @Param	idSede path int true "ID de la Sede"
+// @Param	idServicio path int true "ID del Servicio"
+// @Param	idTaquilla path int true "ID de la Taquilla"
+// @Param	apellido path string true "Apellido"
+// @Param	nombre path string true "Nombre"
+// @Param	userName path string true "Nombre de usuario"
+// @Success	200	{object}	domain.TurnoAutomaticoResponse
+// @Failure	400	{object}	map[string]interface{}
+// @Failure	500	{object}	map[string]interface{}
+// @Router	/api/turns/automatic/{idSede}/{idServicio}/{idTaquilla}/{apellido}/{nombre}/{userName} [get]
+func (h *handler) TurnoAutomatico(c echo.Context) error {
+
+	sede := c.Param("sede")
+	servicio := c.Param("servicio")
+	taquilla := c.Param("taquilla")
+	apellido := c.Param("apellido")
+	nombre := c.Param("nombre")
+	userName := c.Param("userName")
+
+	sedeID, err := strconv.Atoi(sede)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "sede inválida",
+		})
+	}
+
+	servicioID, err := strconv.Atoi(servicio)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "servicio inválido",
+		})
+	}
+
+	taquillaID, err := strconv.Atoi(taquilla)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "taquilla inválida",
+		})
+	}
+
+	if strings.TrimSpace(userName) == "" {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "userName es obligatorio",
+		})
+	}
+
+	response, err := h.turnosNTLISApp.TurnoAutomaticoService(
+		c.Request().Context(),
+		sedeID,
+		servicioID,
+		taquillaID,
+		apellido,
+		nombre,
+		userName,
+	)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status": 500,
+			"error":  err.Error(),
+		})
+	}
+
+	if response.Status == 204 {
+		return c.NoContent(http.StatusNoContent)
+	}
+
+	return c.JSON(http.StatusOK, response)
+}

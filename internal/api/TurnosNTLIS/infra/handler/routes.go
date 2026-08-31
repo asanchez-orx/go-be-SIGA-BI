@@ -26,6 +26,7 @@ func Routes(e *echo.Echo) {
 	e.GET("/api/turns/call/:turno/:servicio", h.LlamadoTurno)
 	e.POST("/api/turns/call", h.LlamadoTurnoPost)
 	e.GET("/api/turns/daily/:sede/:servicio/:apellido/:nombre/:userName/:taquilla", h.BuscarTurnosDisponibles)
+	e.GET("/api/turns/automatic/:sede/:servicio/:taquilla/:apellido/:nombre/:userName", h.TurnoAutomatico)
 	e.POST("/api/transfers", h.TransferirTurno)
 	e.GET("/api/pointOfCare/status/:idBranch/:idPoint/:idUser", h.GetEstadoPuntoAtencion)
 	e.GET("/api/log/validateTurnInPoint", h.GetLogUserInPointService)
