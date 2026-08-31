@@ -507,11 +507,9 @@ func (r *TurnosNTLISRepo) GetTurnInPoint(ctx context.Context, idPoint int) (doma
 	return domain.TurnInPoint{}, nil
 }
 
-func (r *TurnosNTLISRepo) GetValidateTurnInPoint(
-	ctx context.Context,
-) (domain.EstadoPuntoAtencionData, error) {
+func (r *TurnosNTLISRepo) GetValidateTurnInPoint(ctx context.Context, userName string) (domain.EstadoPuntoAtencionData, error) {
 
-	rows, err := r.db.Query(ctx, qryValidateTurnInPoint)
+	rows, err := r.db.Query(ctx, qryValidateTurnInPoint, userName)
 	if err != nil {
 		return domain.EstadoPuntoAtencionData{}, err
 	}
@@ -534,51 +532,51 @@ func (r *TurnosNTLISRepo) GetValidateTurnInPoint(
 			// LOG USER IN POINT
 			// =========================
 
-			&data.LogUserInPoint.ID,           // 1
-			&data.LogUserInPoint.RegisterDate, // 2
-			&data.LogUserInPoint.Branch.ID,    // 3
-			&data.LogUserInPoint.Point.ID,     // 4
-			&data.LogUserInPoint.User.ID,      // 5
+			&data.LogUserInPoint.ID,
+			&data.LogUserInPoint.RegisterDate,
+			&data.LogUserInPoint.Branch.ID,
+			&data.LogUserInPoint.Point.ID,
+			&data.LogUserInPoint.User.ID,
 
 			// =========================
 			// TURN IN POINT
 			// =========================
 
-			&data.TurnInPoint.ID, // 6
+			&data.TurnInPoint.ID,
 
 			// TurnType
-			&data.TurnInPoint.TurnType.ID,    // 7
-			&data.TurnInPoint.TurnType.Code,  // 8
-			&data.TurnInPoint.TurnType.Name,  // 9
-			&data.TurnInPoint.TurnType.State, // 10
+			&data.TurnInPoint.TurnType.ID,
+			&data.TurnInPoint.TurnType.Code,
+			&data.TurnInPoint.TurnType.Name,
+			&data.TurnInPoint.TurnType.State,
 
 			// Patient
-			&data.TurnInPoint.Patient.ID,           // 11
-			&data.TurnInPoint.Patient.PatientId,    // 12
-			&apellido1,                             // 13
-			&apellido2,                             // 14
-			&nombre1,                               // 15
-			&nombre2,                               // 16
-			&data.TurnInPoint.Patient.DocumentType, // 17
+			&data.TurnInPoint.Patient.ID,
+			&data.TurnInPoint.Patient.PatientId,
+			&apellido1,
+			&apellido2,
+			&nombre1,
+			&nombre2,
+			&data.TurnInPoint.Patient.DocumentType,
 
 			// Turn
-			&data.TurnInPoint.Number, // 18
-			&data.TurnInPoint.State,  // 19
+			&data.TurnInPoint.Number,
+			&data.TurnInPoint.State,
 
 			// Point
-			&data.TurnInPoint.Point.ID,   // 20
-			&data.TurnInPoint.Point.Code, // 21
-			&data.TurnInPoint.Point.Name, // 22
+			&data.TurnInPoint.Point.ID,
+			&data.TurnInPoint.Point.Code,
+			&data.TurnInPoint.Point.Name,
 
 			// Service
-			&data.TurnInPoint.Point.Service.ID,   // 23
-			&data.TurnInPoint.Point.Service.Code, // 24
-			&data.TurnInPoint.Point.Service.Name, // 25
+			&data.TurnInPoint.Point.Service.ID,
+			&data.TurnInPoint.Point.Service.Code,
+			&data.TurnInPoint.Point.Service.Name,
 
 			// Branch
-			&data.TurnInPoint.Point.Branch.ID,   // 26
-			&data.TurnInPoint.Point.Branch.Code, // 27
-			&data.TurnInPoint.Point.Branch.Name, // 28
+			&data.TurnInPoint.Point.Branch.ID,
+			&data.TurnInPoint.Point.Branch.Code,
+			&data.TurnInPoint.Point.Branch.Name,
 		)
 
 		if err != nil {

@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"develop.private/CLTech/besigabi/internal/api/TurnosNTLIS/domain"
 
@@ -457,8 +458,21 @@ func (h *handler) GetEstadoPuntoAtencion(c echo.Context) error {
 // @Router	/api/pointOfCare/status/{idBranch}/{idPoint}/{idUser} [get]
 func (h *handler) GetLogUserInPointService(c echo.Context) error {
 
+	userName := strings.TrimSpace(c.QueryParam("username"))
+
+	if userName == "" {
+		return c.JSON(
+			http.StatusBadRequest,
+			map[string]interface{}{
+				"status": 400,
+				"error":  "El parámetro username es obligatorio",
+			},
+		)
+	}
+
 	response, err := h.turnosNTLISApp.GetLogUserInPointService(
 		c.Request().Context(),
+		userName,
 	)
 
 	if err != nil {
@@ -469,6 +483,12 @@ func (h *handler) GetLogUserInPointService(c echo.Context) error {
 				"error":  err.Error(),
 			},
 		)
+	}
+
+	// No se encontraron registros
+	if response.Data.LogUserInPoint.ID == 0 &&
+		response.Data.TurnInPoint.ID == 0 {
+		return c.NoContent(http.StatusNoContent)
 	}
 
 	return c.JSON(http.StatusOK, response)

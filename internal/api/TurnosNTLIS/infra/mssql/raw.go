@@ -52,11 +52,10 @@ SELECT
     ISNULL(LAB5808C3, '') AS name,
     ISNULL(LAB5808C4, '') AS description,
     ISNULL(LAB07C2, '') AS registerDate,
-    LAB5808C5 AS type,
-    LAB07C1 AS state
-FROM
-    LAB5808
-    WHERE LAB08C5 = 1
+    ISNULL(LAB5808C5, 0) AS type,
+    ISNULL(LAB07C1, 0) AS state
+FROM LAB5808
+WHERE LAB5808C5 = 1
 `
 
 const qryUpdateEstadoTaquilla = `
@@ -142,20 +141,31 @@ WHERE t.lab5824c1 = @p1
 
 const qryTurnosDisponibles = `
 SELECT 
+
     t.lab5824c1 AS id,
     t.lab5824c2 AS number,
     t.lab5810c1 AS turnType_id,
     t.lab5810c2 AS turnType_code,
     t.lab5810c3 AS turnType_name,
-    tt.lab5810c9 AS turnType_color,
-    JSON_VALUE(t.lab5824c20, '$.idPaciente') AS patient_id,
-    JSON_VALUE(t.lab5824c20, '$.idPaciente') AS patient_patientId,
-    ISNULL(JSON_VALUE(t.lab5824c20, '$.apellido1'), '') + ' ' + ISNULL(JSON_VALUE(t.lab5824c20, '$.apellido2'), '') AS patient_lastName,
-    ISNULL(JSON_VALUE(t.lab5824c20, '$.nombre1'), '') + ' ' + ISNULL(JSON_VALUE(t.lab5824c20, '$.nombre2'), '') AS patient_name,
-    t.lab5800c1 AS service_id,
+    ISNULL(tt.lab5810c9, '') AS turnType_color,
+
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS patient_id,
+    ISNULL(JSON_VALUE(t.lab5824c20, '$.idPaciente'), '') AS patient_patientId,
+
+    CONCAT_WS(' ',
+        NULLIF(LTRIM(RTRIM(JSON_VALUE(t.lab5824c20, '$.apellido1'))), ''),
+        NULLIF(LTRIM(RTRIM(JSON_VALUE(t.lab5824c20, '$.apellido2'))), '')
+    ) AS patient_lastName,
+
+    CONCAT_WS(' ',
+        NULLIF(LTRIM(RTRIM(JSON_VALUE(t.lab5824c20, '$.nombre1'))), ''),
+        NULLIF(LTRIM(RTRIM(JSON_VALUE(t.lab5824c20, '$.nombre2'))), '')
+    ) AS patient_name,
+
+    ISNULL(t.lab5800c1, 0) AS service_id,
     ISNULL(t.lab5800c3, '') AS service_name,
-    t.lab05c1 AS branch_id,
-    pa.lab05c4 AS branch_name
+    ISNULL(t.lab05c1, 0) AS branch_id,
+    ISNULL(pa.lab05c4, '') AS branch_name
 FROM lab5824 t
 INNER JOIN lab5810 tt ON t.lab5810c1 = tt.lab5810c1
 INNER JOIN lab05 pa ON pa.lab05c1 = t.lab05c1
@@ -298,4 +308,6 @@ SELECT
 FROM LAB5824 t
 INNER JOIN lab5810 tip 
     ON tip.lab5810c1 = t.lab5810c1
+WHERE t.lab5824C5 = 1
+  AND t.lab5824C8 = @p1
 `

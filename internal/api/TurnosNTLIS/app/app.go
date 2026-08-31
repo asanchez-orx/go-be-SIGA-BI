@@ -284,15 +284,20 @@ func (a *turnosNTLISApp) TransferirTurnoService(ctx context.Context, req domain.
 
 func (a *turnosNTLISApp) GetLogUserInPointService(
 	ctx context.Context,
+	userName string,
 ) (domain.EstadoPuntoAtencionResponse, error) {
 
-	turnInPoint, err := a.repository.GetValidateTurnInPoint(ctx)
+	data, err := a.repository.GetValidateTurnInPoint(
+		ctx,
+		userName,
+	)
+
 	if err != nil {
 		return domain.EstadoPuntoAtencionResponse{}, err
 	}
 
 	return domain.EstadoPuntoAtencionResponse{
 		Status: 200,
-		Data:   turnInPoint,
+		Data:   data,
 	}, nil
 }

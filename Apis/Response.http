@@ -1,5 +1,5 @@
 ### COMPANIAS
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/companias
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/companias
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 GET http://localhost:5016/api/v1/besigabi/creacionTurnos/sedes
 
 ### TIPO SERVICIO
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoServicio
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoServicio
 Content-Type: application/json
 
 {
@@ -20,10 +20,10 @@ Content-Type: application/json
 }
 
 ### VERIFICAR CONFIG COMPANIAS
-GET  http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/verificarConfigCompanias
+GET  http://localhost:5016/api/v1/besigabi/creacionTurnos/verificarConfigCompanias
 
 ### MODULOS
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/modulos
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/modulos
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ### TIPO TURNO
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/tipoTurno
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoTurno
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ GET http://localhost:5016/api/v1/besigabi/creacionTurnos/tipoDocumento
 
 
 ### CREAR TURNO
-POST http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos
+POST http://localhost:5016/api/v1/besigabi/creacionTurnos
 Content-Type: application/json
 
 {
@@ -63,9 +63,9 @@ Content-Type: application/json
     "idPaciente": 0,
     "numeroDocumento": "bygy+9615m4=",
     "apellido1": "Perez",
-    "apellido2": "sadfasdf",
+    "apellido2": "",
     "nombre1": "Juan",
-    "nombre2": "asdfasdf",
+    "nombre2": "",
     "sexo": 1,
     "idTipoDocumento": 1,
     "nomTipoDocumento": "DNI",
@@ -74,7 +74,7 @@ Content-Type: application/json
 }
 
 ### CARGAR CONFIG LIS
-GET http://192.168.1.241:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
+GET http://localhost:5016/api/v1/besigabi/creacionTurnos/cargarConfigLIS
 
 
 
@@ -103,7 +103,7 @@ Content-Type: application/json
 
 
 ### SEDES USUARIO
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/sedesUsuario
+POST http://localhost:5016/api/v1/besigabi/skl/sedesUsuario
 Content-Type: application/json
 
 {
@@ -129,7 +129,7 @@ Content-Type: application/json
 }
 
 ### DESENCRIPTAR NT
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/desencriptNT
+POST http://localhost:5016/api/v1/besigabi/skl/desencriptNT
 Content-Type: application/json
 
 {
@@ -142,7 +142,7 @@ Content-Type: application/json
 }
 
 ### ENCRIPTAR NT
-POST http://192.168.1.241:5016/api/v1/besigabi/skl/encriptNT
+POST http://localhost:5016/api/v1/besigabi/skl/encriptNT
 Content-Type: application/json
 
 {
@@ -160,25 +160,25 @@ Content-Type: application/json
 ////////////////////////////////////////
 
 ### OBTENER TODAS LAS SEDES ESTRUCTURA NT
-GET http://192.168.1.241:5016/api/branch/getAll
+GET http://localhost:5016/api/branch/getAll
 
 ### OBTENER SERVICIOS POR SEDE ESTRUCTURA NT
-GET http://192.168.1.241:5016/api/service/getByBranch/1
+GET http://localhost:5016/api/service/getByBranch/1
 
 ### Validar turno en punto de atención
 
 
 ###  Obtener todos los puntos de atención
-GET http://192.168.1.241:5016/api/pointsOfCare  
+GET http://localhost:5016/api/pointsOfCare  
 
 ### TAQUILLAS POR SEDE SERVICIO
-GET http://192.168.1.241:5016/api/pointOfCare/getByBranchService/1/5
+GET http://localhost:5016/api/pointOfCare/getByBranchService/1/5
 
 ### MOTIVOS DE DESCANSO
-GET http://192.168.1.241:5016/api/reasons/break
+GET http://localhost:5016/api/reasons/break
 
 ### ESTADO DE LA TAQUILLA
-POST http://192.168.1.241:5016/api/log
+POST http://localhost:5016/api/log
 Content-Type: application/json
 
 {
@@ -200,7 +200,7 @@ Content-Type: application/json
 }
 
 ### MOTIVOS DE CANCELACION
-GET http://192.168.1.241:5016/api/reasons/cancel
+GET http://localhost:5016/api/reasons/cancel
 
 
 ### TURNO MANUAL
@@ -208,7 +208,7 @@ GET http://192.168.1.241:5016/api/reasons/cancel
 
 
 ### ESTADO DE LA ATENCION
-POST http://192.168.1.241:5016/api/logAtencion
+POST http://localhost:5016/api/logAtencion
 Content-Type: application/json
 
 {
@@ -234,13 +234,13 @@ Content-Type: application/json
 
 
 ### SERVICIOS DISPONIBLES PARA TRANSFERENCIA
-GET http://192.168.1.241:5016/api/reasons/transfer/1/1/1  
+GET http://localhost:5016/api/reasons/transfer/1/1/1  
 
 ### LLAMAR TURNOS GET
-GET http://192.168.1.241:5016/api/turns/call/1/3
+GET http://localhost:5016/api/turns/call/1/3
 
 ### LLAMAR TURNOS POST
-POST http://192.168.1.241:5016/api/turns/call
+POST http://localhost:5016/api/turns/call
 Content-Type: application/json
 
 {
@@ -272,10 +272,10 @@ Content-Type: application/json
 
 
 ### TURNO DISPONIBLE MANUAL
-GET http://192.168.1.241:5016/api/turns/daily/1/3/sanchez/andres/andres/1	
+GET http://localhost:5016/api/turns/daily/1/3/sanchez/andres/andres/1	
 
 ### TRANSFERIR TURNO
-POST http://192.168.1.241:5016/api/transfers
+POST http://localhost:5016/api/transfers
 Content-Type: application/json
 
 {
@@ -335,4 +335,4 @@ Content-Type: application/json
 
 
 ### LOG DE TURNO EN PUNTO DE ATENCION
-GET http://localhost:5016/api/log/validateTurnInPoint
+GET http://localhost:5016/api/log/validateTurnInPoint?username=ANDRES
