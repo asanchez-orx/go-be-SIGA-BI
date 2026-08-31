@@ -104,20 +104,26 @@ AND t.lab05c1 = @p2
 `
 
 const qryLlamadoTurno = `
-SELECT
-    lab5824c2 AS turno
-FROM lab5824
-WHERE lab5824c1 = @p1
+UPDATE LAB5824 SET lab5824c5 = 1 WHERE lab5824c1 = @p1
   AND lab5800c1 = @p2
   AND LEFT(lab5824c3, 8) = CONVERT(VARCHAR(8), GETDATE(), 112)
+  
 `
 
 const qryUpdateTurnoPost = `
-UPDATE lab5824 
-SET lab5824c5 = 1 
-WHERE lab5824c1 = @p1 
-  AND lab05c1 = @p2 
-  AND lab5800c1 = @p3
+UPDATE T
+SET 
+    T.lab5824c5 = 1,
+    T.lab5801c1 = P.lab5801c1,
+    T.lab5801c2 = P.lab5801c2,
+    T.lab5801c3 = P.lab5801c3
+FROM lab5824 T
+INNER JOIN lab5801 P 
+    ON P.lab5801c1 = 1
+WHERE 
+    T.lab5824c1 = @p1
+    AND T.lab05c1 = @p2
+    AND T.lab5800c1 = @p3;
 `
 
 const qrySelectTurnoPost = `
@@ -363,4 +369,16 @@ WHERE t.lab5800c1 = @p1
   AND t.lab05c1 = @p2 
   AND CONVERT(INT, LEFT(t.lab5824C3, 8)) =
       CONVERT(INT, CONVERT(CHAR(8), GETDATE(), 112))
+`
+
+const qryMovimientoTurno = `
+UPDATE LAB5824
+SET 
+    lab5824c5 = @p1,
+    lab5824c7 = @p2,
+    lab5824c8 = @p3
+WHERE 
+    lab5824c1 = @p4
+    AND lab5800c1 = @p5
+    AND lab5801c1 = @p6;
 `

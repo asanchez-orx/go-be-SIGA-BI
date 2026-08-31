@@ -758,3 +758,59 @@ func (r *TurnosNTLISRepo) GetTurnoAutomatico(
 
 	return turnos[0], nil
 }
+
+func (r *TurnosNTLISRepo) MovimientoTurno(
+	ctx context.Context,
+	req domain.MovimientoTurnoRequest,
+) (domain.MovimientoTurnoResponse, error) {
+
+	var estadoInterno int
+
+	switch req.State {
+	case 3:
+		// Atender → ATENCION
+		estadoInterno = 2
+
+	case 4:
+		// Cancelar → CANCELADO
+		estadoInterno = 5
+
+	case 5:
+		// Aplazar → APLAZADO
+		estadoInterno = 6
+
+	case 6:
+		// Finalizar → FINALIZADO
+		estadoInterno = 3
+
+	default:
+		return domain.MovimientoTurnoResponse{}, fmt.Errorf(
+			"state no soportado: %d",
+			req.State,
+		)
+	}
+
+	// Reemplazar state recibido por el estado interno
+	req.State = estadoInterno
+
+	// EJECUTAR UPDATE
+	_, err := r.db.Exec(
+		ctx,
+		qryMovimientoTurno,
+		req.State,
+		req.User.ID,
+		req.User.User,
+		req.Turn.ID,
+		req.Service.ID,
+		req.PointOfCare.ID,
+	)
+
+	if err != nil {
+		return domain.MovimientoTurnoResponse{}, err
+	}
+
+	return domain.MovimientoTurnoResponse{
+		Status: 200,
+		Data:   req.Turn.ID,
+	}, nil
+}

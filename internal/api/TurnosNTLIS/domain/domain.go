@@ -437,3 +437,38 @@ type TurnoAutomaticoResponse struct {
 	Status int                 `json:"status"`
 	Data   TurnoAutomaticoData `json:"data"`
 }
+
+// MOVIMIENTOS DE TURNO
+
+type MovimientoTurnoUsuario struct {
+	ID       int    `json:"id"`
+	User     string `json:"user"`
+	LastName string `json:"lastName"`
+	Name     string `json:"name"`
+}
+
+type MovimientoTurnoTurn struct {
+	ID int `json:"id"`
+}
+
+type MovimientoTurnoService struct {
+	ID int `json:"id"`
+}
+
+type MovimientoTurnoPointOfCare struct {
+	ID int `json:"id"`
+}
+
+type MovimientoTurnoRequest struct {
+	ID          int                        `json:"id"`
+	State       int                        `json:"state"`
+	User        MovimientoTurnoUsuario     `json:"user"`
+	Turn        MovimientoTurnoTurn        `json:"turn"`
+	Service     MovimientoTurnoService     `json:"service"`
+	PointOfCare MovimientoTurnoPointOfCare `json:"pointOfCare"`
+}
+
+type MovimientoTurnoResponse struct {
+	Data   int `json:"data"`
+	Status int `json:"status"`
+}

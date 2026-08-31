@@ -237,14 +237,14 @@ Content-Type: application/json
 GET http://localhost:5016/api/reasons/transfer/1/1/1  
 
 ### LLAMAR TURNOS GET
-GET http://localhost:5016/api/turns/call/1/3
+GET http://localhost:5016/api/turns/call/13/3
 
 ### LLAMAR TURNOS POST
 POST http://localhost:5016/api/turns/call
 Content-Type: application/json
 
 {
-	"idTurn": 2,
+	"idTurn": 13,
 	"point": {
 		"branch": {
 			"id": 1
@@ -339,3 +339,27 @@ Content-Type: application/json
 
 ### LOG DE TURNO EN PUNTO DE ATENCION
 GET http://localhost:5016/api/log/validateTurnInPoint?username=ANDRES
+
+###MOVIMIENTO TURNO
+POST http://localhost:5016/api/turns/movement
+Content-Type: application/json
+
+{
+	"id": 0,
+	"state": 3,
+	"user": {
+		"id": 1,
+		"user": "andres",
+		"lastName": "sanchez",
+		"name": "andres"
+	},
+	"turn": {
+		"id": 13
+	},
+	"service": {
+		"id": 3
+	},
+	"pointOfCare": {
+		"id": 1
+	}
+}

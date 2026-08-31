@@ -571,3 +571,72 @@ func (h *handler) TurnoAutomatico(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (h *handler) MovimientoTurno(c echo.Context) error {
+
+	var req domain.MovimientoTurnoRequest
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "JSON inválido",
+		})
+	}
+
+	// Validar states permitidos por el usuario
+	switch req.State {
+	case 3, 4, 5, 6, 7:
+		// Estado válido
+	default:
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "state inválido",
+		})
+	}
+
+	// Validar turno
+	if req.Turn.ID <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "idTurno es obligatorio",
+		})
+	}
+
+	// Validar servicio
+	if req.Service.ID <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "idServicio es obligatorio",
+		})
+	}
+
+	// Validar taquilla
+	if req.PointOfCare.ID <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "idTaquilla es obligatorio",
+		})
+	}
+
+	// Validar usuario
+	if req.User.ID <= 0 {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"status": 400,
+			"error":  "idUsuario es obligatorio",
+		})
+	}
+
+	response, err := h.turnosNTLISApp.MovimientoTurnoService(
+		c.Request().Context(),
+		req,
+	)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"status": 500,
+			"error":  err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response)
+}

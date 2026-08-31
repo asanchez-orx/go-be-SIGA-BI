@@ -338,3 +338,15 @@ func (a *turnosNTLISApp) TurnoAutomaticoService(
 	}, nil
 }
 
+func (a *turnosNTLISApp) MovimientoTurnoService(
+	ctx context.Context,
+	req domain.MovimientoTurnoRequest,
+) (domain.MovimientoTurnoResponse, error) {
+
+	response, err := a.repository.MovimientoTurno(ctx, req)
+	if err != nil {
+		return domain.MovimientoTurnoResponse{}, err
+	}
+
+	return response, nil
+}

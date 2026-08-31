@@ -30,4 +30,6 @@ func Routes(e *echo.Echo) {
 	e.POST("/api/transfers", h.TransferirTurno)
 	e.GET("/api/pointOfCare/status/:idBranch/:idPoint/:idUser", h.GetEstadoPuntoAtencion)
 	e.GET("/api/log/validateTurnInPoint", h.GetLogUserInPointService)
+	e.POST("/api/turns/movement", h.MovimientoTurno)
+
 }
