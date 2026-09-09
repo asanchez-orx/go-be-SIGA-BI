@@ -2,15 +2,26 @@ package handler
 
 import (
 	"develop.private/CLTech/besigabi/internal/api/creacionTurnos/app"
+	"develop.private/CLTech/besigabi/internal/api/creacionTurnos/domain"
 	"develop.private/CLTech/besigabi/internal/api/creacionTurnos/infra/mssql"
+	"develop.private/CLTech/besigabi/internal/api/creacionTurnos/infra/postgres"
 	"develop.private/CLTech/vulcano/infra/database"
+	"develop.private/CLTech/vulcano/infra/database/builder"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Routes(e *echo.Echo) {
 	db := database.GetDatabase()
-	repo := mssql.NewCreacionTurnosRepo(db)
+
+	var repo domain.CreacionTurnosRepository
+	switch db.Builder().Dialect.(type) {
+	case builder.Postgres:
+		repo = postgres.NewCreacionTurnosRepo(db)
+	default:
+		repo = mssql.NewCreacionTurnosRepo(db)
+	}
+
 	happ := app.NewCreacionTurnosApp(repo)
 	h := newHandler(happ)
 

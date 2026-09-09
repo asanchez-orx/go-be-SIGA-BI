@@ -346,7 +346,7 @@ Content-Type: application/json
 
 {
 	"id": 0,
-	"state": 3,
+	"state": 6,
 	"user": {
 		"id": 1,
 		"user": "andres",
