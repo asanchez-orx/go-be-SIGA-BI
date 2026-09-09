@@ -1,9 +1,17 @@
 package postgres
 
-// En Postgres las sentencias a veces no necesitan alias tan estrictos
-// y los parámetros posicionales usan el formato $1, $2 en lugar de @p1, @p2
-// En este caso, qryTipoDocumento no tiene parámetros, así que la consulta
-// puede ser idéntica o adaptada según la convención que uses para tu BD en Postgres.
+// /////====================//
+// /////   Creacion Turnos   //
+// ///////////////////////////
+// Consultas SQL usadas por el servicio CrearTurno:
+// - qrySedeById
+// - qryCompaniaById
+// - qryPacienteByDocumento
+// - qryConfigCantidadPorSede
+// - qryUltimoTurnoPorModuloFecha
+// - qryTurnosHoyPorModuloFecha
+// - qryInsertTurno
+// Mantener el orden y los alias de columnas para que los `Scan` coincidan.
 
 const qryTipoDocumento = `
 	SELECT 
@@ -13,9 +21,208 @@ const qryTipoDocumento = `
 	FROM LAB54
 	WHERE LAB07C1 = 1	
 `
+
+const qryCompanias = `
+	SELECT 
+		LAB5802C1 AS idCompania,
+		LAB5802C2 AS codigoCompania,
+		LAB5802C3 AS nombreCompania
+	FROM LAB5802
+`
+
+const qryCompaniasPorSede = `
+SELECT 
+    C.lab5802c1 AS idCompania,
+    C.lab5802c2 AS codigoCompania,
+    C.lab5802c3 AS nombreCompania
+FROM lab5814 E
+INNER JOIN lab5802 C 
+    ON E.lab5802c1 = C.lab5802c1
+WHERE E.lab05c1 = $1;
+`
+
 const qryVerificarConfigCompanias = `
 	SELECT
 		LAB5803C2 AS datConfig
 	FROM LAB5803  
 	WHERE LAB5803C1 = 'gen_ManejaEmpresas'
+`
+
+const qryTipoServicio = `
+	SELECT 
+		LAB5800C1 AS idServicio,
+		LAB5800C2 AS codigoServicio,
+		LAB5800C3 AS nombreServicio
+	FROM LAB5800 
+	WHERE LAB85C1 = $1
+	AND LAB05C1 = $2
+`
+
+const qryTipoServicioPorCompania = `
+	SELECT 
+		C.LAB5800C1 AS idServicio,
+		C.LAB5800C2 AS codigoServicio,
+		C.LAB5800C3 AS nombreServicio
+	FROM LAB5815 E
+	INNER JOIN LAB5800 C ON E.LAB5800C1 = C.LAB5800C1
+	WHERE E.LAB5810C1 = $1
+	AND C.LAB85C1 = $2
+	AND C.LAB05C1 = $3
+`
+
+const qryModulos = `
+	SELECT
+		LAB5818C1 as id,
+		LAB05C1 as idSede,
+		LAB5818C2 as jsonModulos
+	FROM LAB5818
+	WHERE LAB05C1 = $1
+`
+
+const qrySedes = `
+	SELECT 
+		LAB05C1 AS idSede,
+		COALESCE(NULLIF(TRIM(LAB05C4), ''), 'N/A') AS nomSede,
+		COALESCE(NULLIF(TRIM(LAB05C10), ''), 'N/A') AS codSede
+	FROM LAB05
+	WHERE LAB07C1 = 1
+`
+
+const qryTipoTurno = `
+	SELECT 
+    T.lab5810c1 AS idTipoTurno,
+    T.lab5810c2 AS codTipoTurno,
+    T.lab5810c3 AS nomTipoTurno
+FROM lab5815 REL
+INNER JOIN lab5810 T 
+    ON T.lab5810c1 = REL.lab5810c1
+INNER JOIN lab5800 S 
+    ON S.lab5800c1 = REL.lab5800c1
+	WHERE REL.lab5800c1 = $1
+	AND S.lab05c1 = $2
+`
+
+const qryTipoTurnoTodos = `
+	SELECT 
+		lab5810C1 AS idTipoTurno,
+		lab5810C2 AS codTipoTurno,
+		lab5810C3 AS nomTipoTurno
+	FROM LAB5810
+`
+
+const qryConfirmarConfigSedes = `
+	SELECT
+		LAB98C2 AS datConfig
+	FROM LAB98  
+	WHERE LAB98c1 = 'ManejoMultiSedes'
+`
+
+const qryCargarConfigLIS = `
+	SELECT
+		LAB98C2 AS separadorMuestra
+	FROM LAB98
+	WHERE LAB98C1 = 'SeparadorMuestra'
+`
+
+const qrySedeDefault = `
+	SELECT 
+		LAB05C1 AS idSede,
+		COALESCE(NULLIF(TRIM(LAB05C4), ''), 'N/A') AS nomSede,
+		COALESCE(NULLIF(TRIM(LAB05C10), ''), 'N/A') AS codSede 
+	FROM LAB05
+	WHERE LAB07C1 = 1
+`
+
+const qrySedeById = `
+	SELECT 
+		LAB05C1 AS idSede,
+		COALESCE(NULLIF(TRIM(LAB05C4), ''), 'N/A') AS nomSede,
+		COALESCE(NULLIF(TRIM(LAB05C10), ''), 'N/A') AS codSede
+	FROM LAB05
+	WHERE LAB05C1 = $1
+`
+
+const qryCompaniaById = `
+	SELECT
+		LAB5802C1 AS idCompania,
+		LAB5802C2 AS codigoCompania,
+		LAB5802C3 AS nombreCompania
+	FROM LAB5802
+	WHERE LAB5802C1 = $1
+`
+
+const qryTipoTurnoById = `
+	SELECT
+		LAB5810C1 AS idTipoTurno,
+		LAB5810C2 AS codTipoTurno,
+		LAB5810C3 AS nomTipoTurno
+	FROM LAB5810
+	WHERE LAB5810C1 = $1
+`
+
+const qryServicioById = `
+	SELECT
+		LAB5800C1 AS idServicio,
+		LAB5800C2 AS codigoServicio,
+		LAB5800C3 AS nombreServicio
+	FROM LAB5800
+	WHERE LAB5800C1 = $1
+`
+
+const qryPacienteByDocumento = `
+	SELECT
+		LAB21C1 AS idPaciente,
+		LAB21C2 AS numeroDocumento,
+		LAB21C5 AS apellido1,
+		LAB21C6 AS apellido2,
+		LAB21C3 AS nombre1,
+		LAB21C4 AS nombre2,
+		LAB80c1 AS sexo,
+		LAB21C7 AS fechaNacimiento,
+		LAB54C1 AS idTipoDocumento
+	FROM LAB21
+	WHERE LAB21C2 = $1
+`
+
+const qryConfigCantidadPorSede = `
+	SELECT
+		LAB5817C2 AS jsonCantidad
+	FROM LAB5817
+	WHERE LAB05C1 = $1
+`
+
+const qryUltimoTurnoPorModuloFecha = `
+	SELECT
+		lab5824c2 AS ultimoTurno
+	FROM lab5824
+	WHERE LEFT(lab5824c3, 8) = $1
+		AND "lab5824C14" = $2
+	ORDER BY lab5824c2 DESC
+	LIMIT 1
+`
+
+const qryTurnosHoyPorModuloFecha = `
+	SELECT
+		COUNT(DISTINCT lab5824c2) AS turnosHoy
+	FROM lab5824
+	WHERE "lab5824C14" = $1
+		AND LEFT(lab5824c3, 8) = $2
+`
+
+const qryInsertTurno = `
+	INSERT INTO lab5824 (
+		lab05c1, lab05c10, lab05c4,
+		lab5802c1, lab5802c2, lab5802c3,
+		lab5810c1, lab5810c2, lab5810c3,
+		lab5800c1, lab5800c2, lab5800c3,
+		lab5824c2, lab5824c3, lab5824c4, lab5824c5, "lab5824C20",
+		lab21c2, "lab5824C16", "lab5824C14", "lab5824C15"
+	) VALUES (
+		$1, $2, $3,
+		$4, $5, $6,
+		$7, $8, $9,
+		$10, $11, $12,
+		$13, $14, $15, $16, $17,
+		$18, $19, $20, $21
+	)
 `
